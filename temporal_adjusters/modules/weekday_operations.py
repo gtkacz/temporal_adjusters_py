@@ -37,32 +37,33 @@ class _TemporalAdjusterForWeekday:
         return date if date.weekday() == day_of_week.value else _TemporalAdjusterForWeekday.next(day_of_week, date)
 
     @staticmethod
-    def previous(day_of_week: DayOfWeek, date: DateT) -> DateT:
+    def last(day_of_week: DayOfWeek, date: DateT) -> DateT:
         """
-        Returns the previous date of the given day of the week.
+        Returns the last date of the given day of the week.
 
         Args:
             day_of_week (DayOfWeek): The day of the week.
             date (DateT): The date.
 
         Returns:
-            DateT: The previous date of the given day of the week.
+            DateT: The last date of the given day of the week.
         """
-        return _TemporalAdjusterForWeekday.next(day_of_week, date) - relativedelta(weeks=1)
+        # return _TemporalAdjusterForWeekday.next(day_of_week, ) - relativedelta(weeks=1)
+        return date + relativedelta(weekday=-day_of_week.value)
 
     @staticmethod
-    def previous_or_same(day_of_week: DayOfWeek, date: DateT) -> DateT:
+    def last_or_same(day_of_week: DayOfWeek, date: DateT) -> DateT:
         """
-        Returns the previous date of the given day of the week. If the given date is the same day of the week, the given date is returned.
+        Returns the last date of the given day of the week. If the given date is the same day of the week, the given date is returned.
 
         Args:
             day_of_week (DayOfWeek): The day of the week.
             date (DateT): The date.
 
         Returns:
-            DateT: The previous date of the given day of the week.
+            DateT: The last date of the given day of the week.
         """
-        return date if date.weekday() == day_of_week.value else _TemporalAdjusterForWeekday.previous(day_of_week, date)
+        return date if date.weekday() == day_of_week.value else _TemporalAdjusterForWeekday.last(day_of_week, date)
 
     @staticmethod
     def first_in_month(day_of_week: DayOfWeek, date: DateT) -> DateT:
@@ -104,7 +105,7 @@ class _TemporalAdjusterForWeekday:
         Returns:
             DateT: The first date of the given day of the week in the month before the month of the given date.
         """
-        return _TemporalAdjusterForWeekday.first_in_month(day_of_week, _TemporalAdjusterForFirstAndLastDays.first_day_of_previous_month(date))
+        return _TemporalAdjusterForWeekday.first_in_month(day_of_week, _TemporalAdjusterForFirstAndLastDays.first_day_of_last_month(date))
 
     @staticmethod
     def last_in_month(day_of_week: DayOfWeek, date: DateT) -> DateT:
@@ -118,7 +119,7 @@ class _TemporalAdjusterForWeekday:
         Returns:
             DateT: The last date of the given day of the week in the month of the given date.
         """
-        return _TemporalAdjusterForWeekday.previous(day_of_week, date.replace(day=1) + relativedelta(months=1))
+        return _TemporalAdjusterForWeekday.last(day_of_week, date.replace(day=1) + relativedelta(months=1))
 
     @staticmethod
     def last_in_next_month(day_of_week: DayOfWeek, date: DateT) -> DateT:

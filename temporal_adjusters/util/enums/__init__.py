@@ -1,1 +1,1 @@
-from .day_of_week import DayOfWeek
+from .day_of_week import ISOWeekday, Weekday

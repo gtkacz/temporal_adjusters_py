@@ -5,8 +5,6 @@ from temporal_adjusters.main import TemporalAdjuster
 
 
 class TestTemporalAdjusterForFirstAndLastDays(TestCase):
-    TYPES = [date, datetime]
-
     def test_first_day_of_week_success(self):
         tests = [(date(2024, 6, 13), date(2024, 6, 10)),
                  (date(2024, 6, 10), date(2024, 6, 10)),

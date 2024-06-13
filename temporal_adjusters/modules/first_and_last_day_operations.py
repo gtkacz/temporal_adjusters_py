@@ -1,6 +1,6 @@
 from dateutil.relativedelta import relativedelta
 
-from ..util.types.dates import DateT
+from ..common.types.dates import DateT
 
 
 class _TemporalAdjusterForFirstAndLastDays:

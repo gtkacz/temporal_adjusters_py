@@ -1,7 +1,8 @@
 from dateutil.relativedelta import relativedelta
 
-from ..util.enums import ISOWeekday, Weekday
-from ..util.types import DateT
+from ..common.enums import ISOWeekday, Weekday
+from ..common.exceptions import DateError
+from ..common.types import DateT
 from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
 
 
@@ -243,7 +244,7 @@ class _TemporalAdjusterForWeekday:
 
         Raises:
             ValueError: If n is less than 1 or greater than 5.
-            ValueError: If the month does not have a nth occurrence of the given day of the week.
+            DateError: If the month does not have a nth occurrence of the given day of the week.
 
         Returns:
             DateT: The nth date of the given day of the week in the month of the given date.
@@ -256,7 +257,7 @@ class _TemporalAdjusterForWeekday:
             day=1) + relativedelta(weekday=weekday.value, weeks=n-1)
 
         if output_date.month != date.month:
-            raise ValueError(
+            raise DateError(
                 f'The month does not have a {n}th occurrence of {weekday.name.lower()}.')
 
         return output_date

@@ -2,7 +2,8 @@ from datetime import date, datetime
 from unittest import TestCase
 
 from temporal_adjusters.main import TemporalAdjuster
-from temporal_adjusters.util.enums import Weekday
+from temporal_adjusters.common.enums import Weekday
+from temporal_adjusters.common.exceptions import DateError
 
 
 class TestTemporalAdjusterForWeekdays(TestCase):
@@ -272,15 +273,15 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
     def test_nth_of_month_exception_no_nth_weekday(self):
         tests = [
-            (Weekday.SATURDAY, date(2024, 7, 1), 5),
-            (Weekday.SATURDAY, date(1992, 6, 13), 5),
+            (Weekday.SATURDAY, date(2024, 7, 1), 5, DateError),
+            (Weekday.SATURDAY, date(1992, 6, 13), 5, DateError),
         ]
 
         for index, test in enumerate(tests):
             with self.subTest(f'Testing method nth_of_month (subtest {index}) with inputs: {test}'):
-                test_input_weekday, test_input_date, test_input_n = test
+                test_input_weekday, test_input_date, test_input_n, exception_class = test
 
-                with self.assertRaises(ValueError) as context:
+                with self.assertRaises(exception_class) as context:
                     TemporalAdjuster.nth_of_month(
                         test_input_weekday, test_input_date, test_input_n)
 

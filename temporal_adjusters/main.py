@@ -3,4 +3,6 @@ from .modules import (_TemporalAdjusterForFirstAndLastDays,
 
 
 class TemporalAdjuster(_TemporalAdjusterForFirstAndLastDays, _TemporalAdjusterForWeekday):
+    """
+    """
     pass

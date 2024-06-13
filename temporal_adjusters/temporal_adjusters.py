@@ -1,4 +1,4 @@
-from .modules import (_TemporalAdjusterForFirstAndLastDays,
+from modules import (_TemporalAdjusterForFirstAndLastDays,
                       _TemporalAdjusterForWeekday)
 
 

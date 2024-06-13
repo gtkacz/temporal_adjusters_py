@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from unittest import TestCase
 
-from temporal_adjusters.main import TemporalAdjuster
+from temporal_adjusters.temporal_adjusters import TemporalAdjuster
 
 
 class TestTemporalAdjusterForFirstAndLastDays(TestCase):

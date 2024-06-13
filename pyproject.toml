@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "temporal_adjuster"
+dynamic = ["dependencies"]
+version = "1.0.0"
+description = "Make your Python scripts more user friendly with loading animations"
+requires-python = ">= 3.6"
+authors = [
+  {name = "Gabriel Mitelman Tkacz", email = "gmtkacz@proton.me"},
+]
+maintainers = [
+  {name = "Gabriel Mitelman Tkacz", email = "gmtkacz@proton.me"},
+]
+readme = "README.md"
+license = {text = "MIT License"}
+keywords = ["animation", "context manager", "error handling"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+
+  "Intended Audience :: Developers",
+
+  "License :: OSI Approved :: MIT License",
+
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.6",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Repository = "https://github.com/gtkacz/temporal_adjusters_py.git"
+Issues = "https://github.com/gtkacz/temporal_adjusters_py/issues"

@@ -1,9 +1,9 @@
 from datetime import date, datetime
 from unittest import TestCase
 
-from temporal_adjusters.main import TemporalAdjuster
 from temporal_adjusters.common.enums import Weekday
 from temporal_adjusters.common.exceptions import DateError
+from temporal_adjusters.temporal_adjusters import TemporalAdjuster
 
 
 class TestTemporalAdjusterForWeekdays(TestCase):
@@ -232,6 +232,21 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
                 self.assertEqual(TemporalAdjuster.last_of_last_year(
                     test_input_weekday, test_input_date), test_expected_output)
+
+    def test_nth_from_date_success(self):
+        tests = [(Weekday.SATURDAY, date(2024, 6, 13), 1, date(2024, 6, 15)),
+                 (Weekday.SATURDAY, date(2024, 6, 13), 2, date(2024, 6, 22)),
+                 (Weekday.SATURDAY, date(2024, 6, 13), 3, date(2024, 6, 29)),
+                 (Weekday.SATURDAY, datetime(2024, 6, 13), 1, datetime(2024, 6, 15)),
+                 (Weekday.SATURDAY, datetime(2024, 6, 13), 2, datetime(2024, 6, 22)),
+                 (Weekday.SATURDAY, datetime(2024, 6, 13), 3, datetime(2024, 6, 29))]
+
+        for index, test in enumerate(tests):
+            with self.subTest(f'Testing method nth_from_date (subtest {index}) with inputs: {test}'):
+                test_input_weekday, test_input_date, test_input_n, test_expected_output = test
+
+                self.assertEqual(TemporalAdjuster.nth_from_date(
+                    test_input_weekday, test_input_date, test_input_n), test_expected_output)
 
     def test_nth_of_month_success(self):
         tests = [(Weekday.SATURDAY, date(2024, 6, 13), 1, date(2024, 6, 1)),

@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 from ..util.enums import DayOfWeek
 from ..util.types import DateT
 
-from .first_and_last_days import _TemporalAdjusterForFirstAndLastDays
+from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
 
 
 class _TemporalAdjusterForWeekday:

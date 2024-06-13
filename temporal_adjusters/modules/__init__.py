@@ -1,2 +1,2 @@
-from .first_and_last_days import _TemporalAdjusterForFirstAndLastDays
+from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
 from .weekday_operations import _TemporalAdjusterForWeekday

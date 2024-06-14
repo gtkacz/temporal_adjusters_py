@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "temporal_adjuster"
 dynamic = ["dependencies"]
-version = "1.0.1"
+version = "1.0.2"
 description = "Adjusters are a key tool for modifying temporal objects. They exist to externalize the process of adjustment, permitting different approaches, as per the strategy design pattern. Temporal Adjuster provides tools that help pinpoint very specific moments in time, without having to manually count days, weeks, or months."
 requires-python = ">= 3.6"
 authors = [

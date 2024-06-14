@@ -49,7 +49,8 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                 test_input_weekday, test_input_date, test_expected_output = test
 
                 self.assertEqual(
-                    TemporalAdjuster.next_or_same(test_input_weekday, test_input_date),
+                    TemporalAdjuster.next_or_same(
+                        test_input_weekday, test_input_date),
                     test_expected_output,
                 )
 
@@ -99,7 +100,8 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                 test_input_weekday, test_input_date, test_expected_output = test
 
                 self.assertEqual(
-                    TemporalAdjuster.last_or_same(test_input_weekday, test_input_date),
+                    TemporalAdjuster.last_or_same(
+                        test_input_weekday, test_input_date),
                     test_expected_output,
                 )
 
@@ -203,7 +205,8 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                 test_input_weekday, test_input_date, test_expected_output = test
 
                 self.assertEqual(
-                    TemporalAdjuster.last_of_month(test_input_weekday, test_input_date),
+                    TemporalAdjuster.last_of_month(
+                        test_input_weekday, test_input_date),
                     test_expected_output,
                 )
 
@@ -282,7 +285,8 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                 test_input_weekday, test_input_date, test_expected_output = test
 
                 self.assertEqual(
-                    TemporalAdjuster.first_of_year(test_input_weekday, test_input_date),
+                    TemporalAdjuster.first_of_year(
+                        test_input_weekday, test_input_date),
                     test_expected_output,
                 )
 
@@ -328,7 +332,8 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                 test_input_weekday, test_input_date, test_expected_output = test
 
                 self.assertEqual(
-                    TemporalAdjuster.last_of_year(test_input_weekday, test_input_date),
+                    TemporalAdjuster.last_of_year(
+                        test_input_weekday, test_input_date),
                     test_expected_output,
                 )
 
@@ -505,19 +510,19 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
     def test_nth_of_month_exception_no_nth_weekday(self):
         tests = [
-            (Weekday.SATURDAY, date(2024, 7, 1), 5, DateError),
-            (Weekday.SATURDAY, date(1992, 6, 13), 5, DateError),
+            (Weekday.SATURDAY, date(2024, 7, 1), 5),
+            (Weekday.SATURDAY, date(1992, 6, 13), 5),
         ]
 
         for index, test in enumerate(tests):
             with self.subTest(
                 f"Testing method nth_of_month (subtest {index}) with inputs: {test}"
             ):
-                test_input_weekday, test_input_date, test_input_n, exception_class = (
+                test_input_weekday, test_input_date, test_input_n = (
                     test
                 )
 
-                with self.assertRaises(exception_class) as context:
+                with self.assertRaises(Exception) as context:
                     TemporalAdjuster.nth_of_month(
                         test_input_weekday, test_input_date, test_input_n
                     )
@@ -526,3 +531,5 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                     f"The month does not have a {test_input_n}th occurrence of {test_input_weekday.name.lower()}.",
                     str(context.exception),
                 )
+
+                self.assertEqual(context.exception.__class__, DateError)

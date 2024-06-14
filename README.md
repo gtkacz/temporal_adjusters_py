@@ -11,7 +11,7 @@ Adjusters are a key tool for modifying temporal objects. They exist to externali
 You can install Temporal Adjuster using pip:
 
 ```sh
-pip install temporal_adjuster
+pip install temporal-adjuster
 ```
 
 ## Usage

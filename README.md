@@ -1,11 +1,10 @@
 # Temporal Adjuster
 
-Common and useful Temporal Adjuster.
-Adjuster are a key tool for modifying temporal objects. They exist to externalize the process of adjustment, permitting different approaches, as per the strategy design pattern. Temporal Adjuster provides tools that help pinpoint very specific moments in time, without having to manually count days, weeks, or months. In essence, a Temporal Adjuster is a function that encapsulates a specific date/time manipulation rule. It operates on a temporal object (representing a date, time, or datetime) to produce a new temporal object adjusted according to the rule. Examples might be an adjuster that sets the date avoiding weekends, or one that sets the date to the last day of the month.
+Adjusters are a key tool for modifying temporal objects. They exist to externalize the process of adjustment, permitting different approaches, as per the strategy design pattern. Temporal Adjuster provides tools that help pinpoint very specific moments in time, without having to manually count days, weeks, or months. In essence, a Temporal Adjuster is a function that encapsulates a specific date/time manipulation rule. It operates on a temporal object (representing a date, time, or datetime) to produce a new temporal object adjusted according to the rule. Examples might be an adjuster that sets the date avoiding weekends, or one that sets the date to the last day of the month.
 
 [![codecov](https://codecov.io/gh/gtkacz/temporal_adjuster_py-python/branch/main/graph/badge.svg?token=5KNECS8JYF)](https://codecov.io/gh/gtkacz/temporal_adjuster_py-python)
-[![Downloads per Month](https://shields.io/pypi/dm/temporal_adjuster_py)](https://pypistats.org/packages/temporal_adjuster_py)
-[![Package version](https://shields.io/pypi/v/temporal_adjuster_py)](https://pypi.org/project/temporal_adjuster_py/)
+[![Downloads per Month](https://shields.io/pypi/dm/temporal_adjuster)](https://pypistats.org/packages/temporal_adjuster)
+[![Package version](https://shields.io/pypi/v/temporal_adjuster)](https://pypi.org/project/temporal_adjuster/)
 
 ## Installation
 

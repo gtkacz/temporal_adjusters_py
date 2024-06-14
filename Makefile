@@ -12,6 +12,5 @@ install:
 	@python -m pip install --upgrade pip
 	@python -m pip install -e .
 
-deploy:
-	@build
-	@python -m twine upload dist/*
+upload:
+	@python -m twine upload --config-file .pypirc dist/*

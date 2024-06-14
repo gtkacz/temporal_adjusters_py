@@ -1,6 +1,6 @@
 Welcome to the TemporalAdjusters documentation!
 =======================================================
-.. automodule:: temporal_adjusters.main
+.. automodule:: temporal_adjuster.main
     :members:
 .. toctree::
    :maxdepth: 10

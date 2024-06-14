@@ -1,6 +1,6 @@
 from dateutil.relativedelta import relativedelta
 
-from ..common.types.dates import DateT
+from common.types.dates import DateT
 
 
 class _TemporalAdjusterForFirstAndLastDays:
@@ -28,7 +28,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The first day of the next week of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.first_day_of_week(date) + relativedelta(weeks=1)
+        return _TemporalAdjusterForFirstAndLastDays.first_day_of_week(
+            date
+        ) + relativedelta(weeks=1)
 
     @staticmethod
     def first_day_of_last_week(date: DateT) -> DateT:
@@ -41,7 +43,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The first day of the next week of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.first_day_of_week(date) + relativedelta(weeks=-1)
+        return _TemporalAdjusterForFirstAndLastDays.first_day_of_week(
+            date
+        ) + relativedelta(weeks=-1)
 
     @staticmethod
     def first_day_of_month(date: DateT) -> DateT:
@@ -67,7 +71,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The first day of the next month of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.first_day_of_month(date) + relativedelta(months=1)
+        return _TemporalAdjusterForFirstAndLastDays.first_day_of_month(
+            date
+        ) + relativedelta(months=1)
 
     @staticmethod
     def first_day_of_last_month(date: DateT) -> DateT:
@@ -80,7 +86,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The first day of the next month of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.first_day_of_month(date) + relativedelta(months=-1)
+        return _TemporalAdjusterForFirstAndLastDays.first_day_of_month(
+            date
+        ) + relativedelta(months=-1)
 
     @staticmethod
     def first_day_of_year(date: DateT) -> DateT:
@@ -106,7 +114,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The first day of the next year of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.first_day_of_year(date) + relativedelta(years=1)
+        return _TemporalAdjusterForFirstAndLastDays.first_day_of_year(
+            date
+        ) + relativedelta(years=1)
 
     @staticmethod
     def first_day_of_last_year(date: DateT) -> DateT:
@@ -119,7 +129,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The first day of the next year of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.first_day_of_year(date) + relativedelta(years=-1)
+        return _TemporalAdjusterForFirstAndLastDays.first_day_of_year(
+            date
+        ) + relativedelta(years=-1)
 
     @staticmethod
     def last_day_of_week(date: DateT) -> DateT:
@@ -132,7 +144,7 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The last day of the week of the given date.
         """
-        return date + relativedelta(days=6-date.weekday())
+        return date + relativedelta(days=6 - date.weekday())
 
     @staticmethod
     def last_day_of_next_week(date: DateT) -> DateT:
@@ -145,7 +157,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The last day of the next week of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.last_day_of_week(date) + relativedelta(weeks=1)
+        return _TemporalAdjusterForFirstAndLastDays.last_day_of_week(
+            date
+        ) + relativedelta(weeks=1)
 
     @staticmethod
     def last_day_of_last_week(date: DateT) -> DateT:
@@ -158,7 +172,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The last day of the last week of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.last_day_of_week(date) + relativedelta(weeks=-1)
+        return _TemporalAdjusterForFirstAndLastDays.last_day_of_week(
+            date
+        ) + relativedelta(weeks=-1)
 
     @staticmethod
     def last_day_of_month(date: DateT) -> DateT:
@@ -184,7 +200,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The last day of the next month of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.last_day_of_month(date + relativedelta(months=1))
+        return _TemporalAdjusterForFirstAndLastDays.last_day_of_month(
+            date + relativedelta(months=1)
+        )
 
     @staticmethod
     def last_day_of_last_month(date: DateT) -> DateT:
@@ -197,7 +215,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The last day of the last month of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.first_day_of_month(date) + relativedelta(days=-1)
+        return _TemporalAdjusterForFirstAndLastDays.first_day_of_month(
+            date
+        ) + relativedelta(days=-1)
 
     @staticmethod
     def last_day_of_year(date: DateT) -> DateT:
@@ -223,7 +243,9 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The last day of the next year of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.last_day_of_year(date) + relativedelta(years=1)
+        return _TemporalAdjusterForFirstAndLastDays.last_day_of_year(
+            date
+        ) + relativedelta(years=1)
 
     @staticmethod
     def last_day_of_last_year(date: DateT) -> DateT:
@@ -236,4 +258,6 @@ class _TemporalAdjusterForFirstAndLastDays:
         Returns:
             DateT: The last day of the last year of the given date.
         """
-        return _TemporalAdjusterForFirstAndLastDays.last_day_of_year(date) + relativedelta(years=-1)
+        return _TemporalAdjusterForFirstAndLastDays.last_day_of_year(
+            date
+        ) + relativedelta(years=-1)

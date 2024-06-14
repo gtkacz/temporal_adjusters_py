@@ -490,6 +490,10 @@ class TestTemporalAdjusterForWeekdays(TestCase):
             (Weekday.SATURDAY, date(2024, 6, 13), 0),
             (Weekday.SATURDAY, date(2024, 6, 13), 6),
             (Weekday.SATURDAY, date(2024, 6, 13), 7),
+            (Weekday.SATURDAY, datetime(2024, 6, 13), -1),
+            (Weekday.SATURDAY, datetime(2024, 6, 13), 0),
+            (Weekday.SATURDAY, datetime(2024, 6, 13), 6),
+            (Weekday.SATURDAY, datetime(2024, 6, 13), 7),
         ]
 
         for index, test in enumerate(tests):
@@ -512,6 +516,8 @@ class TestTemporalAdjusterForWeekdays(TestCase):
         tests = [
             (Weekday.SATURDAY, date(2024, 7, 1), 5),
             (Weekday.SATURDAY, date(1992, 6, 13), 5),
+            (Weekday.SATURDAY, datetime(2024, 7, 1), 5),
+            (Weekday.SATURDAY, datetime(1992, 6, 13), 5),
         ]
 
         for index, test in enumerate(tests):
@@ -529,6 +535,85 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
                 self.assertEqual(
                     f"The month does not have a {test_input_n}th occurrence of {test_input_weekday.name.lower()}.",
+                    str(context.exception),
+                )
+
+                self.assertEqual(context.exception.__class__, DateError)
+
+    def test_nth_of_year_success(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 6, 13), 1, date(2024, 1, 6)),
+            (Weekday.SATURDAY, date(2024, 6, 13), 10, date(2024, 3, 9)),
+            (Weekday.SATURDAY, datetime(2024, 6, 13), 1, datetime(2024, 1, 6)),
+            (Weekday.SATURDAY, datetime(2024, 6, 13), 10, datetime(2024, 3, 9)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method nth_of_year (subtest {index}) with inputs: {test}"
+            ):
+                (
+                    test_input_weekday,
+                    test_input_date,
+                    test_input_n,
+                    test_expected_output,
+                ) = test
+
+                self.assertEqual(
+                    TemporalAdjuster.nth_of_year(
+                        test_input_weekday, test_input_date, test_input_n
+                    ),
+                    test_expected_output,
+                )
+
+                self.assertEqual(
+                    test_input_weekday.value, test_expected_output.weekday()
+                )
+
+    def test_nth_of_year_exception_invalid_n(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 6, 13), -1),
+            (Weekday.SATURDAY, date(2024, 6, 13), 0),
+            (Weekday.SATURDAY, date(2024, 6, 13), 55),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method nth_of_year (subtest {index}) with inputs: {test}"
+            ):
+                test_input_weekday, test_input_date, test_input_n = test
+
+                with self.assertRaises(ValueError) as context:
+                    TemporalAdjuster.nth_of_year(
+                        test_input_weekday, test_input_date, test_input_n
+                    )
+
+                self.assertEqual(
+                    f"The value of n must be between 1 and 54, but is {test_input_n}.",
+                    str(context.exception),
+                )
+
+    def test_nth_of_year_exception_no_nth_weekday(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 7, 1), 53),
+            (Weekday.SATURDAY, date(1992, 6, 13), 53),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method nth_of_year (subtest {index}) with inputs: {test}"
+            ):
+                test_input_weekday, test_input_date, test_input_n = (
+                    test
+                )
+
+                with self.assertRaises(Exception) as context:
+                    TemporalAdjuster.nth_of_year(
+                        test_input_weekday, test_input_date, test_input_n
+                    )
+
+                self.assertEqual(
+                    f"The year does not have a {test_input_n}th occurrence of {test_input_weekday.name.lower()}.",
                     str(context.exception),
                 )
 

@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import IntEnum
 
 
-class Weekday(Enum):
+class Weekday(IntEnum):
     """
     A day-of-week, such as 'Tuesday'.
     Weekday is an enum representing the 7 days of the week - Monday, Tuesday, Wednesday, Thursday, Friday, Saturday and Sunday.
@@ -18,7 +18,7 @@ class Weekday(Enum):
     SUNDAY = 6
 
 
-class ISOWeekday(Enum):
+class ISOWeekday(IntEnum):
     """
     A day-of-week, such as 'Tuesday'.
     Weekday is an enum representing the 7 days of the week - Monday, Tuesday, Wednesday, Thursday, Friday, Saturday and Sunday.

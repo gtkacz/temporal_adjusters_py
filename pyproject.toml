@@ -7,7 +7,7 @@ name = "temporal_adjuster"
 dynamic = ["dependencies"]
 version = "1.0.2"
 description = "Adjusters are a key tool for modifying temporal objects. They exist to externalize the process of adjustment, permitting different approaches, as per the strategy design pattern. Temporal Adjuster provides tools that help pinpoint very specific moments in time, without having to manually count days, weeks, or months."
-requires-python = ">= 3.6"
+requires-python = ">= 3.7"
 authors = [
   {name = "Gabriel Mitelman Tkacz", email = "gmtkacz@proton.me"},
 ]
@@ -25,7 +25,6 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
 
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.6",
   "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",

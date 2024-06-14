@@ -42,4 +42,4 @@ datetime.datetime(2021, 2, 15)
 
 ## Contributing
 
-If you have any suggestions or improvements for pynimbar, feel free to submit a pull request or open an issue on the [GitHub repository](https://github.com/gtkacz/pynimbar) as per the CONTRIBUTING document. We appreciate any feedback or contributions!
+If you have any suggestions or improvements for pynimbar, feel free to submit a pull request or open an issue on the [GitHub repository](https://github.com/gtkacz/temporal_adjusters_py) as per the CONTRIBUTING document. We appreciate any feedback or contributions!

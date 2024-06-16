@@ -2,7 +2,7 @@
 
 Adjusters are a key tool for modifying temporal objects. They exist to externalize the process of adjustment, permitting different approaches, as per the strategy design pattern. Temporal Adjuster provides tools that help pinpoint very specific moments in time, without having to manually count days, weeks, or months. In essence, a Temporal Adjuster is a function that encapsulates a specific date/time manipulation rule. It operates on a temporal object (representing a date, time, or datetime) to produce a new temporal object adjusted according to the rule. Examples might be an adjuster that sets the date avoiding weekends, or one that sets the date to the last day of the month.
 
-[![CI](https://github.com/gtkacz/temporal_adjusters_py/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/gtkacz/temporal_adjusters_py/actions/workflows/python-package.yml)
+[![CI](https://github.com/gtkacz/temporal_adjusters_py/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/gtkacz/temporal_adjusters_py/actions/workflows/CI.yml)
 [![codecov](https://codecov.io/gh/gtkacz/temporal_adjuster_py-python/branch/main/graph/badge.svg?token=5KNECS8JYF)](https://codecov.io/gh/gtkacz/temporal_adjuster_py-python)
 [![Downloads Per Month](https://shields.io/pypi/dm/temporal_adjuster)](https://pypistats.org/packages/temporal_adjuster)
 [![Package Version](https://shields.io/pypi/v/temporal_adjuster)](https://pypi.org/project/temporal_adjuster/)

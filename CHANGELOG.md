@@ -5,12 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2024-01-06
+---
 
-### Fixed
-
-- `generate_legal_process` [#325](https://github.com/brazilian-utils/brutils-python/pull/325)
+## [1.1.0] - 2024-06-17
 
 ### Added
 
-- Utilitário `generate_voter_id` [#220](https://github.com/brazilian-utils/brutils-python/pull/220)
+- Added support for `ISOWeekday`, meaning the int value of the weekdays follow the ISO-8601 standard: from 1 (Monday) to 7 (Sunday), to all weekday-based operations. You can also pass `int` or `str` objects corresponding to Pythonic weekdays.
+- Added support for calling any method on sequences. Instead of passing a single temporal-like, you can pass any sequence of temporal-likes (for instance `list`, `np.ndarray`, `pd.Series`, etc.) and get back the same sequence with all temporal objects adjusted.

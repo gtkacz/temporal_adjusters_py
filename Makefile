@@ -14,3 +14,6 @@ install:
 
 upload:
 	@python -m twine upload --config-file .pypirc dist/*
+
+docs:
+	@make -C docs html

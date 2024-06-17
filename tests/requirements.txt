@@ -1,4 +1,4 @@
-pre-commit
-python-dateutil
 coverage
 pandas
+pre-commit
+python-dateutil

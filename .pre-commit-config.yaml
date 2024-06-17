@@ -5,29 +5,17 @@ repos:
     rev: v3.2.0
     hooks:
       - id: trailing-whitespace
-        stages: [push]
       - id: end-of-file-fixer
-        stages: [push]
       - id: check-yaml
-        stages: [push]
       - id: check-added-large-files
-        stages: [push]
       - id: check-ast
-        stages: [push]
       - id: check-symlinks
-        stages: [push]
       - id: debug-statements
-        stages: [push]
-      - id: double-quote-string-fixer
-        stages: [push]
+      # - id: double-quote-string-fixer
       - id: end-of-file-fixer
-        stages: [push]
       - id: requirements-txt-fixer
-        stages: [push]
       - id: trailing-whitespace
-        stages: [push]
   - repo: https://github.com/psf/black
     rev: 24.4.2
     hooks:
       - id: black
-        stages: [push]

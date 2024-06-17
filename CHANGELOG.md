@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.1] - 2024-06-17
+
+### Fixed
+
+- Added support for older Python versions that were failing because of Ubuntu version on CI runner.
+
 ## [1.1.0] - 2024-06-17
 
 ### Added

@@ -2,6 +2,8 @@ import inspect
 from functools import wraps
 from typing import Callable, Sequence, TypeVar, Union
 
+import numpy as np
+
 T = TypeVar("T")
 
 
@@ -26,20 +28,15 @@ def sequenceable(target: str):
                 and hasattr(target_value, "__iter__")
                 and not isinstance(target_value, str)
             ):
-                convert_back = None
+                convert_type = type(target_value)
+                target_value = np.asarray(list(target_value))
 
-                if type(target_value) in [set, tuple]:
-                    convert_back = type(target_value)
-                    target_value = list(target_value)
-
-                for index, item in enumerate(target_value):
+                for index, item in np.ndenumerate(target_value):
                     bound_args.arguments[target] = item
                     result = func(*bound_args.args, **bound_args.kwargs)
-                    target_value[index] = result
+                    target_value[index[0]] = result
 
-                return (
-                    target_value if convert_back is None else convert_back(target_value)
-                )
+                return convert_type(target_value.tolist())
 
             else:
                 return func(*args, **kwargs)

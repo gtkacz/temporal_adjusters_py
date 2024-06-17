@@ -1,4 +1,5 @@
 coverage
 pandas
 pre-commit
+psutil
 python-dateutil

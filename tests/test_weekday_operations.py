@@ -1,6 +1,9 @@
 from datetime import date, datetime
 from unittest import TestCase
 
+from numpy import asarray
+from pandas import Series
+
 from temporal_adjuster.common.enums import Weekday
 from temporal_adjuster.common.exceptions import DateError
 from temporal_adjuster.temporal_adjuster import TemporalAdjuster

@@ -1,4 +1,5 @@
-from .modules import _TemporalAdjusterForFirstAndLastDays, _TemporalAdjusterForWeekday
+from .modules import (_TemporalAdjusterForFirstAndLastDays,
+                      _TemporalAdjusterForWeekday)
 
 
 class TemporalAdjuster(
@@ -29,5 +30,4 @@ class TemporalAdjuster(
 
     ```
     """
-
     pass

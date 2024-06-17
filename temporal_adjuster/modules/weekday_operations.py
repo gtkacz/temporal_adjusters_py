@@ -1,5 +1,6 @@
 from dateutil.relativedelta import relativedelta
 
+from ..common.decorators import sequenceable
 from ..common.enums import ISOWeekday, Weekday
 from ..common.exceptions import DateError
 from ..common.types import DateT
@@ -8,6 +9,7 @@ from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
 
 class _TemporalAdjusterForWeekday:
     @staticmethod
+    @sequenceable(target="date")
     def next(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the next date of the given day of the week.
@@ -26,6 +28,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def next_or_same(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the next date of the given day of the week. If the given date is the same day of the week, the given date is returned.
@@ -44,6 +47,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def last(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week.
@@ -63,6 +67,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def last_or_same(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week. If the given date is the same day of the week, the given date is returned.
@@ -81,6 +86,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def first_of_month(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the month of the given date.
@@ -95,6 +101,7 @@ class _TemporalAdjusterForWeekday:
         return date.replace(day=1) + relativedelta(weekday=weekday.value)
 
     @staticmethod
+    @sequenceable(target="date")
     def first_of_next_month(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the month after the month of the given date.
@@ -111,6 +118,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def first_of_last_month(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the month before the month of the given date.
@@ -127,6 +135,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def last_of_month(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the month of the given date.
@@ -143,6 +152,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def last_of_next_month(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the month after the month of the given date.
@@ -159,6 +169,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def last_of_last_month(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the month before the month of the given date.
@@ -175,6 +186,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def first_of_year(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the year of the given date.
@@ -189,6 +201,7 @@ class _TemporalAdjusterForWeekday:
         return date.replace(month=1, day=1) + relativedelta(weekday=weekday.value)
 
     @staticmethod
+    @sequenceable(target="date")
     def first_of_next_year(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the year after the year of the given date.
@@ -205,6 +218,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def first_of_last_year(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the year before the year of the given date.
@@ -221,6 +235,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def last_of_year(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the year of the given date.
@@ -235,6 +250,7 @@ class _TemporalAdjusterForWeekday:
         return _TemporalAdjusterForWeekday.last(weekday, date.replace(month=12, day=31))
 
     @staticmethod
+    @sequenceable(target="date")
     def last_of_next_year(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the year after the year of the given date.
@@ -251,6 +267,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def last_of_last_year(weekday: Weekday, date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the year before the year of the given date.
@@ -267,6 +284,7 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    @sequenceable(target="date")
     def nth_from_date(weekday: Weekday, date: DateT, n: int) -> DateT:
         """
         Returns the nth date of the given day of the week from the given date.
@@ -286,6 +304,7 @@ class _TemporalAdjusterForWeekday:
         return date + relativedelta(weekday=weekday.value, weeks=n - 1)
 
     @staticmethod
+    @sequenceable(target="date")
     def nth_of_month(weekday: Weekday, date: DateT, n: int) -> DateT:
         """
         Returns the nth date of the given day of the week in the month of the given date.
@@ -317,6 +336,7 @@ class _TemporalAdjusterForWeekday:
         return output_date
 
     @staticmethod
+    @sequenceable(target="date")
     def nth_of_year(weekday: Weekday, date: DateT, n: int) -> DateT:
         """
         Returns the nth date of the given day of the week in the year of the given date.

@@ -15,7 +15,7 @@ class TestPerformance(TestCase):
     ], 10
 
     max_execution_time = 2.25 ** round(
-        100_000 / (cpu_count(logical=True) * cpu_freq().max)
+        100_000 / (cpu_count(logical=True) * cpu_freq().max or 10000)
     )
 
     # Weekday operations module

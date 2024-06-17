@@ -25,16 +25,16 @@ jobs:
           - {python: "3.10", os: "ubuntu-latest"}
           - {python: "3.11", os: "ubuntu-latest"}
           - {python: "3.12", os: "ubuntu-latest"}
-          # - {python: "3.3", os: ["ubuntu-18.04", "windows-latest", "macos-latest", "windows-2019"]}
-          # - {python: "3.4", os: ["ubuntu-18.04", "windows-latest", "macos-latest", "windows-2019"]}
-          # - {python: "3.5", os: ["ubuntu-18.04", "windows-latest", "macos-latest", "windows-2019"]}
-          # - {python: "3.6", os: ["ubuntu-20.04", "windows-latest", "macos-latest", "windows-2019"]}
-          # - {python: "3.7", os: ["ubuntu-22.04", "windows-latest", "macos-latest", "windows-2019"]}
-          # - {python: "3.8", os: ["ubuntu-22.04", "windows-latest", "macos-latest", "windows-2019"]}
-          # - {python: "3.9", os: ["ubuntu-22.04", "windows-latest", "macos-latest", "windows-2019"]}
-          # - {python: "3.10", os: ["ubuntu-latest", "windows-latest", "macos-latest", "windows-2019"]}
-          # - {python: "3.11", os: ["ubuntu-latest", "windows-latest", "macos-latest", "windows-2019"]}
-          # - {python: "3.12", os: ["ubuntu-latest", "windows-latest", "macos-latest", "windows-2019"]}
+          - {python: "3.3", os: "windows-latest"}
+          - {python: "3.4", os: "windows-latest"}
+          - {python: "3.5", os: "windows-latest"}
+          - {python: "3.6", os: "windows-latest"}
+          - {python: "3.7", os: "windows-latest"}
+          - {python: "3.8", os: "windows-latest"}
+          - {python: "3.9", os: "windows-latest"}
+          - {python: "3.10", os: "windows-latest"}
+          - {python: "3.11", os: "windows-latest"}
+          - {python: "3.12", os: "windows-latest"}
 
     runs-on: ${{ matrix.os-version.os }}
 

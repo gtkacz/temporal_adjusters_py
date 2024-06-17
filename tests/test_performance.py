@@ -14,9 +14,12 @@ class TestPerformance(TestCase):
         date(randint(1900, 2024), randint(1, 12), randint(1, 28)) for _ in range(10_000)
     ], 10
 
-    max_execution_time = 2.25 ** round(
-        100_000 / (cpu_count(logical=True) * cpu_freq().max or 10000)
-    )
+    try:
+        max_execution_time = 2.25 ** round(
+            100_000 / (cpu_count(logical=True) * cpu_freq().max or 25_000)
+        )
+    except Exception:
+        max_execution_time = 25
 
     # Weekday operations module
     def test_next_success(self):

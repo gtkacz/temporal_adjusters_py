@@ -16,7 +16,7 @@ Adjusters are a key tool for modifying temporal objects. They exist to externali
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 [![CI](https://github.com/gtkacz/temporal_adjusters_py/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/gtkacz/temporal_adjusters_py/actions/workflows/CI.yml)
-[![codecov](https://codecov.io/gh/gtkacz/temporal_adjuster_py-python/branch/main/graph/badge.svg?token=5KNECS8JYF)](https://codecov.io/gh/gtkacz/temporal_adjuster_py-python)
+[![codecov](https://codecov.io/github/gtkacz/temporal_adjusters_py/graph/badge.svg?token=WFJE0GHSZM)](https://codecov.io/github/gtkacz/temporal_adjusters_py)
 [![Documentation Status](https://readthedocs.org/projects/temporal-adjuster/badge/?version=latest)](http://temporal-adjuster.readthedocs.io/?badge=latest)
 [![Github commits](https://badgen.net/github/commits/gtkacz/temporal_adjusters_py)](https://Github.com/gtkacz/temporal_adjusters_py/commit/)
 [![Github latest commit](https://badgen.net/github/last-commit/gtkacz/temporal_adjusters_py)](https://Github.com/gtkacz/temporal_adjusters_py/commit/)

@@ -1,5 +1,3 @@
-from typing import Sequence, Union
-
 from dateutil.relativedelta import relativedelta
 
 from ..common.decorators import sequenceable

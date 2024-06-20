@@ -4,5 +4,6 @@ pandas
 pre-commit
 psutil
 python-dateutil
+ruff
 sphinx
 sphinx-autopackagesummary

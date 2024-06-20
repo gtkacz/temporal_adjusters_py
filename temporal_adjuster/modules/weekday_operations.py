@@ -1,4 +1,4 @@
-from typing import Sequence, Union
+from typing import Union
 
 from dateutil.relativedelta import relativedelta
 

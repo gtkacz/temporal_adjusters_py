@@ -10,9 +10,13 @@ from temporal_adjuster.temporal_adjuster import TemporalAdjuster
 
 
 class TestPerformance(TestCase):
-    test_input, test_n = [
-        date(randint(1900, 2024), randint(1, 12), randint(1, 28)) for _ in range(10_000)
-    ], 10
+    test_input, test_n = (
+        [
+            date(randint(1900, 2024), randint(1, 12), randint(1, 28))
+            for _ in range(10_000)
+        ],
+        10,
+    )
 
     try:
         max_execution_time = 2.25 ** round(

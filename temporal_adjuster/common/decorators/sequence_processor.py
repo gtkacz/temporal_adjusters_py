@@ -1,6 +1,6 @@
 import inspect
 from functools import wraps
-from typing import Callable, Sequence, TypeVar, Union
+from typing import Sequence, TypeVar, Union
 
 import numpy as np
 

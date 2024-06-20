@@ -32,9 +32,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def next(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def next(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the next date of the given day of the week.
 
@@ -55,9 +53,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def next_or_same(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def next_or_same(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the next date of the given day of the week. If the given date is the same day of the week, the given date is returned.
 
@@ -78,9 +74,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def last(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def last(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week.
 
@@ -102,9 +96,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def last_or_same(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def last_or_same(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week. If the given date is the same day of the week, the given date is returned.
 
@@ -125,9 +117,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def first_of_month(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def first_of_month(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the month of the given date.
 
@@ -144,9 +134,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def first_of_next_month(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def first_of_next_month(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the month after the month of the given date.
 
@@ -165,9 +153,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def first_of_last_month(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def first_of_last_month(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the month before the month of the given date.
 
@@ -186,9 +172,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def last_of_month(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def last_of_month(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the month of the given date.
 
@@ -207,9 +191,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def last_of_next_month(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def last_of_next_month(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the month after the month of the given date.
 
@@ -228,9 +210,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def last_of_last_month(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def last_of_last_month(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the month before the month of the given date.
 
@@ -249,9 +229,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def first_of_year(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def first_of_year(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the year of the given date.
 
@@ -268,9 +246,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def first_of_next_year(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def first_of_next_year(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the year after the year of the given date.
 
@@ -289,9 +265,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def first_of_last_year(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def first_of_last_year(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the first date of the given day of the week in the year before the year of the given date.
 
@@ -310,9 +284,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def last_of_year(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def last_of_year(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the year of the given date.
 
@@ -329,9 +301,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def last_of_next_year(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def last_of_next_year(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the year after the year of the given date.
 
@@ -350,9 +320,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def last_of_last_year(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]]
-    ) -> Union[DateT, Sequence[DateT]]:
+    def last_of_last_year(weekday: Union[Weekday, ISOWeekday], date: DateT) -> DateT:
         """
         Returns the last date of the given day of the week in the year before the year of the given date.
 
@@ -372,8 +340,8 @@ class _TemporalAdjusterForWeekday:
     @staticmethod
     @sequenceable(target="date")
     def nth_from_date(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]], n: int
-    ) -> Union[DateT, Sequence[DateT]]:
+        weekday: Union[Weekday, ISOWeekday], date: DateT, n: int
+    ) -> DateT:
         """
         Returns the nth date of the given day of the week from the given date.
 
@@ -395,9 +363,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def nth_of_month(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]], n: int
-    ) -> Union[DateT, Sequence[DateT]]:
+    def nth_of_month(weekday: Union[Weekday, ISOWeekday], date: DateT, n: int) -> DateT:
         """
         Returns the nth date of the given day of the week in the month of the given date.
 
@@ -431,9 +397,7 @@ class _TemporalAdjusterForWeekday:
 
     @staticmethod
     @sequenceable(target="date")
-    def nth_of_year(
-        weekday: Union[Weekday, ISOWeekday], date: Union[DateT, Sequence[DateT]], n: int
-    ) -> Union[DateT, Sequence[DateT]]:
+    def nth_of_year(weekday: Union[Weekday, ISOWeekday], date: DateT, n: int) -> DateT:
         """
         Returns the nth date of the given day of the week in the year of the given date.
 

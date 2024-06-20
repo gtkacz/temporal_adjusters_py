@@ -68,6 +68,7 @@ jobs:
 
   test:
     runs-on: ubuntu-18.04
+    needs: build
     strategy:
       fail-fast: false
       matrix:

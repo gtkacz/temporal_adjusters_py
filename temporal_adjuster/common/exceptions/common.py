@@ -1,2 +1,2 @@
 class DateError(Exception):
-    pass
+	pass

@@ -37,7 +37,6 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
 
   "Operating System :: OS Independent",
-  "Software Development :: Libraries",
 ]
 
 [project.urls]

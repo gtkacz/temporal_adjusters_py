@@ -17,3 +17,14 @@ upload:
 
 docs:
 	@make -C docs html
+
+clean:
+	@rm -rf build dist
+	@rm -rf *.egg-info
+	@rm -rf .coverage
+	@rm -rf .pytest_cache
+	@rm -rf .mypy
+
+format:
+	@ruff check --fix
+	@ruff format

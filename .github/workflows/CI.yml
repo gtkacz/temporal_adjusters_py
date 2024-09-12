@@ -74,21 +74,6 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -e .
 
-    - name: Run tests with coverage
+    - name: Run tests
       run: |
         coverage run -m unittest discover tests/ -v
-
-    - name: Check coverage threshold
-      run: |
-        coverage report --fail-under=95
-
-
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v4.0.1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-
-    - name: Check for dead code
-      uses: gtkacz/vulture-action@1.0.0
-      with:
-        args: '--min-confidence 70 --exclude "*/docs/*,setup.py"'

@@ -1,0 +1,43 @@
+name: Package quality
+on: [ push, pull_request ]
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: chartboost/ruff-action@v1
+        with:
+          args: 'format --check'
+  type-completeness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Bibo-Joshi/pyright-type-completeness@1.0.0
+        with:
+          package-name: 'temporal-adjuster'
+          python-version: '3.12'
+          pyright-version: '~=1.1.160'
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install coverage
+      - name: Check coverage threshold
+        run: |
+          coverage report --fail-under=95
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Check for dead code
+        uses: gtkacz/vulture-action@1.0.0
+        with:
+          args: '--min-confidence 70 --exclude "*/docs/*,setup.py"'

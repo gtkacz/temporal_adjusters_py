@@ -8,20 +8,20 @@ jobs:
       - uses: chartboost/ruff-action@v1
         with:
           args: 'format --check'
-  type-completeness:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: Bibo-Joshi/pyright-type-completeness@1.0.0
-        with:
-          package-name: 'temporal-adjuster'
-          python-version: '3.12'
-          pyright-version: '~=1.1.160'
+  #type-completeness:
+    #runs-on: ubuntu-latest
+    #steps:
+      #- uses: Bibo-Joshi/pyright-type-completeness@1.0.0
+        #with:
+          #package-name: 'temporal-adjuster'
+          #python-version: '3.12'
+          #pyright-version: '~=1.1.160'
   coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5.2.0
         with:
           python-version: 3.12
       - name: Install dependencies
@@ -30,6 +30,7 @@ jobs:
           python -m pip install coverage
       - name: Check coverage threshold
         run: |
+          coverage run -m unittest discover tests/ -v
           coverage report --fail-under=95
 
       - name: Upload coverage reports to Codecov

@@ -630,3 +630,59 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 				)
 
 				self.assertEqual(context.exception.__class__, DateError)
+
+	def test_which_of_month_success(self):
+		tests = [
+			(Weekday.SATURDAY, date(2024, 6, 1), 1),
+			(Weekday.SATURDAY, date(2024, 6, 8), 2),
+			(Weekday.SATURDAY, date(2024, 6, 15), 3),
+			(Weekday.SATURDAY, date(2024, 6, 22), 4),
+			(Weekday.SATURDAY, date(2024, 6, 29), 5),
+			(ISOWeekday.SATURDAY, datetime(2024, 6, 1), 1),
+			(ISOWeekday.SATURDAY, datetime(2024, 6, 8), 2),
+			(ISOWeekday.SATURDAY, datetime(2024, 6, 15), 3),
+			(ISOWeekday.SATURDAY, datetime(2024, 6, 22), 4),
+			(ISOWeekday.SATURDAY, datetime(2024, 6, 29), 5),
+		]
+
+		for index, test in enumerate(tests):
+			with self.subTest(
+				f'Testing method which_of_month (subtest {index}) with inputs: {test}'
+			):
+				test_input_weekday, test_input_date, test_expected_output = test
+
+				output = TemporalAdjuster.which_of_month(
+					test_input_weekday, test_input_date
+				)
+
+				self.assertEqual(
+					output,
+					test_expected_output,
+				)
+
+	def test_which_of_year_success(self):
+		tests = [
+			(Weekday.SATURDAY, date(2024, 1, 6), 1),
+			(Weekday.SATURDAY, date(2024, 3, 9), 10),
+			(Weekday.SATURDAY, date(2024, 6, 15), 24),
+			(Weekday.SATURDAY, date(2024, 12, 28), 52),
+			(ISOWeekday.SATURDAY, datetime(2024, 1, 6), 1),
+			(ISOWeekday.SATURDAY, datetime(2024, 3, 9), 10),
+			(ISOWeekday.SATURDAY, datetime(2024, 6, 15), 24),
+			(ISOWeekday.SATURDAY, datetime(2024, 12, 28), 52),
+		]
+
+		for index, test in enumerate(tests):
+			with self.subTest(
+				f'Testing method which_of_year (subtest {index}) with inputs: {test}'
+			):
+				test_input_weekday, test_input_date, test_expected_output = test
+
+				output = TemporalAdjuster.which_of_year(
+					test_input_weekday, test_input_date
+				)
+
+				self.assertEqual(
+					output,
+					test_expected_output,
+				)

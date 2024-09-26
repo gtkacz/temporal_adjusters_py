@@ -5,8 +5,9 @@ from dateutil.relativedelta import relativedelta
 from ..common.decorators import sequenceable
 from ..common.enums import ISOWeekday, Weekday
 from ..common.exceptions import DateError
-from ..common.types import DateT
+from ..common.types import AnyDate, DateT
 from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
+from .misc_operations import _MiscellaneousAdjuster
 
 
 class _TemporalAdjusterForWeekday:
@@ -428,3 +429,37 @@ class _TemporalAdjusterForWeekday:
 			)
 
 		return output_date
+
+	@staticmethod
+	@sequenceable(target='date')
+	def which_of_month(weekday: Union[Weekday, ISOWeekday], date: AnyDate) -> int:
+		"""
+		Returns the occurrence of the given day of the week in the month of the given date.
+
+		Args:
+		    weekday (Weekday): The day of the week.
+		    date (DateT): The reference date.
+
+		Returns:
+		    int: The occurrence of the given day of the week in the month of the given date.
+		"""
+		weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
+
+		return (date.day - 1) // 7 + 1
+
+	@staticmethod
+	@sequenceable(target='date')
+	def which_of_year(weekday: Union[Weekday, ISOWeekday], date: AnyDate) -> int:
+		"""
+		Returns the occurrence of the given day of the week in the year of the given date.
+
+		Args:
+		    weekday (Weekday): The day of the week.
+		    date (DateT): The reference date.
+
+		Returns:
+		    int: The occurrence of the given day of the week in the year of the given date.
+		"""
+		weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
+
+		return (_MiscellaneousAdjuster.day_of_year(date) - 1) // 7 + 1

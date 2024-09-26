@@ -1,2 +1,3 @@
 from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
+from .misc_operations import _MiscellaneousAdjuster
 from .weekday_operations import _TemporalAdjusterForWeekday

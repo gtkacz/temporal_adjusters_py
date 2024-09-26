@@ -1,5 +1,6 @@
 coverage
 mypy
+numpy
 pandas
 pre-commit
 psutil

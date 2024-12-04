@@ -7,7 +7,7 @@ from ..common.enums import ISOWeekday, Weekday
 from ..common.exceptions import DateError
 from ..common.types import AnyDate, DateT
 from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
-from .misc_operations import _MiscellaneousAdjuster
+from .absolute_date_operations import _AbsoluteDateOperations
 
 
 class _TemporalAdjusterForWeekday:
@@ -462,4 +462,4 @@ class _TemporalAdjusterForWeekday:
 		"""
 		weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-		return (_MiscellaneousAdjuster.day_of_year(date) - 1) // 7 + 1
+		return (_AbsoluteDateOperations.date_to_int_of_year(date) - 1) // 7 + 1

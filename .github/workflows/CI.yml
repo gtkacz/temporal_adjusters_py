@@ -25,7 +25,7 @@ jobs:
           - {python: "3.10", os: "ubuntu-24.04"}
           - {python: "3.11", os: "ubuntu-latest"}
           - {python: "3.12", os: "ubuntu-latest"}
-          - {python: "3.13.0-rc.1", os: "ubuntu-latest"}
+          - {python: "3.13", os: "ubuntu-latest"}
           - {python: "3.3", os: "windows-latest"}
           - {python: "3.4", os: "windows-latest"}
           - {python: "3.5", os: "windows-latest"}
@@ -36,7 +36,7 @@ jobs:
           - {python: "3.10", os: "windows-latest"}
           - {python: "3.11", os: "windows-latest"}
           - {python: "3.12", os: "windows-latest"}
-          - {python: "3.13.0-rc.1", os: "windows-latest"}
+          - {python: "3.13", os: "windows-latest"}
           - {python: "3.3", os: "macos-latest"}
           - {python: "3.4", os: "macos-latest"}
           - {python: "3.5", os: "macos-latest"}
@@ -47,7 +47,7 @@ jobs:
           - {python: "3.10", os: "macos-latest"}
           - {python: "3.11", os: "macos-latest"}
           - {python: "3.12", os: "macos-latest"}
-          - {python: "3.13.0-rc.1", os: "macos-latest"}
+          - {python: "3.13", os: "macos-latest"}
 
     runs-on: ${{ matrix.os-version.os }}
 
@@ -80,3 +80,12 @@ jobs:
     - name: Run tests
       run: |
         coverage run -m unittest discover tests/ -v
+
+    - name: Check coverage threshold
+      run: |
+        coverage report --fail-under=95
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5.3.1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}

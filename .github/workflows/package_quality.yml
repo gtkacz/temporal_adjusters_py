@@ -8,14 +8,6 @@ jobs:
       - uses: chartboost/ruff-action@v1
         with:
           args: "format --check"
-  #type-completeness:
-  #runs-on: ubuntu-latest
-  #steps:
-  #- uses: Bibo-Joshi/pyright-type-completeness@1.0.0
-  #with:
-  #package-name: 'temporal-adjuster'
-  #python-version: '3.12'
-  #pyright-version: '~=1.1.160'
   coverage:
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +35,7 @@ jobs:
         uses: gtkacz/pyanalyze-action@v1
 
       - name: Check for dead code
-        uses: gtkacz/vulture-action@1.0.0
+        uses: gtkacz/vulture-action@v1.0.0
         with:
           args: '--min-confidence 70 --exclude "*/docs/*,setup.py"'
 

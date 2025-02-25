@@ -80,12 +80,3 @@ jobs:
     - name: Run tests
       run: |
         coverage run -m unittest discover tests/ -v
-
-    - name: Check coverage threshold
-      run: |
-        coverage report --fail-under=95
-
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v5.3.1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}

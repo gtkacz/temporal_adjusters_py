@@ -35,7 +35,7 @@ jobs:
         uses: gtkacz/pyanalyze-action@v1
 
       - name: Check for dead code
-        uses: gtkacz/vulture-action@v1.0.0
+        uses: gtkacz/vulture-action@1.0.0
         with:
           args: '--min-confidence 70 --exclude "*/docs/*,setup.py"'
 
@@ -44,11 +44,16 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+        uses: snyk/actions/python-3.10@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: monitor
+          args: --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
 
   scan:
     name: gitleaks

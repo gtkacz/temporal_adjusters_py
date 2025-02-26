@@ -9,6 +9,18 @@ class _TimeAdjuster:
 		"""
 		Calculate the positive difference between two time objects,
 		accounting for wrapping around midnight.
+
+		Args:
+			t1 (AnyTime): The first time object.
+			t2 (AnyTime): The second time object.
+
+		Returns:
+			timedelta: The positive difference between the two time objects.
+
+		Example:
+			>>> from datetime import time
+			>>> time_difference(time(23, 0), time(1, 0))
+			datetime.timedelta(seconds=7200)
 		"""
 		total_seconds1 = _TimeAdjuster.time_to_seconds(t1)
 		total_seconds2 = _TimeAdjuster.time_to_seconds(t2)
@@ -21,6 +33,19 @@ class _TimeAdjuster:
 		"""
 		Check if a time object t is within the range [start, end].
 		Handles ranges that cross midnight.
+
+		Args:
+			start (AnyTime): The start of the range.
+			end (AnyTime): The end of the range.
+			t (AnyTime): The time to check.
+
+		Returns:
+			bool: True if t is within the range [start, end].
+
+		Example:
+			>>> from datetime import time
+			>>> is_time_in_range(time(23, 0), time(1, 0), time(0, 0))
+			True
 		"""
 		if isinstance(start, datetime):
 			start = start.time()

@@ -12,16 +12,23 @@ class ExtendedTimeDelta(timedelta):
 	are approximations and may not be suitable for all use cases.
 	"""
 
-	__slots__ = ('_months', '_years', '_days', '_seconds', '_microseconds', '_hashcode')
+	__slots__ = (
+		'_months',
+		'_years',
+		'_days',
+		'_seconds',
+		'_microseconds',
+		'_hashcode',
+	)
 
 	def __new__(
 		cls,
-		days: Union[int, float] = 0,
-		seconds: Union[int, float] = 0,
 		microseconds: Union[int, float] = 0,
 		milliseconds: Union[int, float] = 0,
+		seconds: Union[int, float] = 0,
 		minutes: Union[int, float] = 0,
 		hours: Union[int, float] = 0,
+		days: Union[int, float] = 0,
 		weeks: Union[int, float] = 0,
 		months: Union[int, float] = 0,
 		years: Union[int, float] = 0,
@@ -37,12 +44,12 @@ class ExtendedTimeDelta(timedelta):
 
 		Args:
 			days (int or float, optional): Number of days.
-			seconds (int or float, optional): Number of seconds.
 			microseconds (int, optional): Number of microseconds.
 			milliseconds (int, optional): Number of milliseconds.
+			seconds (int or float, optional): Number of seconds.
 			minutes (int, optional): Number of minutes.
 			hours (int, optional): Number of hours.
-			weeks (int, optional): Number of weeks.
+			weeks (int or float, optional): Number of weeks.
 			months (int or float, optional): Number of months (assumes 30 days per month).
 			years (int or float, optional): Number of years (assumes 12 months per year).
 
@@ -113,9 +120,9 @@ class ExtendedTimeDelta(timedelta):
 			seconds=seconds,
 			microseconds=microseconds,
 			milliseconds=milliseconds,
+			weeks=weeks,
 			minutes=minutes,
 			hours=hours,
-			weeks=weeks,
 		)
 
 		self._months = months
@@ -168,16 +175,17 @@ class ExtendedTimeDelta(timedelta):
 			ExtendedTimeDelta(years=1, months=6, days=15, seconds=0, microseconds=0)
 		"""
 		if isinstance(other, ExtendedTimeDelta):
-			parent_self = self.to_timedelta()
-			parent_other = other.to_timedelta()
-			parent_result = parent_self + parent_other
-			return ExtendedTimeDelta(parent_result)
+			return ExtendedTimeDelta(
+				days=self.days + other.days,
+				seconds=self.seconds + other.seconds,
+				microseconds=self.microseconds + other.microseconds,
+				months=self.months + other.months,
+				years=self.years + other.years,
+			)
 		elif isinstance(other, timedelta):
 			parent_self = self.to_timedelta()
 			parent_result = parent_self + other
-			return ExtendedTimeDelta(parent_result)
-		else:
-			return NotImplemented
+			return ExtendedTimeDelta.from_timedelta(parent_result)
 
 	__radd__ = __add__
 
@@ -198,39 +206,17 @@ class ExtendedTimeDelta(timedelta):
 			ExtendedTimeDelta(years=1, months=2, days=5, seconds=0, microseconds=0)
 		"""
 		if isinstance(other, ExtendedTimeDelta):
-			parent_self = self.to_timedelta()
-			parent_other = other.to_timedelta()
-			parent_result = parent_self - parent_other
-			return ExtendedTimeDelta(parent_result)
+			return ExtendedTimeDelta(
+				days=self.days - other.days,
+				seconds=self.seconds - other.seconds,
+				microseconds=self.microseconds - other.microseconds,
+				months=self.months - other.months,
+				years=self.years - other.years,
+			)
 		elif isinstance(other, timedelta):
 			parent_self = self.to_timedelta()
 			parent_result = parent_self - other
-			return ExtendedTimeDelta(parent_result)
-		else:
-			return NotImplemented
-
-	def __rsub__(self, other) -> 'ExtendedTimeDelta':
-		"""Subtract this ExtendedTimeDelta from a timedelta.
-
-		Args:
-			other (timedelta): The time delta from which to subtract this ExtendedTimeDelta.
-
-		Returns:
-			ExtendedTimeDelta: A new ExtendedTimeDelta representing the difference.
-
-		Example:
-			>>> td = timedelta(days=100)
-			>>> et = ExtendedTimeDelta(months=2)
-			>>> result = td - et
-			>>> result.days
-			40  # (approximately, based on conversion)
-		"""
-		if isinstance(other, timedelta):
-			parent_self = self.to_timedelta()
-			parent_result = other - parent_self
-			return ExtendedTimeDelta(parent_result)
-		else:
-			return NotImplemented
+			return ExtendedTimeDelta.from_timedelta(parent_result)
 
 	def __mul__(self, other) -> 'ExtendedTimeDelta':
 		"""Multiply this ExtendedTimeDelta by an integer.
@@ -247,18 +233,14 @@ class ExtendedTimeDelta(timedelta):
 			>>> result.years, result.days
 			(2, 30)
 		"""
-		if isinstance(other, int):
-			parent_self = self.to_timedelta()
-			parent_result = parent_self * other
-			return ExtendedTimeDelta(parent_result)
-		else:
-			parent_result = super().__mul__(other)
-			if isinstance(parent_result, timedelta):
-				return ExtendedTimeDelta(parent_result)
-			else:
-				return parent_result
-
-	__rmul__ = __mul__
+		if isinstance(other, int) or isinstance(other, float):
+			return ExtendedTimeDelta(
+				days=self.days * other,
+				seconds=self.seconds * other,
+				microseconds=self.microseconds * other,
+				months=self.months * other,
+				years=self.years * other,
+			)
 
 	def __eq__(self, other) -> bool:
 		"""Check equality between this ExtendedTimeDelta and another.
@@ -286,8 +268,6 @@ class ExtendedTimeDelta(timedelta):
 		elif isinstance(other, timedelta):
 			parent_self = self.to_timedelta()
 			return parent_self == other
-		else:
-			return NotImplemented
 
 	def __lt__(self, other) -> bool:
 		"""Check if this ExtendedTimeDelta is less than another time delta.
@@ -306,7 +286,6 @@ class ExtendedTimeDelta(timedelta):
 		"""
 		if isinstance(other, (ExtendedTimeDelta, timedelta)):
 			return self._cmp(other) < 0
-		return NotImplemented
 
 	def __le__(self, other) -> bool:
 		"""Check if this ExtendedTimeDelta is less than or equal to another time delta.
@@ -325,7 +304,6 @@ class ExtendedTimeDelta(timedelta):
 		"""
 		if isinstance(other, (ExtendedTimeDelta, timedelta)):
 			return self._cmp(other) <= 0
-		return NotImplemented
 
 	def __gt__(self, other) -> bool:
 		"""Check if this ExtendedTimeDelta is greater than another time delta.
@@ -344,7 +322,6 @@ class ExtendedTimeDelta(timedelta):
 		"""
 		if isinstance(other, (ExtendedTimeDelta, timedelta)):
 			return self._cmp(other) > 0
-		return NotImplemented
 
 	def __ge__(self, other) -> bool:
 		"""Check if this ExtendedTimeDelta is greater than or equal to another time delta.
@@ -363,7 +340,6 @@ class ExtendedTimeDelta(timedelta):
 		"""
 		if isinstance(other, (ExtendedTimeDelta, timedelta)):
 			return self._cmp(other) >= 0
-		return NotImplemented
 
 	def _cmp(self, other) -> int:
 		"""Compare this ExtendedTimeDelta with another time delta.
@@ -380,18 +356,10 @@ class ExtendedTimeDelta(timedelta):
 		Raises:
 			TypeError: If `other` is not an ExtendedTimeDelta or timedelta.
 		"""
-		if not isinstance(other, (ExtendedTimeDelta, timedelta)):
-			raise TypeError(
-				f"'<' not supported between instances of 'ExtendedTimeDelta' and '{type(other).__name__}'"
-			)
-
 		if isinstance(other, ExtendedTimeDelta):
-			if self.years != other.years:
-				return self.years - other.years
-			if self.months != other.months:
-				return self.months - other.months
-
-		return super().__cmp(other)
+			return self.to_microseconds() - other.to_microseconds()
+		elif isinstance(other, timedelta):
+			return self.to_timedelta() - other
 
 	def __hash__(self) -> int:
 		"""Return the hash of the ExtendedTimeDelta.
@@ -476,30 +444,18 @@ class ExtendedTimeDelta(timedelta):
 		"""
 		return (
 			self.__class__,
-			(self.days, self.seconds, self.microseconds, self.months, self.years),
+			(
+				self.microseconds,
+				0,  # milliseconds not stored separately
+				self.seconds,
+				0,  # minutes not stored separately
+				0,  # hours not stored separately
+				self.days,
+				0,  # weeks not stored separately
+				self.months,
+				self.years,
+			),
 		)
-
-	def __getstate__(self) -> dict:
-		"""Return the state of the ExtendedTimeDelta instance.
-
-		Returns:
-			dict: The state of the ExtendedTimeDelta instance.
-		"""
-		return {
-			'days': self.days,
-			'seconds': self.seconds,
-			'microseconds': self.microseconds,
-			'months': self.months,
-			'years': self.years,
-		}
-
-	def __setstate__(self, state) -> None:
-		"""Set the state of the ExtendedTimeDelta instance.
-
-		Args:
-			state (dict): The state of the ExtendedTimeDelta instance.
-		"""
-		self.__init__(**state)
 
 	def __dict__(self) -> dict:
 		"""Return a dictionary representation of the ExtendedTimeDelta.

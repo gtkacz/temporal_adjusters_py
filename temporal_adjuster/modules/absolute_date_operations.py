@@ -1,7 +1,7 @@
 from dateutil.relativedelta import relativedelta
 
 from ..common.decorators import sequenceable
-from ..common.types.dates import DateT, ExtendedTimeDelta
+from ..common.types.dates import DateT
 
 
 class _AbsoluteDateOperations:
@@ -20,10 +20,10 @@ class _AbsoluteDateOperations:
 
 		Example:
 		        >>> from datetime import date
-		        >>> int_to_day_of_year(date(2021, 1, 1), 1)
+		        >>> int_to_day_of_year(date(2021, 10, 10), 1)
 		        datetime.date(2021, 1, 1)
 		"""
-		return date.replace(month=1, day=1) + relativedelta(days=int_value)
+		return date.replace(month=1, day=1) + relativedelta(days=int_value - 1)
 
 	@staticmethod
 	@sequenceable(target='date')
@@ -43,7 +43,7 @@ class _AbsoluteDateOperations:
 		        >>> int_to_day_of_month(date(2021, 1, 1), 1)
 		        datetime.date(2021, 1, 1)
 		"""
-		return date.replace(day=1) + relativedelta(days=int_value)
+		return date.replace(day=1) + relativedelta(days=int_value - 1)
 
 	@staticmethod
 	@sequenceable(target='date')

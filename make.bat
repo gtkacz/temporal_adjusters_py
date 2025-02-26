@@ -13,6 +13,7 @@ GOTO error
 
 :test
 	@coverage run -m unittest discover tests/ -v
+	@coverage report -m
 	GOTO :EOF
 
 :build

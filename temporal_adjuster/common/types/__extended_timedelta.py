@@ -1,6 +1,6 @@
 import math
 from datetime import timedelta
-from typing import Union
+from typing import Self, Union
 
 
 class ExtendedTimeDelta(timedelta):
@@ -35,7 +35,7 @@ class ExtendedTimeDelta(timedelta):
 		*,
 		days_in_month: Union[int, float] = 30.436875,
 		days_in_year: Union[int, float] = 365.25,
-	) -> 'ExtendedTimeDelta':
+	) -> Self['ExtendedTimeDelta']:
 		"""Create a new ExtendedTimeDelta instance.
 
 		This method processes additional keyword arguments `months` and `years`
@@ -158,7 +158,9 @@ class ExtendedTimeDelta(timedelta):
 		"""
 		return self._years
 
-	def __add__(self, other) -> 'ExtendedTimeDelta':
+	def __add__(
+		self, other: Union[timedelta, 'ExtendedTimeDelta']
+	) -> 'ExtendedTimeDelta':
 		"""Add two ExtendedTimeDelta or timedelta objects.
 
 		Args:
@@ -189,7 +191,9 @@ class ExtendedTimeDelta(timedelta):
 
 	__radd__ = __add__
 
-	def __sub__(self, other) -> 'ExtendedTimeDelta':
+	def __sub__(
+		self, other: Union[timedelta, 'ExtendedTimeDelta']
+	) -> 'ExtendedTimeDelta':
 		"""Subtract an ExtendedTimeDelta or timedelta from this ExtendedTimeDelta.
 
 		Args:
@@ -218,7 +222,9 @@ class ExtendedTimeDelta(timedelta):
 			parent_result = parent_self - other
 			return ExtendedTimeDelta.from_timedelta(parent_result)
 
-	def __mul__(self, other) -> 'ExtendedTimeDelta':
+	def __mul__(
+		self, other: Union[timedelta, 'ExtendedTimeDelta']
+	) -> 'ExtendedTimeDelta':
 		"""Multiply this ExtendedTimeDelta by an integer.
 
 		Args:
@@ -242,7 +248,7 @@ class ExtendedTimeDelta(timedelta):
 				years=self.years * other,
 			)
 
-	def __eq__(self, other) -> bool:
+	def __eq__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> bool:
 		"""Check equality between this ExtendedTimeDelta and another.
 
 		Args:
@@ -269,7 +275,7 @@ class ExtendedTimeDelta(timedelta):
 			parent_self = self.to_timedelta()
 			return parent_self == other
 
-	def __lt__(self, other) -> bool:
+	def __lt__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> bool:
 		"""Check if this ExtendedTimeDelta is less than another time delta.
 
 		Args:
@@ -287,7 +293,7 @@ class ExtendedTimeDelta(timedelta):
 		if isinstance(other, (ExtendedTimeDelta, timedelta)):
 			return self._cmp(other) < 0
 
-	def __le__(self, other) -> bool:
+	def __le__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> bool:
 		"""Check if this ExtendedTimeDelta is less than or equal to another time delta.
 
 		Args:
@@ -305,7 +311,7 @@ class ExtendedTimeDelta(timedelta):
 		if isinstance(other, (ExtendedTimeDelta, timedelta)):
 			return self._cmp(other) <= 0
 
-	def __gt__(self, other) -> bool:
+	def __gt__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> bool:
 		"""Check if this ExtendedTimeDelta is greater than another time delta.
 
 		Args:
@@ -323,7 +329,7 @@ class ExtendedTimeDelta(timedelta):
 		if isinstance(other, (ExtendedTimeDelta, timedelta)):
 			return self._cmp(other) > 0
 
-	def __ge__(self, other) -> bool:
+	def __ge__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> bool:
 		"""Check if this ExtendedTimeDelta is greater than or equal to another time delta.
 
 		Args:
@@ -341,7 +347,7 @@ class ExtendedTimeDelta(timedelta):
 		if isinstance(other, (ExtendedTimeDelta, timedelta)):
 			return self._cmp(other) >= 0
 
-	def _cmp(self, other) -> int:
+	def _cmp(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> int:
 		"""Compare this ExtendedTimeDelta with another time delta.
 
 		For ExtendedTimeDelta, the comparison first considers the years, then months,

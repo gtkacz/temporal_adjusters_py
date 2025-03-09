@@ -37,35 +37,21 @@ class TestTimeAdjuster(unittest.TestCase):
 		result = TemporalAdjuster.time_difference(t1, t2)
 		self.assertEqual(result, timedelta(seconds=0.75))
 
-	# def test_time_difference_sequence(self):
-	# 	"""Test time_difference with sequences of time objects."""
-	# 	# Test with sequence of first time objects
-	# 	times1 = [time(9, 0), time(10, 0), time(23, 0)]
-	# 	time2 = time(12, 0)
-	# 	result = TemporalAdjuster.time_difference(times1, time2)
-	# 	expected = [timedelta(hours=3), timedelta(hours=2), timedelta(hours=13)]
-	# 	self.assertEqual(result, expected)
+	def test_time_difference_sequence(self):
+		"""Test time_difference with sequences of time objects."""
+		# Test with sequence of first time objects
+		times1 = [time(9, 0), time(10, 0), time(23, 0)]
+		time2 = time(12, 0)
+		result = TemporalAdjuster.time_difference(times1, time2)
+		expected = [timedelta(hours=3), timedelta(hours=2), timedelta(hours=13)]
+		self.assertEqual(result, expected)
 
-	# 	# Test with sequence of second time objects
-	# 	time1 = time(12, 0)
-	# 	times2 = [time(13, 0), time(14, 0), time(1, 0)]
-	# 	result = TemporalAdjuster.time_difference(time1, times2)
-	# 	expected = [timedelta(hours=1), timedelta(hours=2), timedelta(hours=13)]
-	# 	self.assertEqual(result, expected)
-
-	# 	# Test with sequences for both time objects
-	# 	times1 = [time(9, 0), time(10, 0), time(23, 0)]
-	# 	times2 = [time(10, 0), time(12, 0), time(1, 0)]
-	# 	result = TemporalAdjuster.time_difference(times1, times2)
-	# 	expected = [timedelta(hours=1), timedelta(hours=2), timedelta(hours=2)]
-	# 	self.assertEqual(result, expected)
-
-	# 	# Test with mixed time and datetime objects
-	# 	times1 = [time(9, 0), datetime(2021, 1, 1, 10, 0), time(23, 0)]
-	# 	times2 = [datetime(2021, 1, 1, 10, 0), time(12, 0), datetime(2021, 1, 2, 1, 0)]
-	# 	result = TemporalAdjuster.time_difference(times1, times2)
-	# 	expected = [timedelta(hours=1), timedelta(hours=2), timedelta(hours=2)]
-	# 	self.assertEqual(result, expected)
+		# Test with sequences for both time objects
+		times1 = [time(9, 0), time(10, 0), time(23, 0)]
+		time2 = time(10, 0)
+		result = TemporalAdjuster.time_difference(times1, time2)
+		expected = [timedelta(hours=1), timedelta(hours=0), timedelta(hours=-13)]
+		self.assertEqual(result, expected)
 
 	def test_is_time_in_range_single(self):
 		"""Test is_time_in_range with single time objects."""
@@ -141,40 +127,40 @@ class TestTimeAdjuster(unittest.TestCase):
 		expected = [False, True, False]
 		self.assertEqual(result, expected)
 
-	# def test_round_time_single(self):
-	# 	"""Test round_time with single time objects."""
-	# 	# Test rounding time objects
-	# 	self.assertEqual(TemporalAdjuster.round_time(time(10, 29), 60), time(10, 29))
-	# 	self.assertEqual(
-	# 		TemporalAdjuster.round_time(time(10, 29, 35), 60), time(10, 30)
-	# 	)
-	# 	self.assertEqual(
-	# 		TemporalAdjuster.round_time(time(10, 29, 25), 60), time(10, 29)
-	# 	)
+	def test_round_time_single(self):
+		"""Test round_time with single time objects."""
+		# Test rounding time objects
+		self.assertEqual(TemporalAdjuster.round_time(time(10, 29), 60), time(10, 29))
+		self.assertEqual(
+			TemporalAdjuster.round_time(time(10, 29, 35), 60), time(10, 30)
+		)
+		self.assertEqual(
+			TemporalAdjuster.round_time(time(10, 29, 25), 60), time(10, 29)
+		)
 
-	# 	# Test rounding with different intervals
-	# 	self.assertEqual(
-	# 		TemporalAdjuster.round_time(time(10, 17), 15 * 60), time(10, 15)
-	# 	)
-	# 	self.assertEqual(
-	# 		TemporalAdjuster.round_time(time(10, 22), 15 * 60), time(10, 30)
-	# 	)
-	# 	self.assertEqual(TemporalAdjuster.round_time(time(10, 7), 15 * 60), time(10, 0))
+		# Test rounding with different intervals
+		self.assertEqual(
+			TemporalAdjuster.round_time(time(10, 17), 15 * 60), time(10, 15)
+		)
+		self.assertEqual(
+			TemporalAdjuster.round_time(time(10, 22), 15 * 60), time(10, 30)
+		)
+		self.assertEqual(TemporalAdjuster.round_time(time(10, 7), 15 * 60), time(10, 0))
 
-	# 	# Test rounding to hour
-	# 	self.assertEqual(TemporalAdjuster.round_time(time(10, 29), 3600), time(10, 0))
-	# 	self.assertEqual(TemporalAdjuster.round_time(time(10, 31), 3600), time(11, 0))
+		# Test rounding to hour
+		self.assertEqual(TemporalAdjuster.round_time(time(10, 29), 3600), time(10, 0))
+		self.assertEqual(TemporalAdjuster.round_time(time(10, 31), 3600), time(11, 0))
 
-	# 	# Test rounding datetime objects
-	# 	dt = datetime(2021, 1, 1, 10, 29, 35)
-	# 	expected = datetime(2021, 1, 1, 10, 30)
-	# 	self.assertEqual(TemporalAdjuster.round_time(dt, 60), expected)
+		# Test rounding datetime objects
+		dt = datetime(2021, 1, 1, 10, 29, 35)
+		expected = datetime(2021, 1, 1, 10, 30)
+		self.assertEqual(TemporalAdjuster.round_time(dt, 60), expected)
 
-	# 	# Test rounding at midnight boundary
-	# 	self.assertEqual(TemporalAdjuster.round_time(time(23, 59, 30), 60), time(0, 0))
-	# 	dt = datetime(2021, 1, 1, 23, 59, 30)
-	# 	expected = datetime(2021, 1, 2, 0, 0)  # Should maintain date
-	# 	self.assertEqual(TemporalAdjuster.round_time(dt, 60), expected)
+		# Test rounding at midnight boundary
+		self.assertEqual(TemporalAdjuster.round_time(time(23, 59, 30), 60), time(0, 0))
+		dt = datetime(2021, 1, 1, 23, 59, 30)
+		expected = datetime(2021, 1, 2, 0, 0)  # Should maintain date
+		self.assertEqual(TemporalAdjuster.round_time(dt, 60), expected)
 
 	def test_round_time_sequence(self):
 		"""Test round_time with sequences of time objects."""

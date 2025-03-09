@@ -6,24 +6,6 @@ from temporal_adjuster.common.types.dates import ExtendedTimeDelta
 
 
 class TestExtendedTimeDelta(unittest.TestCase):
-	def setUp(self):
-		# Save original class attributes to restore after each test
-		self.original_days_in_month = 30
-		self.original_days_in_year = 365
-
-	def tearDown(self):
-		# Restore class attributes to their original state
-		if self.original_days_in_month is not None:
-			ExtendedTimeDelta.DAYS_IN_MONTH = self.original_days_in_month
-		else:
-			if hasattr(ExtendedTimeDelta, 'DAYS_IN_MONTH'):
-				del ExtendedTimeDelta.DAYS_IN_MONTH
-		if self.original_days_in_year is not None:
-			ExtendedTimeDelta.DAYS_IN_YEAR = self.original_days_in_year
-		else:
-			if hasattr(ExtendedTimeDelta, 'DAYS_IN_YEAR'):
-				del ExtendedTimeDelta.DAYS_IN_YEAR
-
 	def test_initialization_default(self):
 		et = ExtendedTimeDelta()
 		self.assertEqual(et.years, 0)
@@ -127,9 +109,7 @@ class TestExtendedTimeDelta(unittest.TestCase):
 
 	def test_repr(self):
 		et = ExtendedTimeDelta(years=1, months=2, days=3, seconds=4, microseconds=5)
-		expected = (
-			'ExtendedTimeDelta(years=1, months=2, days=3, seconds=4, microseconds=5)'
-		)
+		expected = 'ExtendedTimeDelta(years=1, months=2, days=3, seconds=4, microseconds=5)'
 		self.assertEqual(repr(et), expected)
 
 	def test_str_singular_plural(self):

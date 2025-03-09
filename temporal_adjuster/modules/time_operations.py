@@ -23,6 +23,7 @@ class _TimeAdjuster:
 			>>> from datetime import time
 			>>> time_difference(time(23, 0), time(1, 0))
 			ExtendedTimeDelta(seconds=7200)
+
 		"""
 		total_seconds1 = _TimeAdjuster.time_to_seconds(time_obj_1)
 		total_seconds2 = _TimeAdjuster.time_to_seconds(time_obj_2)
@@ -49,6 +50,7 @@ class _TimeAdjuster:
 			>>> from datetime import time
 			>>> is_time_in_range(time(23, 0), time(1, 0), time(0, 0))
 			True
+
 		"""
 		if isinstance(start, datetime):
 			start = start.time()
@@ -59,11 +61,7 @@ class _TimeAdjuster:
 		if isinstance(time_obj, datetime):
 			time_obj = time_obj.time()
 
-		return (
-			start <= time_obj <= end
-			if start <= end
-			else time_obj >= start or time_obj <= end
-		)
+		return start <= time_obj <= end if start <= end else time_obj >= start or time_obj <= end
 
 	@staticmethod
 	@sequenceable(target='time_obj')
@@ -82,6 +80,7 @@ class _TimeAdjuster:
 			>>> from datetime import time
 			>>> round_time(time(23, 59, 30), 60)
 			datetime.time(0, 0)
+
 		"""
 		total_seconds = _TimeAdjuster.time_to_seconds(time_obj)
 		rounded_seconds = int((total_seconds + round_to / 2) // round_to * round_to)
@@ -90,7 +89,8 @@ class _TimeAdjuster:
 			_TimeAdjuster.seconds_to_time(rounded_seconds)
 			if isinstance(time_obj, time)
 			else datetime.combine(
-				time_obj.date(), _TimeAdjuster.seconds_to_time(rounded_seconds)
+				time_obj.date(),
+				_TimeAdjuster.seconds_to_time(rounded_seconds),
 			)
 		)
 
@@ -105,13 +105,9 @@ class _TimeAdjuster:
 
 		Returns:
 			float: The total number of seconds since midnight.
+
 		"""
-		return (
-			time_obj.hour * 3600
-			+ time_obj.minute * 60
-			+ time_obj.second
-			+ time_obj.microsecond / 1e6
-		)
+		return time_obj.hour * 3600 + time_obj.minute * 60 + time_obj.second + time_obj.microsecond / 1e6
 
 	@staticmethod
 	@sequenceable(target='seconds')
@@ -124,6 +120,7 @@ class _TimeAdjuster:
 
 		Returns:
 			time: The time object.
+
 		"""
 		seconds %= 24 * 3600  # Wrap around 24 hours
 		hour = int(seconds // 3600)

@@ -1,1 +1,1 @@
-from .temporal_adjuster import TemporalAdjuster
+from .temporal_adjuster import TemporalAdjuster as TemporalAdjuster

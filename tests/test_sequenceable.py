@@ -9,7 +9,6 @@ from temporal_adjuster.temporal_adjuster import TemporalAdjuster
 
 
 class TestSequenceable(TestCase):
-	# Weekday operations module
 	def test_next_success(self):
 		tests = [
 			(
@@ -20,8 +19,8 @@ class TestSequenceable(TestCase):
 			),
 			(
 				Weekday.SATURDAY,
-				set([date(2024, 6, 13), date(2024, 6, 15)]),
-				set([date(2024, 6, 15), date(2024, 6, 22)]),
+				{date(2024, 6, 13), date(2024, 6, 15)},
+				{date(2024, 6, 15), date(2024, 6, 22)},
 				self.assertSetEqual,
 			),
 			(
@@ -40,7 +39,7 @@ class TestSequenceable(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method next (subtest {index}) with inputs: {test}'
+				f'Testing method next (subtest {index}) with inputs: {test}',
 			):
 				(
 					test_input_weekday,
@@ -54,7 +53,6 @@ class TestSequenceable(TestCase):
 					test_expected_output,
 				)
 
-	# First and last day operations module
 	def test_first_day_of_next_week_success(self):
 		tests = [
 			(
@@ -63,8 +61,8 @@ class TestSequenceable(TestCase):
 				self.assertListEqual,
 			),
 			(
-				set([date(2024, 6, 13), date(2024, 12, 31)]),
-				set([date(2024, 6, 17), date(2025, 1, 6)]),
+				{date(2024, 6, 13), date(2024, 12, 31)},
+				{date(2024, 6, 17), date(2025, 1, 6)},
 				self.assertSetEqual,
 			),
 			(
@@ -81,7 +79,7 @@ class TestSequenceable(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method next (subtest {index}) with inputs: {test}'
+				f'Testing method next (subtest {index}) with inputs: {test}',
 			):
 				test_input_date, test_expected_output, assertion_method = test
 

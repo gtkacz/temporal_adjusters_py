@@ -17,12 +17,13 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method first_day_of_week (subtest {index}) with inputs: {test}'
+				f'Testing method first_day_of_week (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
 				self.assertEqual(
-					TemporalAdjuster.first_day_of_week(test_input), test_expected_output
+					TemporalAdjuster.first_day_of_week(test_input),
+					test_expected_output,
 				)
 
 	def test_first_day_of_next_week_success(self):
@@ -35,7 +36,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method first_day_of_next_week (subtest {index}) with inputs: {test}'
+				f'Testing method first_day_of_next_week (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -54,7 +55,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method first_day_of_last_week (subtest {index}) with inputs: {test}'
+				f'Testing method first_day_of_last_week (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -73,7 +74,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method first_day_of_month (subtest {index}) with inputs: {test}'
+				f'Testing method first_day_of_month (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -92,7 +93,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method first_day_of_next_month (subtest {index}) with inputs: {test}'
+				f'Testing method first_day_of_next_month (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -111,7 +112,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method first_day_of_last_month (subtest {index}) with inputs: {test}'
+				f'Testing method first_day_of_last_month (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -130,12 +131,13 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method first_day_of_year (subtest {index}) with inputs: {test}'
+				f'Testing method first_day_of_year (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
 				self.assertEqual(
-					TemporalAdjuster.first_day_of_year(test_input), test_expected_output
+					TemporalAdjuster.first_day_of_year(test_input),
+					test_expected_output,
 				)
 
 	def test_first_day_of_next_year_success(self):
@@ -148,7 +150,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method first_day_of_next_year (subtest {index}) with inputs: {test}'
+				f'Testing method first_day_of_next_year (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -167,7 +169,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method first_day_of_last_year (subtest {index}) with inputs: {test}'
+				f'Testing method first_day_of_last_year (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -188,12 +190,13 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method last_day_of_week (subtest {index}) with inputs: {test}'
+				f'Testing method last_day_of_week (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
 				self.assertEqual(
-					TemporalAdjuster.last_day_of_week(test_input), test_expected_output
+					TemporalAdjuster.last_day_of_week(test_input),
+					test_expected_output,
 				)
 
 	def test_last_day_of_next_week_success(self):
@@ -206,7 +209,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method last_day_of_next_week (subtest {index}) with inputs: {test}'
+				f'Testing method last_day_of_next_week (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -225,7 +228,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method last_day_of_last_week (subtest {index}) with inputs: {test}'
+				f'Testing method last_day_of_last_week (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -244,12 +247,13 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method last_day_of_month (subtest {index}) with inputs: {test}'
+				f'Testing method last_day_of_month (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
 				self.assertEqual(
-					TemporalAdjuster.last_day_of_month(test_input), test_expected_output
+					TemporalAdjuster.last_day_of_month(test_input),
+					test_expected_output,
 				)
 
 	def test_last_day_of_next_month_success(self):
@@ -262,7 +266,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method last_day_of_next_month (subtest {index}) with inputs: {test}'
+				f'Testing method last_day_of_next_month (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -281,7 +285,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method last_day_of_last_month (subtest {index}) with inputs: {test}'
+				f'Testing method last_day_of_last_month (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -300,12 +304,13 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method last_day_of_year (subtest {index}) with inputs: {test}'
+				f'Testing method last_day_of_year (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
 				self.assertEqual(
-					TemporalAdjuster.last_day_of_year(test_input), test_expected_output
+					TemporalAdjuster.last_day_of_year(test_input),
+					test_expected_output,
 				)
 
 	def test_last_day_of_next_year_success(self):
@@ -318,7 +323,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method last_day_of_next_year (subtest {index}) with inputs: {test}'
+				f'Testing method last_day_of_next_year (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 
@@ -337,7 +342,7 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
 
 		for index, test in enumerate(tests):
 			with self.subTest(
-				f'Testing method last_day_of_last_year (subtest {index}) with inputs: {test}'
+				f'Testing method last_day_of_last_year (subtest {index}) with inputs: {test}',
 			):
 				test_input, test_expected_output = test
 

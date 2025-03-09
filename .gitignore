@@ -164,3 +164,4 @@ cython_debug/
 # Custom
 .pypirc
 .ruff_cache/
+.qodo

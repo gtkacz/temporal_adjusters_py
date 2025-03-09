@@ -1,6 +1,7 @@
 import inspect
+from collections.abc import Callable
 from functools import wraps
-from typing import Any, Callable, TypeVar, Union
+from typing import Any, TypeVar
 
 try:
 	from typing import ParamSpec  # Python 3.10+
@@ -13,7 +14,7 @@ P = ParamSpec('P')
 R = TypeVar('R')
 
 
-def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, Union[R, Any]]]:
+def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R | Any]]:
 	"""
 	This decorator processes a sequence of values passed as an argument to a function.
 	If the target parameter (specified by `target`) is an iterable (but not a string),
@@ -22,9 +23,9 @@ def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, Union[R,
 	provided arguments as usual.
 	"""
 
-	def decorator(func: Callable[P, R]) -> Callable[P, Union[R, Any]]:
+	def decorator(func: Callable[P, R]) -> Callable[P, R | Any]:
 		@wraps(func)
-		def wrapper(*args: P.args, **kwargs: P.kwargs) -> Union[R, Any]:
+		def wrapper(*args: P.args, **kwargs: P.kwargs) -> R | Any:
 			# Get the function signature and bind the provided arguments.
 			sig = inspect.signature(func)
 			bound_args = sig.bind(*args, **kwargs)
@@ -34,11 +35,7 @@ def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, Union[R,
 			target_value = bound_args.arguments.get(target)
 
 			# If target_value is iterable (and not a string), apply the function elementwise.
-			if (
-				target_value is not None
-				and hasattr(target_value, '__iter__')
-				and not isinstance(target_value, str)
-			):
+			if target_value is not None and hasattr(target_value, '__iter__') and not isinstance(target_value, str):
 				convert_type = type(target_value)
 				target_value = np.asarray(list(target_value))
 
@@ -48,8 +45,7 @@ def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, Union[R,
 					target_value[index[0]] = result
 
 				return convert_type(target_value.tolist())
-			else:
-				return func(*args, **kwargs)
+			return func(*args, **kwargs)
 
 		return wrapper
 

@@ -16,7 +16,6 @@ class TemporalAdjuster(
 	This class provides tools that help pinpoint very specific moments in time, without having to manually count days, weeks, or months. In essence, a Temporal Adjuster is a function that encapsulates a specific date/time manipulation rule. It operates on a temporal object (representing a date, time, or datetime) to produce a new temporal object adjusted according to the rule. This class provides a set of predefined temporal adjusters that can be used to adjust a temporal object in various ways.
 
 	Examples:
-
 	```
 	>>> from datetime import date, datetime
 
@@ -36,6 +35,5 @@ class TemporalAdjuster(
 	datetime.date(2021, 5, 9)
 
 	```
-	"""
 
-	pass
+	"""

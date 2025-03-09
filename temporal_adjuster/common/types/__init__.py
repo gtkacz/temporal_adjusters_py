@@ -1,5 +1,5 @@
-from .dates import AnyDate as AnyDate
-from .dates import AnyTime as AnyTime
-from .dates import DateT as DateT
-from .dates import ExtendedTimeDelta as ExtendedTimeDelta
-from .dates import TimeT as TimeT
+from .dates import AnyDate
+from .dates import AnyTime
+from .dates import DateT
+from .dates import ExtendedTimeDelta
+from .dates import TimeT

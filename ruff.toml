@@ -36,7 +36,7 @@ target-version = "py312"
 preview = true
 
 select = ["ALL"]
-ignore = ["E721", "D211", "D212", "W191", "D206", "D404", "D203", "CPY001", "EM102", "TRY003"]
+ignore = ["E721", "D211", "D212", "W191", "D206", "D404", "D203", "CPY001", "EM102", "TRY003", "PLR0904", "D205", "TID252"]
 extend-select = ["DOC"]
 
 fixable = ["ALL"]
@@ -57,8 +57,8 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [lint.per-file-ignores]
-"__init__.py" = ["E402"]
-"**/{tests,docs,tools}/*" = ["E402", "D102", "ANN201", "PT009", "DTZ001", "PT027", "D101", "D100", "PLR0904", "CPY001", "C409", "C405", "C409", "BLE001", "S311", "S301", "S403", "D104"]
+"__init__.py" = ["F401"]
+"**/{tests,docs,tools}/*" = ["D102", "ANN201", "PT009", "DTZ001", "PT027", "D101", "D100", "CPY001", "C409", "C405", "C409", "BLE001", "S311", "S301", "S403", "D104"]
 
 [lint.flake8-quotes]
 inline-quotes = "single"

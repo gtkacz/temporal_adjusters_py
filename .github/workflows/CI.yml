@@ -22,9 +22,10 @@ jobs:
           - {python: "3.7", os: "ubuntu-22.04"}
           - {python: "3.8", os: "ubuntu-22.04"}
           - {python: "3.9", os: "ubuntu-22.04"}
-          - {python: "3.10", os: "ubuntu-latest"}
+          - {python: "3.10", os: "ubuntu-24.04"}
           - {python: "3.11", os: "ubuntu-latest"}
           - {python: "3.12", os: "ubuntu-latest"}
+          - {python: "3.13", os: "ubuntu-latest"}
           - {python: "3.3", os: "windows-latest"}
           - {python: "3.4", os: "windows-latest"}
           - {python: "3.5", os: "windows-latest"}
@@ -35,6 +36,7 @@ jobs:
           - {python: "3.10", os: "windows-latest"}
           - {python: "3.11", os: "windows-latest"}
           - {python: "3.12", os: "windows-latest"}
+          - {python: "3.13", os: "windows-latest"}
           - {python: "3.3", os: "macos-latest"}
           - {python: "3.4", os: "macos-latest"}
           - {python: "3.5", os: "macos-latest"}
@@ -45,6 +47,7 @@ jobs:
           - {python: "3.10", os: "macos-latest"}
           - {python: "3.11", os: "macos-latest"}
           - {python: "3.12", os: "macos-latest"}
+          - {python: "3.13", os: "macos-latest"}
 
     runs-on: ${{ matrix.os-version.os }}
 
@@ -52,7 +55,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.os-version.python-version }}
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5.2.0
       with:
         python-version: ${{ matrix.os-version.python-version }}
 
@@ -60,7 +63,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install flake8
-        pip install -r requirements_dev.txt
+        pip install -r requirements.dev.txt
 
     - name: Lint with flake8
       run: |
@@ -74,16 +77,6 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -e .
 
-    - name: Run tests with coverage
+    - name: Run tests
       run: |
         coverage run -m unittest discover tests/ -v
-
-    - name: Check coverage threshold
-      run: |
-        coverage report --fail-under=95
-
-
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v5.4.0
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}

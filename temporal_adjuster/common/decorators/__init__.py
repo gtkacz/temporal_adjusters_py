@@ -1,1 +1,1 @@
-from .sequence_processor import sequenceable
+from .sequence_processor import sequenceable as sequenceable

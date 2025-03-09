@@ -1,5 +1,8 @@
+.PHONY: setup
+
 test:
 	@coverage run -m unittest discover tests/ -v
+	@coverage report -m
 
 build:
 	@rm -rf build build
@@ -28,3 +31,8 @@ clean:
 format:
 	@ruff check --fix
 	@ruff format
+
+setup:
+	@python -m pip install --upgrade pip
+	@python -m pip install -r requirements.dev.txt
+	@pre-commit install

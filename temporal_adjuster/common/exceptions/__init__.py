@@ -1,1 +1,1 @@
-from .common import DateError
+from .common import DateError as DateError

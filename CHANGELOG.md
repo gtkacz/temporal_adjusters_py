@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.0] - 2024-XX-XX
+
+### Added
+
+- New `day_of_year` method, that returns an integer ranging from 1-365 (or 366 for leap years) corresponding to the day of the year.
+- New `which_of_month` and `which_of_year` weekday methods, that return an integer representing which occurence of a weekday in a month or year a given date falls on. For example, `which_of_month` will return 1 for the first Monday of the month, 2 for the second Monday, and so on. Similarly, `which_of_year` will return 1 for the first Monday of the year, 2 for the second Monday, and so on.
+- Altered sequence processing to make use of numpy vectorization.
+
 ## [1.2.0] - 2024-06-20
 
 ### Added

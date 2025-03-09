@@ -18,6 +18,7 @@ Adjusters are a key tool for modifying temporal objects. They exist to externali
 [![CI](https://github.com/gtkacz/temporal_adjusters_py/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/gtkacz/temporal_adjusters_py/actions/workflows/CI.yml)
 [![codecov](https://codecov.io/github/gtkacz/temporal_adjusters_py/graph/badge.svg?token=WFJE0GHSZM)](https://codecov.io/github/gtkacz/temporal_adjusters_py)
 [![Documentation Status](https://readthedocs.org/projects/temporal-adjusters-py/badge/?version=latest)](http://temporal-adjusters-py.readthedocs.io/?badge=latest)
+[![Package Score](https://snyk.io/advisor/python/temporal-adjuster/badge.svg)](https://snyk.io/advisor/python/temporal-adjuster)
 [![Github commits](https://badgen.net/github/commits/gtkacz/temporal_adjusters_py)](https://Github.com/gtkacz/temporal_adjusters_py/commit/)
 [![Github latest commit](https://badgen.net/github/last-commit/gtkacz/temporal_adjusters_py)](https://Github.com/gtkacz/temporal_adjusters_py/commit/)
 ![Github code size in bytes](https://img.shields.io/github/languages/code-size/gtkacz/temporal_adjusters_py)
@@ -31,7 +32,6 @@ Adjusters are a key tool for modifying temporal objects. They exist to externali
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/gtkacz/temporal_adjusters_py.svg)](http://isitmaintained.com/project/gtkacz/temporal_adjusters_py "Percentage of issues still open")
 [![Github pull-requests](https://img.shields.io/github/issues-pr/gtkacz/temporal_adjusters_py.svg)](https://Github.com/gtkacz/temporal_adjusters_py/pull/)
 <!-- [![Github contributors](https://img.shields.io/github/contributors/gtkacz/temporal_adjusters_py/badges.svg)](https://Github.com/gtkacz/temporal_adjusters_py/badges/graphs/contributors/) -->
-
 
 </center>
 
@@ -72,7 +72,6 @@ datetime.datetime(2021, 2, 15)
 ## Contributing
 
 If you have any suggestions or improvements for this package, feel free to submit a pull request or open an issue on the [GitHub repository](https://github.com/gtkacz/temporal_adjusters_py) as per the CONTRIBUTING document. We appreciate any feedback or contributions!
-
 
 <!-- [![Stargazers over time](https://starchart.cc/gtkacz/temporal_adjusters_py.svg)](https://starchart.cc/gtkacz/temporal_adjusters_py)
 [![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=gtkacz/temporal_adjusters_py)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=gtkacz/temporal_adjusters_py) -->

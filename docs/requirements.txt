@@ -1,0 +1,3 @@
+numpy
+python-dateutil
+sphinx>=4.0.0

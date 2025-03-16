@@ -17,9 +17,6 @@ Date Types
 ~~~~~~~~~
 
 .. automodule:: temporal_adjuster.common.types.dates
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Extended TimeDelta
 ~~~~~~~~~~~~~~~~

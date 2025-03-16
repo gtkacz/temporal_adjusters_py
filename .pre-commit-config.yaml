@@ -11,11 +11,10 @@ repos:
       - id: check-ast
       - id: check-symlinks
       - id: debug-statements
-      - id: end-of-file-fixer
       - id: requirements-txt-fixer
       - id: trailing-whitespace
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.10
+    rev: v0.11.0
     hooks:
       - id: ruff
         args: [ --fix ]
@@ -37,3 +36,9 @@ repos:
     hooks:
       - id: validate-pyproject
         additional_dependencies: ["validate-pyproject-schema-store[all]"]
+  - repo: https://github.com/thclark/pre-commit-sphinx
+    rev: 0.0.3
+    hooks:
+      - id: build-docs
+        args: ['--cache-dir', 'docs/doctrees', '--html-dir', 'docs/html', '--source-dir', 'docs/source']
+        language_version: python3

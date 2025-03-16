@@ -10,19 +10,17 @@ import sys
 import tomllib
 from datetime import date
 
-# Import version from pyproject.toml
+# Load pyproject.toml
 with open('../pyproject.toml', 'rb') as f:
 	pyproject = tomllib.load(f)
-
-version = pyproject['project']['version']
 
 # Add parent directory to path so sphinx can find the modules
 sys.path.insert(0, os.path.abspath('..'))
 
-project = 'Temporal Adjuster'
-copyright = f'2024-{date.today().year}, Gabriel Mitelman Tkacz'
-author = 'Gabriel Mitelman Tkacz'
-version = version
+project = pyproject['project']['name']
+copyright = f'2024-{date.today().year}, {pyproject["project"]["maintainers"][0]["name"]}'
+author = pyproject['project']['maintainers'][0]['name']
+version = pyproject['project']['version']
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -29,7 +29,6 @@ version = version
 
 extensions = [
 	'sphinx.ext.autodoc',
-	'sphinx.ext.autosummary',
 	'sphinx.ext.viewcode',
 	'sphinx.ext.napoleon',
 ]
@@ -37,15 +36,43 @@ extensions = [
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-# Set the autodoc member ordering to match the source code
-autodoc_member_order = 'bysource'
-
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+html_css_files = [
+	'css/dark.css',
+]
 
-# -- Add autodoc settings to properly handle type hints ----------------------
-autodoc_typehints = 'description'
-python_use_unqualified_type_names = True
+# Napoleon settings
+napoleon_google_docstring = True
+napoleon_numpy_docstring = False
+napoleon_include_init_with_doc = False
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = True
+napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_notes = False
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = True
+napoleon_use_rtype = True
+napoleon_preprocess_types = True
+napoleon_type_aliases = None
+napoleon_attr_annotations = True
+
+# Autodoc settings
+autodoc_default_options = {
+	'members': True,
+	'member-order': 'bysource',
+	'special-members': '__init__',
+	'undoc-members': True,
+	'exclude-members': '__weakref__',
+}
+
+# Document inherited members for classes
+autodoc_inherit_docstrings = True
+
+# Show module/class where member is inherited from
+# This helps understand which methods come from which modules
+autodoc_show_inheritance = True

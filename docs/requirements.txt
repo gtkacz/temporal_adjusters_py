@@ -1,3 +1,4 @@
 numpy
 python-dateutil
 sphinx>=4.0.0
+sphinx_rtd_theme

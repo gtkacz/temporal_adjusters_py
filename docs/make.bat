@@ -24,12 +24,16 @@ if errorlevel 9009 (
 )
 
 if "%1" == "" goto help
+if "%1" == "apidoc" goto apidoc
 
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
 goto end
 
 :help
 %SPHINXBUILD% -M help %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+
+:apidoc
+sphinx-apidoc -o . ../temporal_adjuster
 
 :end
 popd

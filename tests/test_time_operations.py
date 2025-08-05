@@ -138,6 +138,7 @@ class TestTimeAdjuster(unittest.TestCase):
 
 		self.assertEqual(TemporalAdjuster.round_time(time(23, 59, 30), 60), time(0, 0))
 		dt = datetime(2021, 1, 1, 23, 59, 30)
+		expected = datetime(2021, 1, 2, 0, 0)
 		self.assertEqual(TemporalAdjuster.round_time(dt, 60), expected)
 
 	def test_round_time_sequence(self):

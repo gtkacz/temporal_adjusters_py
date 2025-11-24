@@ -49,7 +49,7 @@ jobs:
     runs-on: ${{ matrix.os-version.os }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Set up Python ${{ matrix.os-version.python-version }}
       uses: actions/setup-python@v3

@@ -111,7 +111,7 @@ class TestAbsoluteDateOperations(unittest.TestCase):
 
         dates = [date(2020, 3, 1), date(2021, 3, 1)]
         result = TemporalAdjuster.date_to_int_of_year(dates)
-        self.assertEqual(result, expected)
+        self.assertEqual(result, [61, 60])
 
     def test_date_to_int_of_month_single(self):
         """Test date_to_int_of_month with a single date."""

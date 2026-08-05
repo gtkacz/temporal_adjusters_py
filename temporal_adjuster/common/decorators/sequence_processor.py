@@ -38,14 +38,15 @@ def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R | obje
             # If target_value is iterable (and not a string), apply the function elementwise.
             if target_value is not None and hasattr(target_value, '__iter__') and not isinstance(target_value, str):
                 convert_type = type(target_value)
-                target_value = np.asarray(list(target_value))
+                results = []
 
-                for index, item in np.ndenumerate(target_value):
+                for item in target_value:
                     bound_args.arguments[target] = item
-                    result = func(*bound_args.args, **bound_args.kwargs)
-                    target_value[index[0]] = result
+                    results.append(func(*bound_args.args, **bound_args.kwargs))
 
-                return convert_type(target_value.tolist())
+                if isinstance(target_value, np.ndarray):
+                    return np.asarray(results)
+                return convert_type(results)
             return func(*args, **kwargs)
 
         return wrapper

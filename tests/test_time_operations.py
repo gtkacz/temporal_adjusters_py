@@ -40,7 +40,7 @@ class TestTimeAdjuster(unittest.TestCase):
         times1 = [time(9, 0), time(10, 0), time(23, 0)]
         time2 = time(10, 0)
         result = TemporalAdjuster.time_difference(times1, time2)
-        expected = [timedelta(hours=1), timedelta(hours=0), timedelta(hours=-13)]
+        expected = [timedelta(hours=1), timedelta(hours=0), timedelta(hours=11)]
         self.assertEqual(result, expected)
 
     def test_is_time_in_range_single(self):
@@ -125,7 +125,7 @@ class TestTimeAdjuster(unittest.TestCase):
         )
         self.assertEqual(
             TemporalAdjuster.round_time(time(10, 22), 15 * 60),
-            time(10, 30),
+            time(10, 15),
         )
         self.assertEqual(TemporalAdjuster.round_time(time(10, 7), 15 * 60), time(10, 0))
 

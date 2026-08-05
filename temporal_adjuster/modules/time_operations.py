@@ -1,7 +1,7 @@
 # Copyright (c) 2024 Gabriel Mitelman Tkacz
 """Operations for adjusting times and datetimes."""
 
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 
 from temporal_adjuster.common.decorators import sequenceable
 from temporal_adjuster.common.types import AnyTime, ExtendedTimeDelta, TimeT
@@ -86,15 +86,9 @@ class _TimeAdjuster:
         """
         total_seconds = _TimeAdjuster.time_to_seconds(time_obj)
         rounded_seconds = int((total_seconds + round_to / 2) // round_to * round_to)
-        rounded_seconds %= 24 * 3600  # Ensure it wraps around midnight
-        return (
-            _TimeAdjuster.seconds_to_time(rounded_seconds)
-            if isinstance(time_obj, time)
-            else datetime.combine(
-                time_obj.date(),
-                _TimeAdjuster.seconds_to_time(rounded_seconds),
-            )
-        )
+        if isinstance(time_obj, time):
+            return _TimeAdjuster.seconds_to_time(rounded_seconds)
+        return datetime.combine(time_obj.date(), time.min) + timedelta(seconds=rounded_seconds)
 
     @staticmethod
     @sequenceable(target='time_obj')

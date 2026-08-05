@@ -2,7 +2,7 @@ import pickle
 import unittest
 from datetime import timedelta
 
-from temporal_adjuster.common.types.dates import ExtendedTimeDelta
+from temporal_adjuster.common.types import ExtendedTimeDelta
 
 
 class TestExtendedTimeDelta(unittest.TestCase):

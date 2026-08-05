@@ -475,6 +475,21 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
                 self.assertEqual(output.weekday(), test_expected_output.weekday())
 
+    def test_nth_from_date_exception_invalid_n(self):
+        for test_input_n in (0, -1):
+            with self.subTest(test_input_n=test_input_n):
+                with self.assertRaises(ValueError) as context:
+                    TemporalAdjuster.nth_from_date(
+                        Weekday.SATURDAY,
+                        date(2024, 6, 13),
+                        test_input_n,
+                    )
+
+                self.assertEqual(
+                    f"The value of n must be at least 1, but is {test_input_n}.",
+                    str(context.exception),
+                )
+
     def test_nth_of_month_success(self):
         tests = [
             (Weekday.SATURDAY, date(2024, 6, 13), 1, date(2024, 6, 1)),
@@ -607,9 +622,11 @@ class TestTemporalAdjusterForWeekdays(TestCase):
         tests = [
             (Weekday.SATURDAY, date(2024, 6, 13), -1),
             (Weekday.SATURDAY, date(2024, 6, 13), 0),
+            (Weekday.SATURDAY, date(2024, 6, 13), 54),
             (Weekday.SATURDAY, date(2024, 6, 13), 55),
             (ISOWeekday.SATURDAY, datetime(2024, 6, 13), -1),
             (ISOWeekday.SATURDAY, datetime(2024, 6, 13), 0),
+            (ISOWeekday.SATURDAY, datetime(2024, 6, 13), 54),
             (ISOWeekday.SATURDAY, datetime(2024, 6, 13), 55),
         ]
 
@@ -627,7 +644,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                     )
 
                 self.assertEqual(
-                    f"The value of n must be between 1 and 54, but is {test_input_n}.",
+                    f"The value of n must be between 1 and 53, but is {test_input_n}.",
                     str(context.exception),
                 )
 

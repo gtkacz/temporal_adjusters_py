@@ -335,6 +335,9 @@ class _TemporalAdjusterForWeekday:
     ) -> DateT:
         """Returns the nth date of the given day of the week from the given date.
 
+        Counting starts at the given date: if the date already falls on the
+        requested weekday, it is the first occurrence.
+
         Args:
             weekday (Weekday): The day of the week.
             date (DateT): The reference date.
@@ -343,8 +346,14 @@ class _TemporalAdjusterForWeekday:
         Returns:
             DateT: The nth date of the given day of the week from the given date.
 
+        Raises:
+            ValueError: If n is less than 1.
+
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
+
+        if n < 1:
+            raise ValueError(f"The value of n must be at least 1, but is {n}.")
 
         return _TemporalAdjusterForWeekday.next_or_same(weekday, date) + timedelta(
             weeks=n - 1,
@@ -397,14 +406,14 @@ class _TemporalAdjusterForWeekday:
             DateT: The nth date of the given day of the week in the year of the given date.
 
         Raises:
-            ValueError: If n is less than 1 or greater than 54.
+            ValueError: If n is less than 1 or greater than 53.
             DateError: If the year does not have a nth occurrence of the given day of the week.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        if n < 1 or n > 54:
-            raise ValueError(f"The value of n must be between 1 and 54, but is {n}.")
+        if n < 1 or n > 53:
+            raise ValueError(f"The value of n must be between 1 and 53, but is {n}.")
 
         output_date = _TemporalAdjusterForWeekday.first_of_year(
             weekday,

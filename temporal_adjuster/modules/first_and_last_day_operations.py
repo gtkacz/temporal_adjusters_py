@@ -45,7 +45,7 @@ class _TemporalAdjusterForFirstAndLastDays:
             date (DateT): The date to adjust.
 
         Returns:
-            DateT: The first day of the next week of the given date.
+            DateT: The first day of the last week of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.first_day_of_week(date) - _ONE_WEEK
@@ -84,7 +84,7 @@ class _TemporalAdjusterForFirstAndLastDays:
             date (DateT): The date to adjust.
 
         Returns:
-            DateT: The first day of the next month of the given date.
+            DateT: The first day of the last month of the given date.
 
         """
         return (date.replace(day=1) - _ONE_DAY).replace(day=1)
@@ -123,7 +123,7 @@ class _TemporalAdjusterForFirstAndLastDays:
             date (DateT): The date to adjust.
 
         Returns:
-            DateT: The first day of the next year of the given date.
+            DateT: The first day of the last year of the given date.
 
         """
         return date.replace(year=date.year - 1, month=1, day=1)

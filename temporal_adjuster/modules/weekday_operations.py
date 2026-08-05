@@ -1,6 +1,7 @@
 # Copyright (c) 2024 Gabriel Mitelman Tkacz
 """Operations for adjusting dates to particular weekdays."""
 
+from collections.abc import Iterable
 from datetime import timedelta
 
 from temporal_adjuster.common.enums import ISOWeekday, Weekday
@@ -13,6 +14,8 @@ from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
 WeekdayLike = Weekday | ISOWeekday | str | int
 
 _DAYS_IN_WEEK = 7
+_ONE_DAY = timedelta(days=1)
+_DEFAULT_WEEKEND = (Weekday.SATURDAY, Weekday.SUNDAY)
 
 
 class _TemporalAdjusterForWeekday:
@@ -133,6 +136,108 @@ class _TemporalAdjusterForWeekday:
 
         """
         return _TemporalAdjusterForWeekday.last_or_same(weekday, date)
+
+    @staticmethod
+    def __normalize_weekend(weekend: Iterable[WeekdayLike]) -> frozenset[int]:
+        """Parses a weekend definition into a set of Pythonic weekday values.
+
+        Args:
+            weekend (Iterable[WeekdayLike]): The days that make up the weekend.
+
+        Returns:
+            frozenset[int]: The weekend as Pythonic weekday values.
+
+        Raises:
+            ValueError: If the weekend covers every day of the week.
+
+        """
+        weekend_values = frozenset(_TemporalAdjusterForWeekday.__normalize_weekday(day).value for day in weekend)
+
+        if len(weekend_values) == _DAYS_IN_WEEK:
+            error_message = "The weekend cannot include all seven days of the week."
+            raise ValueError(error_message)
+
+        return weekend_values
+
+    @staticmethod
+    def next_working_day(date: DateT, weekend: Iterable[WeekdayLike] = _DEFAULT_WEEKEND) -> DateT:
+        """Returns the next date that is not part of the weekend.
+
+        Args:
+            date (DateT): The reference date.
+            weekend (Iterable[WeekdayLike], optional): The days that make up the weekend. Defaults to Saturday and Sunday.
+
+        Returns:
+            DateT: The next working day after the given date.
+
+        """
+        weekend_values = _TemporalAdjusterForWeekday.__normalize_weekend(weekend)
+
+        output_date = date + _ONE_DAY
+        while output_date.weekday() in weekend_values:
+            output_date += _ONE_DAY
+
+        return output_date
+
+    @staticmethod
+    def next_working_day_or_same(date: DateT, weekend: Iterable[WeekdayLike] = _DEFAULT_WEEKEND) -> DateT:
+        """Returns the next date that is not part of the weekend. If the given date is a working day, the given date is returned.
+
+        Args:
+            date (DateT): The reference date.
+            weekend (Iterable[WeekdayLike], optional): The days that make up the weekend. Defaults to Saturday and Sunday.
+
+        Returns:
+            DateT: The given date if it is a working day, otherwise the next working day.
+
+        """
+        weekend_values = _TemporalAdjusterForWeekday.__normalize_weekend(weekend)
+
+        output_date = date
+        while output_date.weekday() in weekend_values:
+            output_date += _ONE_DAY
+
+        return output_date
+
+    @staticmethod
+    def previous_working_day(date: DateT, weekend: Iterable[WeekdayLike] = _DEFAULT_WEEKEND) -> DateT:
+        """Returns the previous date that is not part of the weekend.
+
+        Args:
+            date (DateT): The reference date.
+            weekend (Iterable[WeekdayLike], optional): The days that make up the weekend. Defaults to Saturday and Sunday.
+
+        Returns:
+            DateT: The previous working day before the given date.
+
+        """
+        weekend_values = _TemporalAdjusterForWeekday.__normalize_weekend(weekend)
+
+        output_date = date - _ONE_DAY
+        while output_date.weekday() in weekend_values:
+            output_date -= _ONE_DAY
+
+        return output_date
+
+    @staticmethod
+    def previous_working_day_or_same(date: DateT, weekend: Iterable[WeekdayLike] = _DEFAULT_WEEKEND) -> DateT:
+        """Returns the previous date that is not part of the weekend. If the given date is a working day, the given date is returned.
+
+        Args:
+            date (DateT): The reference date.
+            weekend (Iterable[WeekdayLike], optional): The days that make up the weekend. Defaults to Saturday and Sunday.
+
+        Returns:
+            DateT: The given date if it is a working day, otherwise the previous working day.
+
+        """
+        weekend_values = _TemporalAdjusterForWeekday.__normalize_weekend(weekend)
+
+        output_date = date
+        while output_date.weekday() in weekend_values:
+            output_date -= _ONE_DAY
+
+        return output_date
 
     @staticmethod
     def first_of_month(weekday: WeekdayLike, date: DateT) -> DateT:

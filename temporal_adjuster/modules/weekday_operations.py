@@ -395,6 +395,10 @@ class _TemporalAdjusterForWeekday:
     def nth_of_month(weekday: WeekdayLike, date: DateT, n: int) -> DateT:
         """Returns the nth date of the given day of the week in the month of the given date.
 
+        Negative values of n count backward from the end of the month: -1 is
+        the last occurrence, -2 the second-to-last, and so on, matching Java's
+        ``TemporalAdjusters.dayOfWeekInMonth``.
+
         Args:
             weekday (Weekday): The day of the week.
             date (DateT): The reference date.
@@ -404,23 +408,25 @@ class _TemporalAdjusterForWeekday:
             DateT: The nth date of the given day of the week in the month of the given date.
 
         Raises:
-            ValueError: If n is less than 1 or greater than 5.
+            ValueError: If n is 0 or outside the range -5 to 5.
             DateError: If the month does not have a nth occurrence of the given day of the week.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        if n < 1 or n > 5:
-            raise ValueError(f"The value of n must be between 1 and 5, but is {n}.")
+        if n == 0 or abs(n) > 5:
+            raise ValueError(f"The value of n must be between -5 and 5, excluding 0, but is {n}.")
 
-        output_date = _TemporalAdjusterForWeekday.first_of_month(
-            weekday,
-            date,
-        ) + timedelta(weeks=n - 1)
+        output_date = (
+            _TemporalAdjusterForWeekday.first_of_month(weekday, date) + timedelta(weeks=n - 1)
+            if n > 0
+            else _TemporalAdjusterForWeekday.last_of_month(weekday, date) + timedelta(weeks=n + 1)
+        )
 
         if output_date.month != date.month:
+            ordinal = f"{n}th" if n > 0 else f"{-n}th-to-last"
             raise DateError(
-            f"The month does not have a {n}th occurrence of {weekday.name.lower()}.",
+            f"The month does not have a {ordinal} occurrence of {weekday.name.lower()}.",
             )
 
         return output_date

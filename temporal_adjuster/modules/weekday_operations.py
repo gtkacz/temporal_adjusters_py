@@ -3,7 +3,6 @@
 
 from dateutil.relativedelta import relativedelta
 
-from temporal_adjuster.common.decorators import sequenceable
 from temporal_adjuster.common.enums import ISOWeekday, Weekday
 from temporal_adjuster.common.exceptions import DateError
 from temporal_adjuster.common.types import AnyDate, DateT
@@ -38,7 +37,6 @@ class _TemporalAdjusterForWeekday:
         return Weekday(weekday)
 
     @staticmethod
-    @sequenceable(target="date")
     def next(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the next date of the given day of the week.
 
@@ -55,7 +53,6 @@ class _TemporalAdjusterForWeekday:
         return date + relativedelta(weekday=weekday.value) if date.weekday() != weekday.value else date + relativedelta(weekday=weekday.value) + relativedelta(weeks=1)
 
     @staticmethod
-    @sequenceable(target="date")
     def next_or_same(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the next date of the given day of the week. If the given date is the same day of the week, the given date is returned.
 
@@ -72,7 +69,6 @@ class _TemporalAdjusterForWeekday:
         return date if date.weekday() == weekday.value else _TemporalAdjusterForWeekday.next(weekday, date)
 
     @staticmethod
-    @sequenceable(target="date")
     def last(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the last date of the given day of the week.
 
@@ -89,7 +85,6 @@ class _TemporalAdjusterForWeekday:
         return _TemporalAdjusterForWeekday.next(weekday, date) - relativedelta(weeks=1) if date.weekday() != weekday.value else _TemporalAdjusterForWeekday.next(weekday, date) - relativedelta(weeks=2)
 
     @staticmethod
-    @sequenceable(target="date")
     def last_or_same(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the last date of the given day of the week. If the given date is the same day of the week, the given date is returned.
 
@@ -106,7 +101,6 @@ class _TemporalAdjusterForWeekday:
         return date if date.weekday() == weekday.value else _TemporalAdjusterForWeekday.last(weekday, date)
 
     @staticmethod
-    @sequenceable(target="date")
     def first_of_month(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the first date of the given day of the week in the month of the given date.
 
@@ -123,7 +117,6 @@ class _TemporalAdjusterForWeekday:
         return date.replace(day=1) + relativedelta(weekday=weekday.value)
 
     @staticmethod
-    @sequenceable(target="date")
     def first_of_next_month(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the first date of the given day of the week in the month after the month of the given date.
 
@@ -143,7 +136,6 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
-    @sequenceable(target="date")
     def first_of_last_month(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the first date of the given day of the week in the month before the month of the given date.
 
@@ -163,7 +155,6 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
-    @sequenceable(target="date")
     def last_of_month(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the last date of the given day of the week in the month of the given date.
 
@@ -183,7 +174,6 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
-    @sequenceable(target="date")
     def last_of_next_month(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the last date of the given day of the week in the month after the month of the given date.
 
@@ -203,7 +193,6 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
-    @sequenceable(target="date")
     def last_of_last_month(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the last date of the given day of the week in the month before the month of the given date.
 
@@ -223,7 +212,6 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
-    @sequenceable(target="date")
     def first_of_year(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the first date of the given day of the week in the year of the given date.
 
@@ -240,7 +228,6 @@ class _TemporalAdjusterForWeekday:
         return date.replace(month=1, day=1) + relativedelta(weekday=weekday.value)
 
     @staticmethod
-    @sequenceable(target="date")
     def first_of_next_year(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the first date of the given day of the week in the year after the year of the given date.
 
@@ -260,7 +247,6 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
-    @sequenceable(target="date")
     def first_of_last_year(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the first date of the given day of the week in the year before the year of the given date.
 
@@ -280,7 +266,6 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
-    @sequenceable(target="date")
     def last_of_year(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the last date of the given day of the week in the year of the given date.
 
@@ -297,7 +282,6 @@ class _TemporalAdjusterForWeekday:
         return _TemporalAdjusterForWeekday.last(weekday, date.replace(month=12, day=31))
 
     @staticmethod
-    @sequenceable(target="date")
     def last_of_next_year(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the last date of the given day of the week in the year after the year of the given date.
 
@@ -317,7 +301,6 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
-    @sequenceable(target="date")
     def last_of_last_year(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the last date of the given day of the week in the year before the year of the given date.
 
@@ -337,7 +320,6 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
-    @sequenceable(target="date")
     def nth_from_date(
         weekday: WeekdayLike,
         date: DateT,
@@ -359,7 +341,6 @@ class _TemporalAdjusterForWeekday:
         return date + relativedelta(weekday=weekday.value, weeks=n - 1)
 
     @staticmethod
-    @sequenceable(target="date")
     def nth_of_month(weekday: WeekdayLike, date: DateT, n: int) -> DateT:
         """Returns the nth date of the given day of the week in the month of the given date.
 
@@ -394,7 +375,6 @@ class _TemporalAdjusterForWeekday:
         return output_date
 
     @staticmethod
-    @sequenceable(target="date")
     def nth_of_year(weekday: WeekdayLike, date: DateT, n: int) -> DateT:
         """Returns the nth date of the given day of the week in the year of the given date.
 
@@ -429,7 +409,6 @@ class _TemporalAdjusterForWeekday:
         return output_date
 
     @staticmethod
-    @sequenceable(target="date")
     def which_of_month(weekday: WeekdayLike, date: AnyDate) -> int:
         """Returns the occurrence of the given day of the week in the month of the given date.
 
@@ -454,7 +433,6 @@ class _TemporalAdjusterForWeekday:
         return (date.day - 1) // 7 + 1
 
     @staticmethod
-    @sequenceable(target="date")
     def which_of_year(weekday: WeekdayLike, date: AnyDate) -> int:
         """Returns the occurrence of the given day of the week in the year of the given date.
 

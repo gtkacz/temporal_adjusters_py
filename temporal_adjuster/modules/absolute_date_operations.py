@@ -6,7 +6,6 @@ from operator import index
 
 from dateutil.relativedelta import relativedelta
 
-from temporal_adjuster.common.decorators import sequenceable
 from temporal_adjuster.common.types.dates import DateT
 
 
@@ -29,7 +28,6 @@ class _AbsoluteDateOperations:
         return int_value
 
     @staticmethod
-    @sequenceable(target="date")
     def int_to_day_of_year(date: DateT, int_value: int) -> DateT:
         """Returns the date of the given day of the year.
 
@@ -55,7 +53,6 @@ class _AbsoluteDateOperations:
         return date.replace(month=1, day=1) + relativedelta(days=int_value - 1)
 
     @staticmethod
-    @sequenceable(target="date")
     def int_to_day_of_month(date: DateT, int_value: int) -> DateT:
         """Returns the date of the given day of the month.
 
@@ -81,7 +78,6 @@ class _AbsoluteDateOperations:
         return date.replace(day=int_value)
 
     @staticmethod
-    @sequenceable(target="date")
     def date_to_int_of_year(date: DateT) -> int:
         """Returns the integer value for the given day of the year of the given date.
 
@@ -100,7 +96,6 @@ class _AbsoluteDateOperations:
         return date.timetuple().tm_yday
 
     @staticmethod
-    @sequenceable(target="date")
     def date_to_int_of_month(date: DateT) -> int:
         """Returns the integer value for the given day of the month of the given date.
 

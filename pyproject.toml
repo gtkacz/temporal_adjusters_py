@@ -30,7 +30,6 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-  "numpy>=1.26",
   "python-dateutil>=2.9",
 ]
 
@@ -49,8 +48,6 @@ dev = [
 ]
 test = [
   "coverage>=7",
-  "pandas>=2.2",
-  "psutil>=6",
 ]
 docs = [
   "sphinx>=8",

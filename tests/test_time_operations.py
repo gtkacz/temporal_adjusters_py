@@ -30,19 +30,6 @@ class TestTimeAdjuster(unittest.TestCase):
         result = TemporalAdjuster.time_difference(t1, t2)
         self.assertEqual(result, timedelta(seconds=0.75))
 
-    def test_time_difference_sequence(self):
-        times1 = [time(9, 0), time(10, 0), time(23, 0)]
-        time2 = time(12, 0)
-        result = TemporalAdjuster.time_difference(times1, time2)
-        expected = [timedelta(hours=3), timedelta(hours=2), timedelta(hours=13)]
-        self.assertEqual(result, expected)
-
-        times1 = [time(9, 0), time(10, 0), time(23, 0)]
-        time2 = time(10, 0)
-        result = TemporalAdjuster.time_difference(times1, time2)
-        expected = [timedelta(hours=1), timedelta(hours=0), timedelta(hours=11)]
-        self.assertEqual(result, expected)
-
     def test_is_time_in_range_single(self):
         self.assertTrue(
             TemporalAdjuster.is_time_in_range(time(12, 0), time(9, 0), time(17, 0)),
@@ -86,28 +73,6 @@ class TestTimeAdjuster(unittest.TestCase):
         )
         self.assertTrue(TemporalAdjuster.is_time_in_range(dt, time(9, 0), time(17, 0)))
 
-    def test_is_time_in_range_sequence(self):
-        times = [time(8, 0), time(12, 0), time(18, 0)]
-        start = time(9, 0)
-        end = time(17, 0)
-        result = TemporalAdjuster.is_time_in_range(times, start, end)
-        expected = [False, True, False]
-        self.assertEqual(result, expected)
-
-        times = [time(23, 0), time(3, 0), time(7, 0)]
-        start = time(22, 0)
-        end = time(6, 0)
-        result = TemporalAdjuster.is_time_in_range(times, start, end)
-        expected = [True, True, False]
-        self.assertEqual(result, expected)
-
-        times = [time(8, 0), datetime(2021, 1, 1, 12, 0), time(18, 0)]
-        start = datetime(2021, 1, 1, 9, 0)
-        end = time(17, 0)
-        result = TemporalAdjuster.is_time_in_range(times, start, end)
-        expected = [False, True, False]
-        self.assertEqual(result, expected)
-
     def test_round_time_single(self):
         self.assertEqual(TemporalAdjuster.round_time(time(10, 29), 60), time(10, 29))
         self.assertEqual(
@@ -141,28 +106,9 @@ class TestTimeAdjuster(unittest.TestCase):
         expected = datetime(2021, 1, 2, 0, 0)
         self.assertEqual(TemporalAdjuster.round_time(dt, 60), expected)
 
-    def test_round_time_sequence(self):
-        times = [time(10, 14), time(10, 29, 35), time(10, 45)]
-        result = TemporalAdjuster.round_time(times, 15 * 60)
-        expected = [time(10, 15), time(10, 30), time(10, 45)]
-        self.assertEqual(result, expected)
-
-        dts = [
-            datetime(2021, 1, 1, 10, 14),
-            datetime(2021, 1, 1, 10, 29, 35),
-            datetime(2021, 1, 1, 10, 45),
-        ]
-        result = TemporalAdjuster.round_time(dts, 15 * 60)
-        expected = [
-            datetime(2021, 1, 1, 10, 15),
-            datetime(2021, 1, 1, 10, 30),
-            datetime(2021, 1, 1, 10, 45),
-        ]
-        self.assertEqual(result, expected)
-
-        times = [time(10, 29, 35)]
+    def test_round_time_multiple_intervals(self):
         intervals = [60, 15 * 60, 30 * 60]
-        results = [TemporalAdjuster.round_time(times[0], interval) for interval in intervals]
+        results = [TemporalAdjuster.round_time(time(10, 29, 35), interval) for interval in intervals]
         expected = [time(10, 30), time(10, 30), time(10, 30)]
         self.assertEqual(results, expected)
 
@@ -181,27 +127,6 @@ class TestTimeAdjuster(unittest.TestCase):
         dt = datetime(2021, 1, 1, 1, 30, 45, 500000)
         self.assertEqual(TemporalAdjuster.time_to_seconds(dt), 5445.5)
 
-    def test_time_to_seconds_sequence(self):
-        times = [time(0, 0), time(1, 30), time(12, 0), time(23, 59, 59)]
-        result = TemporalAdjuster.time_to_seconds(times)
-        expected = [0, 5400, 43200, 86399]
-        self.assertEqual(result, expected)
-
-        dts = [
-            datetime(2021, 1, 1, 0, 0),
-            datetime(2021, 1, 1, 1, 30),
-            datetime(2021, 1, 1, 12, 0),
-            datetime(2021, 1, 1, 23, 59, 59),
-        ]
-        result = TemporalAdjuster.time_to_seconds(dts)
-        expected = [0, 5400, 43200, 86399]
-        self.assertEqual(result, expected)
-
-        mixed = [time(0, 0), datetime(2021, 1, 1, 1, 30), time(12, 0)]
-        result = TemporalAdjuster.time_to_seconds(mixed)
-        expected = [0, 5400, 43200]
-        self.assertEqual(result, expected)
-
     def test_seconds_to_time_single(self):
         self.assertEqual(TemporalAdjuster.seconds_to_time(0), time(0, 0))
         self.assertEqual(TemporalAdjuster.seconds_to_time(3600), time(1, 0))
@@ -216,22 +141,6 @@ class TestTimeAdjuster(unittest.TestCase):
         self.assertEqual(TemporalAdjuster.seconds_to_time(90000), time(1, 0))
 
         self.assertEqual(TemporalAdjuster.seconds_to_time(-3600), time(23, 0))
-
-    def test_seconds_to_time_sequence(self):
-        seconds = [0, 3600, 5445, 86399]
-        result = TemporalAdjuster.seconds_to_time(seconds)
-        expected = [time(0, 0), time(1, 0), time(1, 30, 45), time(23, 59, 59)]
-        self.assertEqual(result, expected)
-
-        seconds = [5445.5, 5445.75]
-        result = TemporalAdjuster.seconds_to_time(seconds)
-        expected = [time(1, 30, 45, 500000), time(1, 30, 45, 750000)]
-        self.assertEqual(result, expected)
-
-        seconds = [86400, 90000, 172800]
-        result = TemporalAdjuster.seconds_to_time(seconds)
-        expected = [time(0, 0), time(1, 0), time(0, 0)]
-        self.assertEqual(result, expected)
 
     def test_edge_cases(self):
         self.assertEqual(TemporalAdjuster.time_to_seconds(time(0, 0)), 0)
@@ -259,9 +168,6 @@ class TestTimeAdjuster(unittest.TestCase):
             TemporalAdjuster.round_time(time(13, 0), day_seconds),
             time(0, 0),
         )
-
-        self.assertEqual(TemporalAdjuster.time_to_seconds([]), [])
-        self.assertEqual(TemporalAdjuster.seconds_to_time([]), [])
 
     def test_time_to_seconds_rejects_invalid_type(self):
         with self.assertRaisesRegex(TypeError, r"time_obj must be a time or datetime"):

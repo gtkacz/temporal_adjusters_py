@@ -4,13 +4,11 @@
 from datetime import datetime, time, timedelta
 from typing import cast
 
-from temporal_adjuster.common.decorators import sequenceable
 from temporal_adjuster.common.types import AnyTime, ExtendedTimeDelta, TimeT
 
 
 class _TimeAdjuster:
     @staticmethod
-    @sequenceable(target="time_obj_1")
     def time_difference(time_obj_1: AnyTime, time_obj_2: AnyTime) -> ExtendedTimeDelta:
         """Calculate the positive difference between two time objects.
 
@@ -36,7 +34,6 @@ class _TimeAdjuster:
         return ExtendedTimeDelta(seconds=delta_seconds)
 
     @staticmethod
-    @sequenceable(target="time_obj")
     def is_time_in_range(time_obj: AnyTime, start: AnyTime, end: AnyTime) -> bool:
         """Check whether ``time_obj`` is within the range [start, end].
 
@@ -69,7 +66,6 @@ class _TimeAdjuster:
         return start <= time_obj <= end if start <= end else time_obj >= start or time_obj <= end
 
     @staticmethod
-    @sequenceable(target="time_obj")
     def round_time(time_obj: TimeT, round_to: int = 60) -> TimeT:
         """Round a time object to the nearest multiple of round_to seconds.
 
@@ -97,7 +93,6 @@ class _TimeAdjuster:
         )
 
     @staticmethod
-    @sequenceable(target="time_obj")
     def time_to_seconds(time_obj: AnyTime) -> float:
         """Convert a time object to the total number of seconds since midnight.
 
@@ -118,7 +113,6 @@ class _TimeAdjuster:
         return time_obj.hour * 3600 + time_obj.minute * 60 + time_obj.second + time_obj.microsecond / 1e6
 
     @staticmethod
-    @sequenceable(target="seconds")
     def seconds_to_time(seconds: float) -> time:
         """Convert the total number of seconds since midnight to a time object.
 

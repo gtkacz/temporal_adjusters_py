@@ -2,9 +2,8 @@
 """Operations for adjusting absolute dates."""
 
 from calendar import isleap, monthrange
+from datetime import timedelta
 from operator import index
-
-from dateutil.relativedelta import relativedelta
 
 from temporal_adjuster.common.types.dates import DateT
 
@@ -50,7 +49,7 @@ class _AbsoluteDateOperations:
             maximum,
             "year",
         )
-        return date.replace(month=1, day=1) + relativedelta(days=int_value - 1)
+        return date.replace(month=1, day=1) + timedelta(days=int_value - 1)
 
     @staticmethod
     def int_to_day_of_month(date: DateT, int_value: int) -> DateT:

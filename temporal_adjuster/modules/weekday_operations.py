@@ -1,7 +1,7 @@
 # Copyright (c) 2024 Gabriel Mitelman Tkacz
 """Operations for adjusting dates to particular weekdays."""
 
-from dateutil.relativedelta import relativedelta
+from datetime import timedelta
 
 from temporal_adjuster.common.enums import ISOWeekday, Weekday
 from temporal_adjuster.common.exceptions import DateError
@@ -11,6 +11,8 @@ from .absolute_date_operations import _AbsoluteDateOperations
 from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
 
 WeekdayLike = Weekday | ISOWeekday | str | int
+
+_DAYS_IN_WEEK = 7
 
 
 class _TemporalAdjusterForWeekday:
@@ -50,7 +52,7 @@ class _TemporalAdjusterForWeekday:
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        return date + relativedelta(weekday=weekday.value) if date.weekday() != weekday.value else date + relativedelta(weekday=weekday.value) + relativedelta(weeks=1)
+        return date + timedelta(days=(weekday.value - date.weekday()) % _DAYS_IN_WEEK or _DAYS_IN_WEEK)
 
     @staticmethod
     def next_or_same(weekday: WeekdayLike, date: DateT) -> DateT:
@@ -66,7 +68,7 @@ class _TemporalAdjusterForWeekday:
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        return date if date.weekday() == weekday.value else _TemporalAdjusterForWeekday.next(weekday, date)
+        return date + timedelta(days=(weekday.value - date.weekday()) % _DAYS_IN_WEEK)
 
     @staticmethod
     def last(weekday: WeekdayLike, date: DateT) -> DateT:
@@ -82,7 +84,7 @@ class _TemporalAdjusterForWeekday:
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        return _TemporalAdjusterForWeekday.next(weekday, date) - relativedelta(weeks=1) if date.weekday() != weekday.value else _TemporalAdjusterForWeekday.next(weekday, date) - relativedelta(weeks=2)
+        return date - timedelta(days=(date.weekday() - weekday.value) % _DAYS_IN_WEEK or _DAYS_IN_WEEK)
 
     @staticmethod
     def last_or_same(weekday: WeekdayLike, date: DateT) -> DateT:
@@ -98,7 +100,7 @@ class _TemporalAdjusterForWeekday:
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        return date if date.weekday() == weekday.value else _TemporalAdjusterForWeekday.last(weekday, date)
+        return date - timedelta(days=(date.weekday() - weekday.value) % _DAYS_IN_WEEK)
 
     @staticmethod
     def first_of_month(weekday: WeekdayLike, date: DateT) -> DateT:
@@ -114,7 +116,7 @@ class _TemporalAdjusterForWeekday:
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        return date.replace(day=1) + relativedelta(weekday=weekday.value)
+        return _TemporalAdjusterForWeekday.next_or_same(weekday, date.replace(day=1))
 
     @staticmethod
     def first_of_next_month(weekday: WeekdayLike, date: DateT) -> DateT:
@@ -168,9 +170,9 @@ class _TemporalAdjusterForWeekday:
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        return _TemporalAdjusterForWeekday.last(
+        return _TemporalAdjusterForWeekday.last_or_same(
             weekday,
-            date.replace(day=1) + relativedelta(months=1),
+            _TemporalAdjusterForFirstAndLastDays.last_day_of_month(date),
         )
 
     @staticmethod
@@ -225,7 +227,10 @@ class _TemporalAdjusterForWeekday:
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        return date.replace(month=1, day=1) + relativedelta(weekday=weekday.value)
+        return _TemporalAdjusterForWeekday.next_or_same(
+            weekday,
+            date.replace(month=1, day=1),
+        )
 
     @staticmethod
     def first_of_next_year(weekday: WeekdayLike, date: DateT) -> DateT:
@@ -279,7 +284,10 @@ class _TemporalAdjusterForWeekday:
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        return _TemporalAdjusterForWeekday.last(weekday, date.replace(month=12, day=31))
+        return _TemporalAdjusterForWeekday.last_or_same(
+            weekday,
+            date.replace(month=12, day=31),
+        )
 
     @staticmethod
     def last_of_next_year(weekday: WeekdayLike, date: DateT) -> DateT:
@@ -338,7 +346,9 @@ class _TemporalAdjusterForWeekday:
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
-        return date + relativedelta(weekday=weekday.value, weeks=n - 1)
+        return _TemporalAdjusterForWeekday.next_or_same(weekday, date) + timedelta(
+            weeks=n - 1,
+        )
 
     @staticmethod
     def nth_of_month(weekday: WeekdayLike, date: DateT, n: int) -> DateT:
@@ -362,10 +372,10 @@ class _TemporalAdjusterForWeekday:
         if n < 1 or n > 5:
             raise ValueError(f"The value of n must be between 1 and 5, but is {n}.")
 
-        output_date = date.replace(day=1) + relativedelta(
-            weekday=weekday.value,
-            weeks=n - 1,
-        )
+        output_date = _TemporalAdjusterForWeekday.first_of_month(
+            weekday,
+            date,
+        ) + timedelta(weeks=n - 1)
 
         if output_date.month != date.month:
             raise DateError(
@@ -396,10 +406,10 @@ class _TemporalAdjusterForWeekday:
         if n < 1 or n > 54:
             raise ValueError(f"The value of n must be between 1 and 54, but is {n}.")
 
-        output_date = date.replace(month=1, day=1) + relativedelta(
-            weekday=weekday.value,
-            weeks=n - 1,
-        )
+        output_date = _TemporalAdjusterForWeekday.first_of_year(
+            weekday,
+            date,
+        ) + timedelta(weeks=n - 1)
 
         if output_date.year != date.year:
             raise DateError(

@@ -350,3 +350,119 @@ class TestTemporalAdjusterForFirstAndLastDays(TestCase):
                     TemporalAdjuster.last_day_of_last_year(test_input),
                     test_expected_output,
                 )
+
+    def test_first_day_of_quarter_success(self):
+        tests = [
+            (date(2024, 1, 1), date(2024, 1, 1)),
+            (date(2024, 5, 15), date(2024, 4, 1)),
+            (date(2024, 9, 30), date(2024, 7, 1)),
+            (date(2024, 12, 31), date(2024, 10, 1)),
+            (datetime(2024, 8, 20, 12, 30), datetime(2024, 7, 1, 12, 30)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method first_day_of_quarter (subtest {index}) with inputs: {test}",
+            ):
+                test_input, test_expected_output = test
+
+                self.assertEqual(
+                    TemporalAdjuster.first_day_of_quarter(test_input),
+                    test_expected_output,
+                )
+
+    def test_first_day_of_next_quarter_success(self):
+        tests = [
+            (date(2024, 5, 15), date(2024, 7, 1)),
+            (date(2024, 12, 31), date(2025, 1, 1)),
+            (datetime(2024, 5, 15), datetime(2024, 7, 1)),
+            (datetime(2024, 12, 31), datetime(2025, 1, 1)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method first_day_of_next_quarter (subtest {index}) with inputs: {test}",
+            ):
+                test_input, test_expected_output = test
+
+                self.assertEqual(
+                    TemporalAdjuster.first_day_of_next_quarter(test_input),
+                    test_expected_output,
+                )
+
+    def test_first_day_of_last_quarter_success(self):
+        tests = [
+            (date(2024, 5, 15), date(2024, 1, 1)),
+            (date(2024, 2, 1), date(2023, 10, 1)),
+            (datetime(2024, 5, 15), datetime(2024, 1, 1)),
+            (datetime(2024, 2, 1), datetime(2023, 10, 1)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method first_day_of_last_quarter (subtest {index}) with inputs: {test}",
+            ):
+                test_input, test_expected_output = test
+
+                self.assertEqual(
+                    TemporalAdjuster.first_day_of_last_quarter(test_input),
+                    test_expected_output,
+                )
+
+    def test_last_day_of_quarter_success(self):
+        tests = [
+            (date(2024, 2, 10), date(2024, 3, 31)),
+            (date(2024, 5, 15), date(2024, 6, 30)),
+            (date(2024, 11, 5), date(2024, 12, 31)),
+            (date(2024, 12, 31), date(2024, 12, 31)),
+            (datetime(2024, 8, 20, 12, 30), datetime(2024, 9, 30, 12, 30)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method last_day_of_quarter (subtest {index}) with inputs: {test}",
+            ):
+                test_input, test_expected_output = test
+
+                self.assertEqual(
+                    TemporalAdjuster.last_day_of_quarter(test_input),
+                    test_expected_output,
+                )
+
+    def test_last_day_of_next_quarter_success(self):
+        tests = [
+            (date(2024, 5, 15), date(2024, 9, 30)),
+            (date(2024, 11, 1), date(2025, 3, 31)),
+            (datetime(2024, 5, 15), datetime(2024, 9, 30)),
+            (datetime(2024, 11, 1), datetime(2025, 3, 31)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method last_day_of_next_quarter (subtest {index}) with inputs: {test}",
+            ):
+                test_input, test_expected_output = test
+
+                self.assertEqual(
+                    TemporalAdjuster.last_day_of_next_quarter(test_input),
+                    test_expected_output,
+                )
+
+    def test_last_day_of_last_quarter_success(self):
+        tests = [
+            (date(2024, 5, 15), date(2024, 3, 31)),
+            (date(2024, 1, 15), date(2023, 12, 31)),
+            (datetime(2024, 5, 15), datetime(2024, 3, 31)),
+            (datetime(2024, 1, 15), datetime(2023, 12, 31)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method last_day_of_last_quarter (subtest {index}) with inputs: {test}",
+            ):
+                test_input, test_expected_output = test
+
+                self.assertEqual(
+                    TemporalAdjuster.last_day_of_last_quarter(test_input),
+                    test_expected_output,
+                )

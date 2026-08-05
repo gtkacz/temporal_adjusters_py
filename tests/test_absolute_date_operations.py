@@ -21,13 +21,8 @@ class TestAbsoluteDateOperations(unittest.TestCase):
         expected = datetime(2021, 5, 30, 12, 30, 45)
         self.assertEqual(result, expected)
 
-    def test_int_to_day_of_year_sequence(self):
-        """Test int_to_day_of_year with a sequence of dates."""
-        dates = [date(2021, 1, 1), date(2021, 6, 15), date(2021, 12, 31)]
-        result = TemporalAdjuster.int_to_day_of_year(dates, 10)
-        expected = [date(2021, 1, 10), date(2021, 1, 10), date(2021, 1, 10)]
-        self.assertEqual(result, expected)
-
+    def test_int_to_day_of_year_month_boundaries(self):
+        """Test int_to_day_of_year across month boundaries."""
         result = TemporalAdjuster.int_to_day_of_year(date(2021, 5, 1), 1)
         expected = date(2021, 1, 1)
         self.assertEqual(result, expected)
@@ -60,13 +55,8 @@ class TestAbsoluteDateOperations(unittest.TestCase):
         expected = datetime(2021, 5, 20, 12, 30, 45)
         self.assertEqual(result, expected)
 
-    def test_int_to_day_of_month_sequence(self):
-        """Test int_to_day_of_month with a sequence of dates."""
-        dates = [date(2021, 1, 1), date(2021, 6, 15), date(2021, 12, 31)]
-        result = TemporalAdjuster.int_to_day_of_month(dates, 10)
-        expected = [date(2021, 1, 10), date(2021, 6, 10), date(2021, 12, 10)]
-        self.assertEqual(result, expected)
-
+    def test_int_to_day_of_month_within_month(self):
+        """Test int_to_day_of_month for several days within one month."""
         result = TemporalAdjuster.int_to_day_of_month(date(2021, 5, 1), 1)
         expected = date(2021, 5, 1)
         self.assertEqual(result, expected)
@@ -97,21 +87,10 @@ class TestAbsoluteDateOperations(unittest.TestCase):
         result = TemporalAdjuster.date_to_int_of_year(dt)
         self.assertEqual(result, 130)
 
-    def test_date_to_int_of_year_sequence(self):
-        """Test date_to_int_of_year with a sequence of dates."""
-        dates = [date(2021, 1, 1), date(2021, 2, 1), date(2021, 3, 1)]
-        result = TemporalAdjuster.date_to_int_of_year(dates)
-        expected = [1, 32, 60]
-        self.assertEqual(result, expected)
-
-        dates = [date(2021, 1, 1), datetime(2021, 2, 1, 12, 0, 0), date(2021, 3, 1)]
-        result = TemporalAdjuster.date_to_int_of_year(dates)
-        expected = [1, 32, 60]
-        self.assertEqual(result, expected)
-
-        dates = [date(2020, 3, 1), date(2021, 3, 1)]
-        result = TemporalAdjuster.date_to_int_of_year(dates)
-        self.assertEqual(result, [61, 60])
+    def test_date_to_int_of_year_leap_year(self):
+        """Test date_to_int_of_year distinguishes leap years."""
+        self.assertEqual(TemporalAdjuster.date_to_int_of_year(date(2020, 3, 1)), 61)
+        self.assertEqual(TemporalAdjuster.date_to_int_of_year(date(2021, 3, 1)), 60)
 
     def test_date_to_int_of_month_single(self):
         """Test date_to_int_of_month with a single date."""
@@ -128,28 +107,10 @@ class TestAbsoluteDateOperations(unittest.TestCase):
         result = TemporalAdjuster.date_to_int_of_month(dt)
         self.assertEqual(result, 10)
 
-    def test_date_to_int_of_month_sequence(self):
-        """Test date_to_int_of_month with a sequence of dates."""
-        dates = [date(2021, 1, 1), date(2021, 6, 15), date(2021, 12, 31)]
-        result = TemporalAdjuster.date_to_int_of_month(dates)
-        expected = [1, 15, 31]
-        self.assertEqual(result, expected)
-
-        dates = [date(2021, 1, 5), datetime(2021, 2, 10, 12, 0, 0), date(2021, 3, 15)]
-        result = TemporalAdjuster.date_to_int_of_month(dates)
-        expected = [5, 10, 15]
-        self.assertEqual(result, expected)
-
     def test_edge_cases(self):
         """Test edge cases and potential error conditions."""
         result = TemporalAdjuster.int_to_day_of_year(date(2020, 1, 1), 60)
         self.assertEqual(result, date(2020, 2, 29))
-
-        result = TemporalAdjuster.date_to_int_of_year([])
-        self.assertEqual(result, [])
-
-        result = TemporalAdjuster.date_to_int_of_month([date(2021, 5, 20)])
-        self.assertEqual(result, [20])
 
     def test_int_to_day_of_year_rejects_out_of_range_values(self):
         for int_value in (0, -1, 366):

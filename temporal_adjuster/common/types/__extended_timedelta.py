@@ -1,6 +1,7 @@
 # Copyright (c) 2024 Gabriel Mitelman Tkacz
 
 import math
+import warnings
 from collections.abc import Iterator
 from datetime import timedelta
 from typing import ClassVar, Self
@@ -42,6 +43,12 @@ class ExtendedTimeDelta(timedelta):
     extra month and year components are not part of ``timedelta``'s C-level state.
     Convert it with :meth:`to_timedelta` before using it as the right-hand operand
     of date or datetime arithmetic so those components are included.
+
+    .. deprecated:: 2.0.0
+        Because date arithmetic silently ignores the month and year components,
+        this class is deprecated and will be removed in a future release. Use
+        :class:`datetime.timedelta` for exact durations or
+        ``dateutil.relativedelta`` for calendar-aware month and year arithmetic.
     """
 
     DAYS_IN_MONTH: ClassVar[float] = 30.436875
@@ -77,8 +84,8 @@ class ExtendedTimeDelta(timedelta):
         """Create a new ExtendedTimeDelta instance.
 
         This method processes additional keyword arguments `months` and `years`
-        and converts them into days using the approximations (defaults to 30 days per month,
-        12 months per year).
+        and converts them into days using the configured lengths (defaults to
+        30.436875 days per month and 365.25 days per year).
 
         Args:
                 days (int or float, optional): Number of days.
@@ -88,7 +95,7 @@ class ExtendedTimeDelta(timedelta):
                 minutes (int, optional): Number of minutes.
                 hours (int, optional): Number of hours.
                 weeks (int or float, optional): Number of weeks.
-                months (int or float, optional): Number of months (assumes 30 days per month).
+                months (int or float, optional): Number of months (converted via days_in_month).
                 years (int or float, optional): Number of years (assumes 12 months per year).
                 days_in_month (float, optional): Average number of days in a month.
                 days_in_year (float, optional): Average number of days in a year.
@@ -101,11 +108,19 @@ class ExtendedTimeDelta(timedelta):
                 ValueError: If a conversion setting is not positive and finite.
 
         Example:
-                >>> et = ExtendedTimeDelta(days=45, months=1)
+                >>> et = ExtendedTimeDelta(months=14)
                 >>> print(et)
-                1 month, 15 days, 0:00:00
+                1 year, 2 months, 0:00:00
 
         """
+        warnings.warn(
+            "ExtendedTimeDelta is deprecated and will be removed in a future "
+            "release; use datetime.timedelta for exact durations or "
+            "dateutil.relativedelta for calendar-aware arithmetic",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+
         for name, value in (
             ("days_in_month", days_in_month),
             ("days_in_year", days_in_year),
@@ -240,7 +255,7 @@ class ExtendedTimeDelta(timedelta):
                 >>> et2 = ExtendedTimeDelta(months=6, days=5)
                 >>> result = et1 + et2
                 >>> result
-                ExtendedTimeDelta(years=1, months=6, days=15, seconds=0, microseconds=0)
+                ExtendedTimeDelta(years=1, months=6, days=15)
 
         """
         if isinstance(other, ExtendedTimeDelta):
@@ -279,7 +294,7 @@ class ExtendedTimeDelta(timedelta):
                 >>> et2 = ExtendedTimeDelta(years=1, months=1, days=5)
                 >>> result = et1 - et2
                 >>> result
-                ExtendedTimeDelta(years=1, months=2, days=5, seconds=0, microseconds=0)
+                ExtendedTimeDelta(years=1, months=2, days=5)
 
         """
         if isinstance(other, ExtendedTimeDelta):
@@ -342,8 +357,8 @@ class ExtendedTimeDelta(timedelta):
                 bool: True if both time deltas are equal, False otherwise.
 
         Example:
-                >>> et1 = ExtendedTimeDelta(years=1, days=30)
-                >>> et2 = ExtendedTimeDelta(months=14)
+                >>> et1 = ExtendedTimeDelta(months=12)
+                >>> et2 = ExtendedTimeDelta(years=1)
                 >>> et1 == et2
                 True
 
@@ -608,7 +623,7 @@ class ExtendedTimeDelta(timedelta):
                 >>> td = timedelta(days=10, seconds=3600)
                 >>> et = ExtendedTimeDelta.from_timedelta(td)
                 >>> et
-                ExtendedTimeDelta(years=0, months=0, days=10, seconds=3600, microseconds=0)
+                ExtendedTimeDelta(days=10, seconds=3600)
 
         """
         return cls(
@@ -624,7 +639,8 @@ class ExtendedTimeDelta(timedelta):
 
         This method converts the ExtendedTimeDelta instance to a standard timedelta by
         aggregating the years, months, and days into a total number of days. The conversion
-        uses the default approximations of 365 days per year and 30 days per month.
+        uses the configured lengths (defaults to 365.25 days per year and 30.436875 days
+        per month).
 
         Returns:
                 timedelta: A standard timedelta object representing the equivalent duration.
@@ -633,7 +649,7 @@ class ExtendedTimeDelta(timedelta):
                 >>> etd = ExtendedTimeDelta(years=1, months=2, days=15, seconds=30)
                 >>> td = etd.to_timedelta()
                 >>> td
-                timedelta(days=412, seconds=30)
+                datetime.timedelta(days=441, seconds=10722)
 
         """
         total_days = self.years * self.days_in_year + self.months * self.days_in_month + self.days
@@ -647,7 +663,7 @@ class ExtendedTimeDelta(timedelta):
         """Return the total number of microseconds contained in the ExtendedTimeDelta.
 
         The calculation includes years and months by converting them into days using
-        the approximations (defaults to 365 days per year and 30 days per month).
+        the configured lengths (defaults to 365.25 days per year and 30.436875 days per month).
 
         Returns:
                 float: The total microseconds represented by the ExtendedTimeDelta.
@@ -655,7 +671,7 @@ class ExtendedTimeDelta(timedelta):
         Example:
                 >>> et = ExtendedTimeDelta(years=1, months=1, days=1)
                 >>> et.to_microseconds()
-                34214400000000.0
+                34273746000000.0
 
         """
         seconds_per_day = 24 * 60 * 60
@@ -668,7 +684,7 @@ class ExtendedTimeDelta(timedelta):
         """Return the total number of seconds contained in the ExtendedTimeDelta.
 
         The calculation includes years and months by converting them into days using
-        the approximations (defaults to 365 days per year and 30 days per month).
+        the configured lengths (defaults to 365.25 days per year and 30.436875 days per month).
 
         Returns:
                 float: The total seconds represented by the ExtendedTimeDelta.
@@ -676,7 +692,7 @@ class ExtendedTimeDelta(timedelta):
         Example:
                 >>> et = ExtendedTimeDelta(years=1, months=1, days=1)
                 >>> et.to_seconds()
-                        34273746.0
+                34273746.0
 
         """
         return self.to_microseconds() / 1e6
@@ -685,7 +701,7 @@ class ExtendedTimeDelta(timedelta):
         """Return the total number of minutes contained in the ExtendedTimeDelta.
 
         The calculation includes years and months by converting them into days using
-        the approximations (defaults to 365 days per year and 30 days per month).
+        the configured lengths (defaults to 365.25 days per year and 30.436875 days per month).
 
         Returns:
                 float: The total minutes represented by the ExtendedTimeDelta.
@@ -702,7 +718,7 @@ class ExtendedTimeDelta(timedelta):
         """Return the total number of hours contained in the ExtendedTimeDelta.
 
         The calculation includes years and months by converting them into days using
-        the approximations (defaults to 365 days per year and 30 days per month).
+        the configured lengths (defaults to 365.25 days per year and 30.436875 days per month).
 
         Returns:
                 float: The total hours represented by the ExtendedTimeDelta.
@@ -719,7 +735,7 @@ class ExtendedTimeDelta(timedelta):
         """Return the total number of days contained in the ExtendedTimeDelta.
 
         The calculation includes years and months by converting them into days using
-        the approximations (defaults 365 days per year and 30 days per month).
+        the configured lengths (defaults to 365.25 days per year and 30.436875 days per month).
 
         Returns:
                 float: The total days represented by the ExtendedTimeDelta.
@@ -736,7 +752,7 @@ class ExtendedTimeDelta(timedelta):
         """Return the total number of weeks contained in the ExtendedTimeDelta.
 
         The calculation includes years and months by converting them into days using
-        the approximations (defaults 365 days per year and 30 days per month).
+        the configured lengths (defaults to 365.25 days per year and 30.436875 days per month).
 
         Returns:
                 float: The total weeks represented by the ExtendedTimeDelta.
@@ -753,7 +769,7 @@ class ExtendedTimeDelta(timedelta):
         """Return the total number of months contained in the ExtendedTimeDelta.
 
         The calculation includes years and months by converting them into days using
-        the approximations (defaults to 365 days per year and 30 days per month).
+        the configured lengths (defaults to 365.25 days per year and 30.436875 days per month).
 
         Returns:
                 float: The total months represented by the ExtendedTimeDelta.
@@ -761,7 +777,7 @@ class ExtendedTimeDelta(timedelta):
         Example:
                 >>> et = ExtendedTimeDelta(years=1, months=1, days=1)
                 >>> et.to_months()
-                13.0
+                13
 
         """
         return (self.years * 12) + self.months
@@ -770,7 +786,7 @@ class ExtendedTimeDelta(timedelta):
         """Return the total number of years contained in the ExtendedTimeDelta.
 
         The calculation includes years and months by converting them into days using
-        the approximations (defaults to 365 days per year and 30 days per month).
+        the configured lengths (defaults to 365.25 days per year and 30.436875 days per month).
 
         Returns:
                 float: The total years represented by the ExtendedTimeDelta.

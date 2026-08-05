@@ -57,16 +57,34 @@ This package provides a set of predefined temporal adjusters that can be used to
 datetime.date(2021, 1, 4)
 
 >>> TemporalAdjuster.last_day_of_last_month(datetime(2021, 1, 1))
-datetime.datetime(2020, 12, 31)
+datetime.datetime(2020, 12, 31, 0, 0)
 
 >>> TemporalAdjuster.first_of_year(Weekday.SATURDAY, date(2021, 1, 1))
 datetime.date(2021, 1, 2)
 
 >>> TemporalAdjuster.nth_of_month(Weekday.SUNDAY, datetime(2021, 5, 1), 2)
-datetime.datetime(2021, 5, 9)
+datetime.datetime(2021, 5, 9, 0, 0)
 
->>> TemporalAdjuster.next(Weekday.MONDAY, datetime(2021, 2, 11), 2)
-datetime.datetime(2021, 2, 15)
+>>> TemporalAdjuster.next(Weekday.MONDAY, datetime(2021, 2, 11))
+datetime.datetime(2021, 2, 15, 0, 0)
+
+>>> TemporalAdjuster.next_working_day(date(2024, 6, 14))
+datetime.date(2024, 6, 17)
+
+>>> TemporalAdjuster.nth_of_month(Weekday.SATURDAY, date(2024, 6, 13), -1)
+datetime.date(2024, 6, 29)
+
+>>> TemporalAdjuster.first_day_of_quarter(date(2024, 5, 15))
+datetime.date(2024, 4, 1)
+```
+
+Temporal Adjuster has no runtime dependencies and preserves the type of its input: `date` in, `date` out; `datetime` in, `datetime` out.
+
+To apply an adjuster to a collection of dates, use a comprehension:
+
+```py
+>>> [TemporalAdjuster.next(Weekday.MONDAY, d) for d in [date(2021, 2, 11), date(2021, 2, 20)]]
+[datetime.date(2021, 2, 15), datetime.date(2021, 2, 22)]
 ```
 
 ## Contributing

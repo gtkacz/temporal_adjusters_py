@@ -1,11 +1,21 @@
 import pickle
 import unittest
+import warnings
 from datetime import timedelta
 
 from temporal_adjuster.common.types import ExtendedTimeDelta
 
 
 class TestExtendedTimeDelta(unittest.TestCase):
+    def setUp(self):
+        # The class is deprecated; silence the warning for the behavioural tests.
+        self.enterContext(warnings.catch_warnings())
+        warnings.simplefilter("ignore", DeprecationWarning)
+
+    def test_deprecation_warning(self):
+        with self.assertWarns(DeprecationWarning):
+            ExtendedTimeDelta(days=1)
+
     def test_initialization_default(self):
         et = ExtendedTimeDelta()
         self.assertEqual(et.years, 0)

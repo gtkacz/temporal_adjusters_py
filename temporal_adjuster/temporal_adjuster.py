@@ -33,7 +33,7 @@ class TemporalAdjuster(
         datetime.date(2020, 12, 27)
 
         >>> TemporalAdjuster.first_of_month(Weekday.SATURDAY, date(2021, 1, 1))
-        datetime.date(2021, 2, 6)
+        datetime.date(2021, 1, 2)
 
         >>> TemporalAdjuster.nth_of_month(Weekday.SUNDAY, date(2021, 5, 1), 2)
         datetime.date(2021, 5, 9)

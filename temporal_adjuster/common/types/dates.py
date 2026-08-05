@@ -7,8 +7,10 @@ from typing import TypeVar
 #: Type alias for any date-like object (datetime or date)
 AnyDate = datetime | date
 
-#: TypeVar bound to date-like objects
-DateT = TypeVar("DateT", bound=AnyDate)
+#: TypeVar constrained to date-like types. Constrained rather than bound so
+#: type checkers resolve arithmetic and replace() per concrete type instead of
+#: collapsing the result to the date base class.
+DateT = TypeVar("DateT", date, datetime)
 
 #: Type alias for any time-like object (datetime or time)
 AnyTime = datetime | time

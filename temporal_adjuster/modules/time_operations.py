@@ -4,14 +4,12 @@
 from datetime import datetime, time, timedelta
 from typing import cast
 
-from temporal_adjuster.common.decorators import sequenceable
-from temporal_adjuster.common.types import AnyTime, ExtendedTimeDelta, TimeT
+from temporal_adjuster.common.types import AnyTime, TimeT
 
 
 class _TimeAdjuster:
     @staticmethod
-    @sequenceable(target="time_obj_1")
-    def time_difference(time_obj_1: AnyTime, time_obj_2: AnyTime) -> ExtendedTimeDelta:
+    def time_difference(time_obj_1: AnyTime, time_obj_2: AnyTime) -> timedelta:
         """Calculate the positive difference between two time objects.
 
         accounting for wrapping around midnight.
@@ -21,22 +19,21 @@ class _TimeAdjuster:
             time_obj_2 (AnyTime): The second time object.
 
         Returns:
-            ExtendedTimeDelta: The positive difference between the two time objects.
+            timedelta: The positive difference between the two time objects.
 
         Example:
             >>> from datetime import time
             >>> time_difference(time(23, 0), time(1, 0))
-            ExtendedTimeDelta(seconds=7200)
+            datetime.timedelta(seconds=7200)
 
         """
         total_seconds1 = _TimeAdjuster.time_to_seconds(time_obj_1)
         total_seconds2 = _TimeAdjuster.time_to_seconds(time_obj_2)
         delta_seconds = (total_seconds2 - total_seconds1) % (24 * 3600)
 
-        return ExtendedTimeDelta(seconds=delta_seconds)
+        return timedelta(seconds=delta_seconds)
 
     @staticmethod
-    @sequenceable(target="time_obj")
     def is_time_in_range(time_obj: AnyTime, start: AnyTime, end: AnyTime) -> bool:
         """Check whether ``time_obj`` is within the range [start, end].
 
@@ -69,9 +66,11 @@ class _TimeAdjuster:
         return start <= time_obj <= end if start <= end else time_obj >= start or time_obj <= end
 
     @staticmethod
-    @sequenceable(target="time_obj")
     def round_time(time_obj: TimeT, round_to: int = 60) -> TimeT:
         """Round a time object to the nearest multiple of round_to seconds.
+
+        Rounding is applied to the wall-clock reading; any ``tzinfo`` on the
+        input is carried over unchanged.
 
         Args:
             time_obj (TimeT): The time object to round.
@@ -89,15 +88,17 @@ class _TimeAdjuster:
         total_seconds = _TimeAdjuster.time_to_seconds(time_obj)
         rounded_seconds = int((total_seconds + round_to / 2) // round_to * round_to)
         if isinstance(time_obj, time):
-            return cast("TimeT", _TimeAdjuster.seconds_to_time(rounded_seconds))
+            rounded_time = _TimeAdjuster.seconds_to_time(rounded_seconds)
+            return cast("TimeT", rounded_time.replace(tzinfo=time_obj.tzinfo))
         datetime_obj = cast("datetime", time_obj)
-        return cast(
-            "TimeT",
-            datetime.combine(datetime_obj.date(), time.min) + timedelta(seconds=rounded_seconds),
+        midnight = datetime.combine(
+            datetime_obj.date(),
+            time.min,
+            tzinfo=datetime_obj.tzinfo,
         )
+        return cast("TimeT", midnight + timedelta(seconds=rounded_seconds))
 
     @staticmethod
-    @sequenceable(target="time_obj")
     def time_to_seconds(time_obj: AnyTime) -> float:
         """Convert a time object to the total number of seconds since midnight.
 
@@ -118,7 +119,6 @@ class _TimeAdjuster:
         return time_obj.hour * 3600 + time_obj.minute * 60 + time_obj.second + time_obj.microsecond / 1e6
 
     @staticmethod
-    @sequenceable(target="seconds")
     def seconds_to_time(seconds: float) -> time:
         """Convert the total number of seconds since midnight to a time object.
 

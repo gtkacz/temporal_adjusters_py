@@ -119,6 +119,157 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
                 self.assertEqual(output.weekday(), test_expected_output.weekday())
 
+    def test_previous_is_alias_of_last(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 6, 13)),
+            (Weekday.SATURDAY, date(2024, 6, 15)),
+            (ISOWeekday.SATURDAY, datetime(2025, 1, 1)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method previous (subtest {index}) with inputs: {test}",
+            ):
+                test_input_weekday, test_input_date = test
+
+                self.assertEqual(
+                    TemporalAdjuster.previous(test_input_weekday, test_input_date),
+                    TemporalAdjuster.last(test_input_weekday, test_input_date),
+                )
+
+    def test_previous_or_same_is_alias_of_last_or_same(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 6, 13)),
+            (Weekday.SATURDAY, date(2024, 6, 15)),
+            (ISOWeekday.SATURDAY, datetime(2025, 1, 1)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method previous_or_same (subtest {index}) with inputs: {test}",
+            ):
+                test_input_weekday, test_input_date = test
+
+                self.assertEqual(
+                    TemporalAdjuster.previous_or_same(
+                        test_input_weekday,
+                        test_input_date,
+                    ),
+                    TemporalAdjuster.last_or_same(test_input_weekday, test_input_date),
+                )
+
+    def test_next_working_day_success(self):
+        tests = [
+            (date(2024, 6, 12), date(2024, 6, 13)),
+            (date(2024, 6, 14), date(2024, 6, 17)),
+            (date(2024, 6, 15), date(2024, 6, 17)),
+            (date(2024, 6, 16), date(2024, 6, 17)),
+            (datetime(2024, 6, 14), datetime(2024, 6, 17)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method next_working_day (subtest {index}) with inputs: {test}",
+            ):
+                test_input_date, test_expected_output = test
+
+                self.assertEqual(
+                    TemporalAdjuster.next_working_day(test_input_date),
+                    test_expected_output,
+                )
+
+    def test_next_working_day_or_same_success(self):
+        tests = [
+            (date(2024, 6, 14), date(2024, 6, 14)),
+            (date(2024, 6, 15), date(2024, 6, 17)),
+            (date(2024, 6, 16), date(2024, 6, 17)),
+            (datetime(2024, 6, 15), datetime(2024, 6, 17)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method next_working_day_or_same (subtest {index}) with inputs: {test}",
+            ):
+                test_input_date, test_expected_output = test
+
+                self.assertEqual(
+                    TemporalAdjuster.next_working_day_or_same(test_input_date),
+                    test_expected_output,
+                )
+
+    def test_previous_working_day_success(self):
+        tests = [
+            (date(2024, 6, 17), date(2024, 6, 14)),
+            (date(2024, 6, 16), date(2024, 6, 14)),
+            (date(2024, 6, 15), date(2024, 6, 14)),
+            (date(2024, 6, 13), date(2024, 6, 12)),
+            (datetime(2024, 6, 17), datetime(2024, 6, 14)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method previous_working_day (subtest {index}) with inputs: {test}",
+            ):
+                test_input_date, test_expected_output = test
+
+                self.assertEqual(
+                    TemporalAdjuster.previous_working_day(test_input_date),
+                    test_expected_output,
+                )
+
+    def test_previous_working_day_or_same_success(self):
+        tests = [
+            (date(2024, 6, 17), date(2024, 6, 17)),
+            (date(2024, 6, 16), date(2024, 6, 14)),
+            (date(2024, 6, 15), date(2024, 6, 14)),
+            (datetime(2024, 6, 16), datetime(2024, 6, 14)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method previous_working_day_or_same (subtest {index}) with inputs: {test}",
+            ):
+                test_input_date, test_expected_output = test
+
+                self.assertEqual(
+                    TemporalAdjuster.previous_working_day_or_same(test_input_date),
+                    test_expected_output,
+                )
+
+    def test_working_day_custom_weekend(self):
+        friday_saturday_weekend = (Weekday.FRIDAY, Weekday.SATURDAY)
+
+        self.assertEqual(
+            TemporalAdjuster.next_working_day(
+                date(2024, 6, 13),
+                weekend=friday_saturday_weekend,
+            ),
+            date(2024, 6, 16),
+        )
+        self.assertEqual(
+            TemporalAdjuster.previous_working_day(
+                date(2024, 6, 16),
+                weekend=friday_saturday_weekend,
+            ),
+            date(2024, 6, 13),
+        )
+        self.assertEqual(
+            TemporalAdjuster.next_working_day(
+                date(2024, 6, 13),
+                weekend=("FRIDAY", ISOWeekday.SATURDAY),
+            ),
+            date(2024, 6, 16),
+        )
+
+    def test_working_day_rejects_seven_day_weekend(self):
+        with self.assertRaises(ValueError) as context:
+            TemporalAdjuster.next_working_day(date(2024, 6, 13), weekend=tuple(Weekday))
+
+        self.assertEqual(
+            "The weekend cannot include all seven days of the week.",
+            str(context.exception),
+        )
+
     def test_first_of_month_success(self):
         tests = [
             (Weekday.SATURDAY, date(2024, 6, 13), date(2024, 6, 1)),
@@ -274,6 +425,56 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                 test_input_weekday, test_input_date, test_expected_output = test
 
                 output = TemporalAdjuster.last_of_last_month(
+                    test_input_weekday,
+                    test_input_date,
+                )
+
+                self.assertEqual(
+                    output,
+                    test_expected_output,
+                )
+
+                self.assertEqual(output.weekday(), test_expected_output.weekday())
+
+    def test_first_of_quarter_success(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 5, 15), date(2024, 4, 6)),
+            (Weekday.MONDAY, date(2024, 1, 10), date(2024, 1, 1)),
+            (ISOWeekday.SATURDAY, datetime(2024, 5, 15), datetime(2024, 4, 6)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method first_of_quarter (subtest {index}) with inputs: {test}",
+            ):
+                test_input_weekday, test_input_date, test_expected_output = test
+
+                output = TemporalAdjuster.first_of_quarter(
+                    test_input_weekday,
+                    test_input_date,
+                )
+
+                self.assertEqual(
+                    output,
+                    test_expected_output,
+                )
+
+                self.assertEqual(output.weekday(), test_expected_output.weekday())
+
+    def test_last_of_quarter_success(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 5, 15), date(2024, 6, 29)),
+            (Weekday.SUNDAY, date(2024, 11, 5), date(2024, 12, 29)),
+            (ISOWeekday.SATURDAY, datetime(2024, 5, 15), datetime(2024, 6, 29)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method last_of_quarter (subtest {index}) with inputs: {test}",
+            ):
+                test_input_weekday, test_input_date, test_expected_output = test
+
+                output = TemporalAdjuster.last_of_quarter(
                     test_input_weekday,
                     test_input_date,
                 )
@@ -475,6 +676,21 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
                 self.assertEqual(output.weekday(), test_expected_output.weekday())
 
+    def test_nth_from_date_exception_invalid_n(self):
+        for test_input_n in (0, -1):
+            with self.subTest(test_input_n=test_input_n):
+                with self.assertRaises(ValueError) as context:
+                    TemporalAdjuster.nth_from_date(
+                        Weekday.SATURDAY,
+                        date(2024, 6, 13),
+                        test_input_n,
+                    )
+
+                self.assertEqual(
+                    f"The value of n must be at least 1, but is {test_input_n}.",
+                    str(context.exception),
+                )
+
     def test_nth_of_month_success(self):
         tests = [
             (Weekday.SATURDAY, date(2024, 6, 13), 1, date(2024, 6, 1)),
@@ -513,13 +729,56 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
                 self.assertEqual(output.weekday(), test_expected_output.weekday())
 
+    def test_nth_of_month_negative_n_success(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 6, 13), -1, date(2024, 6, 29)),
+            (Weekday.SATURDAY, date(2024, 6, 13), -2, date(2024, 6, 22)),
+            (Weekday.SATURDAY, date(2024, 6, 13), -5, date(2024, 6, 1)),
+            (Weekday.SATURDAY, date(2024, 7, 1), -1, date(2024, 7, 27)),
+            (ISOWeekday.SATURDAY, datetime(2024, 6, 13), -1, datetime(2024, 6, 29)),
+            (ISOWeekday.SATURDAY, datetime(2024, 7, 1), -4, datetime(2024, 7, 6)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method nth_of_month (subtest {index}) with inputs: {test}",
+            ):
+                (
+                    test_input_weekday,
+                    test_input_date,
+                    test_input_n,
+                    test_expected_output,
+                ) = test
+
+                output = TemporalAdjuster.nth_of_month(
+                    test_input_weekday,
+                    test_input_date,
+                    test_input_n,
+                )
+
+                self.assertEqual(
+                    output,
+                    test_expected_output,
+                )
+
+                self.assertEqual(output.weekday(), test_expected_output.weekday())
+
+    def test_nth_of_month_negative_n_exception_no_nth_weekday(self):
+        with self.assertRaises(DateError) as context:
+            TemporalAdjuster.nth_of_month(Weekday.SATURDAY, date(2024, 7, 1), -5)
+
+        self.assertEqual(
+            "The month does not have a 5th-to-last occurrence of saturday.",
+            str(context.exception),
+        )
+
     def test_nth_of_month_exception_invalid_n(self):
         tests = [
-            (Weekday.SATURDAY, date(2024, 6, 13), -1),
+            (Weekday.SATURDAY, date(2024, 6, 13), -6),
             (Weekday.SATURDAY, date(2024, 6, 13), 0),
             (Weekday.SATURDAY, date(2024, 6, 13), 6),
             (Weekday.SATURDAY, date(2024, 6, 13), 7),
-            (ISOWeekday.SATURDAY, datetime(2024, 6, 13), -1),
+            (ISOWeekday.SATURDAY, datetime(2024, 6, 13), -7),
             (ISOWeekday.SATURDAY, datetime(2024, 6, 13), 0),
             (ISOWeekday.SATURDAY, datetime(2024, 6, 13), 6),
             (ISOWeekday.SATURDAY, datetime(2024, 6, 13), 7),
@@ -539,7 +798,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                     )
 
                 self.assertEqual(
-                    f"The value of n must be between 1 and 5, but is {test_input_n}.",
+                    f"The value of n must be between -5 and 5, excluding 0, but is {test_input_n}.",
                     str(context.exception),
                 )
 
@@ -607,9 +866,11 @@ class TestTemporalAdjusterForWeekdays(TestCase):
         tests = [
             (Weekday.SATURDAY, date(2024, 6, 13), -1),
             (Weekday.SATURDAY, date(2024, 6, 13), 0),
+            (Weekday.SATURDAY, date(2024, 6, 13), 54),
             (Weekday.SATURDAY, date(2024, 6, 13), 55),
             (ISOWeekday.SATURDAY, datetime(2024, 6, 13), -1),
             (ISOWeekday.SATURDAY, datetime(2024, 6, 13), 0),
+            (ISOWeekday.SATURDAY, datetime(2024, 6, 13), 54),
             (ISOWeekday.SATURDAY, datetime(2024, 6, 13), 55),
         ]
 
@@ -627,7 +888,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                     )
 
                 self.assertEqual(
-                    f"The value of n must be between 1 and 54, but is {test_input_n}.",
+                    f"The value of n must be between 1 and 53, but is {test_input_n}.",
                     str(context.exception),
                 )
 

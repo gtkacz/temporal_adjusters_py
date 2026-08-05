@@ -34,16 +34,16 @@ class _AbsoluteDateOperations:
         """Returns the date of the given day of the year.
 
         Args:
-                        date (DateT): The date to adjust.
-                        int_value (int): The day of the year.
+            date (DateT): The date to adjust.
+            int_value (int): The day of the year.
 
         Returns:
-                        DateT: The date of the given day of the year.
+            DateT: The date of the given day of the year.
 
         Example:
-                        >>> from datetime import date
-                        >>> int_to_day_of_year(date(2021, 10, 10), 1)
-                        datetime.date(2021, 1, 1)
+            >>> from datetime import date
+            >>> int_to_day_of_year(date(2021, 10, 10), 1)
+            datetime.date(2021, 1, 1)
 
         """
         maximum = 366 if isleap(date.year) else 365
@@ -60,16 +60,16 @@ class _AbsoluteDateOperations:
         """Returns the date of the given day of the month.
 
         Args:
-                        date (DateT): The date to adjust.
-                        int_value (int): The day of the month.
+            date (DateT): The date to adjust.
+            int_value (int): The day of the month.
 
         Returns:
-                        DateT: The date of the given day of the month.
+            DateT: The date of the given day of the month.
 
         Example:
-                        >>> from datetime import date
-                        >>> int_to_day_of_month(date(2021, 1, 1), 1)
-                        datetime.date(2021, 1, 1)
+            >>> from datetime import date
+            >>> int_to_day_of_month(date(2021, 1, 1), 1)
+            datetime.date(2021, 1, 1)
 
         """
         maximum = monthrange(date.year, date.month)[1]
@@ -86,15 +86,15 @@ class _AbsoluteDateOperations:
         """Returns the integer value for the given day of the year of the given date.
 
         Args:
-                        date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                        int: The day of the year of the given date.
+            int: The day of the year of the given date.
 
         Example:
-                        >>> from datetime import date
-                        >>> date_to_int_of_year(date(2021, 1, 1))
-                        1
+            >>> from datetime import date
+            >>> date_to_int_of_year(date(2021, 1, 1))
+            1
 
         """
         return date.timetuple().tm_yday
@@ -105,15 +105,15 @@ class _AbsoluteDateOperations:
         """Returns the integer value for the given day of the month of the given date.
 
         Args:
-                        date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                        int: The day of the month of the given date.
+            int: The day of the month of the given date.
 
         Example:
-                        >>> from datetime import date
-                        >>> date_to_int_of_month(date(2021, 1, 1))
-                        1
+            >>> from datetime import date
+            >>> date_to_int_of_month(date(2021, 1, 1))
+            1
 
         """
         return date.day

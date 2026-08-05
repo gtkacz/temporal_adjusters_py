@@ -1,5 +1,5 @@
 Temporal Adjuster
-====================
+=================
 
 Main Class
 ----------
@@ -11,15 +11,16 @@ Main Class
    :inherited-members:
 
 Common Types and Utilities
--------------------------
+--------------------------
 
 Date Types
-~~~~~~~~~
+~~~~~~~~~~
 
 .. automodule:: temporal_adjuster.common.types.dates
+   :no-index:
 
 Extended TimeDelta
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. automodule:: temporal_adjuster.common.types.__extended_timedelta
    :members:
@@ -33,11 +34,13 @@ Enums
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:
 
 Exceptions
-~~~~~~~~~
+~~~~~~~~~~
 
 .. automodule:: temporal_adjuster.common.exceptions.common
    :members:
    :undoc-members:
    :show-inheritance:
+   :no-index:

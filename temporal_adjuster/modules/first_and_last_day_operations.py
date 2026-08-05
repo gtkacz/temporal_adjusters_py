@@ -14,10 +14,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the first day of the week of the given date. The week starts on Monday.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The first day of the week of the given date.
+            DateT: The first day of the week of the given date.
 
         """
         return date - relativedelta(days=date.weekday())
@@ -28,10 +28,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the first day of the next week of the given date. The week starts on Monday.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The first day of the next week of the given date.
+            DateT: The first day of the next week of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.first_day_of_week(
@@ -44,10 +44,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the first day of the last week of the given date. The week starts on Monday.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The first day of the next week of the given date.
+            DateT: The first day of the next week of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.first_day_of_week(
@@ -60,10 +60,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the first day of the month of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The first day of the month of the given date.
+            DateT: The first day of the month of the given date.
 
         """
         return date.replace(day=1)
@@ -74,10 +74,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the first day of the next month of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The first day of the next month of the given date.
+            DateT: The first day of the next month of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.first_day_of_month(
@@ -90,10 +90,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the first day of the last month of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The first day of the next month of the given date.
+            DateT: The first day of the next month of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.first_day_of_month(
@@ -106,10 +106,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the first day of the year of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The first day of the year of the given date.
+            DateT: The first day of the year of the given date.
 
         """
         return date.replace(month=1, day=1)
@@ -120,10 +120,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the first day of the next year of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The first day of the next year of the given date.
+            DateT: The first day of the next year of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.first_day_of_year(
@@ -136,10 +136,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the first day of the last year of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The first day of the next year of the given date.
+            DateT: The first day of the next year of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.first_day_of_year(
@@ -152,10 +152,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the last day of the week of the given date. The week ends on Sunday.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The last day of the week of the given date.
+            DateT: The last day of the week of the given date.
 
         """
         return date + relativedelta(days=6 - date.weekday())
@@ -166,10 +166,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the last day of the next week of the given date. The week ends on Sunday.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The last day of the next week of the given date.
+            DateT: The last day of the next week of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.last_day_of_week(
@@ -182,10 +182,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the last day of the last week of the given date. The week ends on Sunday.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The last day of the last week of the given date.
+            DateT: The last day of the last week of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.last_day_of_week(
@@ -198,10 +198,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the last day of the month of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The last day of the month of the given date.
+            DateT: The last day of the month of the given date.
 
         """
         return date.replace(day=1) + relativedelta(months=1, days=-1)
@@ -212,10 +212,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the last day of the next month of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The last day of the next month of the given date.
+            DateT: The last day of the next month of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.last_day_of_month(
@@ -228,10 +228,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the last day of the last month of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The last day of the last month of the given date.
+            DateT: The last day of the last month of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.first_day_of_month(
@@ -244,10 +244,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the last day of the year of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The last day of the year of the given date.
+            DateT: The last day of the year of the given date.
 
         """
         return date.replace(month=12, day=31)
@@ -258,10 +258,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the last day of the next year of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The last day of the next year of the given date.
+            DateT: The last day of the next year of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.last_day_of_year(
@@ -274,10 +274,10 @@ class _TemporalAdjusterForFirstAndLastDays:
         """Returns the last day of the last year of the given date.
 
         Args:
-                date (DateT): The date to adjust.
+            date (DateT): The date to adjust.
 
         Returns:
-                DateT: The last day of the last year of the given date.
+            DateT: The last day of the last year of the given date.
 
         """
         return _TemporalAdjusterForFirstAndLastDays.last_day_of_year(

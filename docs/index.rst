@@ -15,6 +15,7 @@ object (representing a date, time, or datetime) to produce a new temporal object
    :caption: Contents:
 
    ta
+   modules
 
 
 Quick Examples

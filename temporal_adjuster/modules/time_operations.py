@@ -17,16 +17,16 @@ class _TimeAdjuster:
         accounting for wrapping around midnight.
 
         Args:
-                time_obj_1 (AnyTime): The first time object.
-                time_obj_2 (AnyTime): The second time object.
+            time_obj_1 (AnyTime): The first time object.
+            time_obj_2 (AnyTime): The second time object.
 
         Returns:
-                ExtendedTimeDelta: The positive difference between the two time objects.
+            ExtendedTimeDelta: The positive difference between the two time objects.
 
         Example:
-                >>> from datetime import time
-                >>> time_difference(time(23, 0), time(1, 0))
-                ExtendedTimeDelta(seconds=7200)
+            >>> from datetime import time
+            >>> time_difference(time(23, 0), time(1, 0))
+            ExtendedTimeDelta(seconds=7200)
 
         """
         total_seconds1 = _TimeAdjuster.time_to_seconds(time_obj_1)
@@ -44,17 +44,17 @@ class _TimeAdjuster:
         the range contains only that single time.
 
         Args:
-                time_obj (AnyTime): The time to check.
-                start (AnyTime): The start of the range.
-                end (AnyTime): The end of the range.
+            time_obj (AnyTime): The time to check.
+            start (AnyTime): The start of the range.
+            end (AnyTime): The end of the range.
 
         Returns:
-                bool: True if time_obj is within the range [start, end].
+            bool: True if time_obj is within the range [start, end].
 
         Example:
-                >>> from datetime import time
-                >>> is_time_in_range(time(23, 0), time(1, 0), time(0, 0))
-                True
+            >>> from datetime import time
+            >>> is_time_in_range(time(23, 0), time(1, 0), time(0, 0))
+            True
 
         """
         if isinstance(start, datetime):
@@ -74,16 +74,16 @@ class _TimeAdjuster:
         """Round a time object to the nearest multiple of round_to seconds.
 
         Args:
-                time_obj (TimeT): The time object to round.
-                round_to (int, optional): The number of seconds to round to. Defaults to 60.
+            time_obj (TimeT): The time object to round.
+            round_to (int, optional): The number of seconds to round to. Defaults to 60.
 
         Returns:
-                TimeT: The rounded time object.
+            TimeT: The rounded time object.
 
         Example:
-                >>> from datetime import time
-                >>> round_time(time(23, 59, 30), 60)
-                datetime.time(0, 0)
+            >>> from datetime import time
+            >>> round_time(time(23, 59, 30), 60)
+            datetime.time(0, 0)
 
         """
         total_seconds = _TimeAdjuster.time_to_seconds(time_obj)
@@ -102,13 +102,13 @@ class _TimeAdjuster:
         """Convert a time object to the total number of seconds since midnight.
 
         Args:
-                time_obj (AnyTime): The time object to convert.
+            time_obj (AnyTime): The time object to convert.
 
         Returns:
-                float: The total number of seconds since midnight.
+            float: The total number of seconds since midnight.
 
         Raises:
-                TypeError: If time_obj is not a time or datetime instance.
+            TypeError: If time_obj is not a time or datetime instance.
 
         """
         if not isinstance(time_obj, (time, datetime)):
@@ -123,10 +123,10 @@ class _TimeAdjuster:
         """Convert the total number of seconds since midnight to a time object.
 
         Args:
-                seconds (float): The total number of seconds since midnight.
+            seconds (float): The total number of seconds since midnight.
 
         Returns:
-                time: The time object.
+            time: The time object.
 
         """
         microseconds_per_second = 1_000_000

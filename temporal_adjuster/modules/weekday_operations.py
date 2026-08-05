@@ -20,10 +20,10 @@ class _TemporalAdjusterForWeekday:
         """Parses the given weekday to the Pythonic format.
 
         Args:
-                weekday (Union[Weekday, ISOWeekday, str, int]): The weekday to parse.
+            weekday (Union[Weekday, ISOWeekday, str, int]): The weekday to parse.
 
         Returns:
-                Weekday: The parsed weekday.
+            Weekday: The parsed weekday.
 
         """
         if isinstance(weekday, Weekday):
@@ -43,11 +43,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the next date of the given day of the week.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The next date of the given day of the week.
+            DateT: The next date of the given day of the week.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -60,11 +60,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the next date of the given day of the week. If the given date is the same day of the week, the given date is returned.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The next date of the given day of the week.
+            DateT: The next date of the given day of the week.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -77,11 +77,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the last date of the given day of the week.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The last date of the given day of the week.
+            DateT: The last date of the given day of the week.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -94,11 +94,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the last date of the given day of the week. If the given date is the same day of the week, the given date is returned.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The last date of the given day of the week.
+            DateT: The last date of the given day of the week.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -111,11 +111,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the first date of the given day of the week in the month of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The first date of the given day of the week in the month of the given date.
+            DateT: The first date of the given day of the week in the month of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -128,11 +128,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the first date of the given day of the week in the month after the month of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The first date of the given day of the week in the month after the month of the given date.
+            DateT: The first date of the given day of the week in the month after the month of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -148,11 +148,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the first date of the given day of the week in the month before the month of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The first date of the given day of the week in the month before the month of the given date.
+            DateT: The first date of the given day of the week in the month before the month of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -168,11 +168,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the last date of the given day of the week in the month of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The last date of the given day of the week in the month of the given date.
+            DateT: The last date of the given day of the week in the month of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -188,11 +188,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the last date of the given day of the week in the month after the month of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The last date of the given day of the week in the month after the month of the given date.
+            DateT: The last date of the given day of the week in the month after the month of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -208,11 +208,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the last date of the given day of the week in the month before the month of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The last date of the given day of the week in the month before the month of the given date.
+            DateT: The last date of the given day of the week in the month before the month of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -228,11 +228,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the first date of the given day of the week in the year of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The first date of the given day of the week in the year of the given date.
+            DateT: The first date of the given day of the week in the year of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -245,11 +245,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the first date of the given day of the week in the year after the year of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The first date of the given day of the week in the year after the year of the given date.
+            DateT: The first date of the given day of the week in the year after the year of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -265,11 +265,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the first date of the given day of the week in the year before the year of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The first date of the given day of the week in the year before the year of the given date.
+            DateT: The first date of the given day of the week in the year before the year of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -285,11 +285,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the last date of the given day of the week in the year of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The last date of the given day of the week in the year of the given date.
+            DateT: The last date of the given day of the week in the year of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -302,11 +302,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the last date of the given day of the week in the year after the year of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The last date of the given day of the week in the year after the year of the given date.
+            DateT: The last date of the given day of the week in the year after the year of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -322,11 +322,11 @@ class _TemporalAdjusterForWeekday:
         """Returns the last date of the given day of the week in the year before the year of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                DateT: The last date of the given day of the week in the year before the year of the given date.
+            DateT: The last date of the given day of the week in the year before the year of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -346,12 +346,12 @@ class _TemporalAdjusterForWeekday:
         """Returns the nth date of the given day of the week from the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
-                n (int): The nth occurrence of the given day of the week.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
+            n (int): The nth occurrence of the given day of the week.
 
         Returns:
-                DateT: The nth date of the given day of the week from the given date.
+            DateT: The nth date of the given day of the week from the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -364,16 +364,16 @@ class _TemporalAdjusterForWeekday:
         """Returns the nth date of the given day of the week in the month of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
-                n (int): The nth occurrence of the given day of the week.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
+            n (int): The nth occurrence of the given day of the week.
 
         Returns:
-                DateT: The nth date of the given day of the week in the month of the given date.
+            DateT: The nth date of the given day of the week in the month of the given date.
 
         Raises:
-                ValueError: If n is less than 1 or greater than 5.
-                DateError: If the month does not have a nth occurrence of the given day of the week.
+            ValueError: If n is less than 1 or greater than 5.
+            DateError: If the month does not have a nth occurrence of the given day of the week.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -388,7 +388,7 @@ class _TemporalAdjusterForWeekday:
 
         if output_date.month != date.month:
             raise DateError(
-                f"The month does not have a {n}th occurrence of {weekday.name.lower()}.",
+            f"The month does not have a {n}th occurrence of {weekday.name.lower()}.",
             )
 
         return output_date
@@ -399,16 +399,16 @@ class _TemporalAdjusterForWeekday:
         """Returns the nth date of the given day of the week in the year of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
-                n (int): The nth occurrence of the given day of the week.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
+            n (int): The nth occurrence of the given day of the week.
 
         Returns:
-                DateT: The nth date of the given day of the week in the year of the given date.
+            DateT: The nth date of the given day of the week in the year of the given date.
 
         Raises:
-                ValueError: If n is less than 1 or greater than 54.
-                DateError: If the year does not have a nth occurrence of the given day of the week.
+            ValueError: If n is less than 1 or greater than 54.
+            DateError: If the year does not have a nth occurrence of the given day of the week.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -423,7 +423,7 @@ class _TemporalAdjusterForWeekday:
 
         if output_date.year != date.year:
             raise DateError(
-                f"The year does not have a {n}th occurrence of {weekday.name.lower()}.",
+            f"The year does not have a {n}th occurrence of {weekday.name.lower()}.",
             )
 
         return output_date
@@ -434,21 +434,21 @@ class _TemporalAdjusterForWeekday:
         """Returns the occurrence of the given day of the week in the month of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                int: The occurrence of the given day of the week in the month of the given date.
+            int: The occurrence of the given day of the week in the month of the given date.
 
         Raises:
-                ValueError: If the date does not fall on the requested weekday.
+            ValueError: If the date does not fall on the requested weekday.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
         if date.weekday() != weekday.value:
             raise ValueError(
-                f"The date {date} does not fall on {weekday.name.lower()}.",
+            f"The date {date} does not fall on {weekday.name.lower()}.",
             )
 
         return (date.day - 1) // 7 + 1
@@ -459,21 +459,21 @@ class _TemporalAdjusterForWeekday:
         """Returns the occurrence of the given day of the week in the year of the given date.
 
         Args:
-                weekday (Weekday): The day of the week.
-                date (DateT): The reference date.
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
 
         Returns:
-                int: The occurrence of the given day of the week in the year of the given date.
+            int: The occurrence of the given day of the week in the year of the given date.
 
         Raises:
-                ValueError: If the date does not fall on the requested weekday.
+            ValueError: If the date does not fall on the requested weekday.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
 
         if date.weekday() != weekday.value:
             raise ValueError(
-                f"The date {date} does not fall on {weekday.name.lower()}.",
+            f"The date {date} does not fall on {weekday.name.lower()}.",
             )
 
         return (_AbsoluteDateOperations.date_to_int_of_year(date) - 1) // 7 + 1

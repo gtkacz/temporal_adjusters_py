@@ -36,7 +36,7 @@ target-version = "py312"
 preview = true
 
 select = ["ALL"]
-ignore = [ "EM102", "PLR0904", "PLR2004"]
+ignore = [ "EM102", "PLR0904", "PLR2004", "TRY003", "W505"]
 extend-select = ["DOC"]
 
 fixable = ["ALL"]
@@ -47,10 +47,10 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 [format]
 preview = true
 
-quote-style = "single"
+quote-style = "double"
 docstring-code-format = true
 
-indent-style = "tab"
+indent-style = "space"
 
 skip-magic-trailing-comma = false
 

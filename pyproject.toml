@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "temporal_adjuster"
-version = "1.2.0"
+version = "2.0.0"
 description = "Adjusters are a key tool for modifying temporal objects. They exist to externalize the process of adjustment, permitting different approaches, as per the strategy design pattern. Temporal Adjuster provides tools that help pinpoint very specific moments in time, without having to manually count days, weeks, or months."
 # typing.Self in common/types requires 3.11+
 requires-python = ">=3.11"

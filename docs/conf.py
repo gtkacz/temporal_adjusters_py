@@ -84,3 +84,15 @@ autodoc_inherit_docstrings = True
 # Show module/class where member is inherited from
 # This helps understand which methods come from which modules
 autodoc_show_inheritance = True
+
+
+# Algolia crawler domain-ownership verification for DocSearch. The token is
+# public by design (it ships in the rendered HTML), so it can live in source.
+def _add_algolia_site_verification(app, pagename, templatename, context, doctree) -> None:  # ruff: ignore[missing-type-function-argument, unused-function-argument]
+    tag = '<meta name="algolia-site-verification" content="A6A9DC0D895E5EAA" />'
+    context["metatags"] = context.get("metatags", "") + tag
+
+
+def setup(app) -> None:  # ruff: ignore[missing-type-function-argument]
+    """Register Sphinx event handlers for the docs build."""
+    app.connect("html-page-context", _add_algolia_site_verification)

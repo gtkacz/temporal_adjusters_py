@@ -1,13 +1,13 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.11,<0.13"]
+build-backend = "uv_build"
 
 [project]
 name = "temporal_adjuster"
-dynamic = ["dependencies"]
 version = "1.2.0"
 description = "Adjusters are a key tool for modifying temporal objects. They exist to externalize the process of adjustment, permitting different approaches, as per the strategy design pattern. Temporal Adjuster provides tools that help pinpoint very specific moments in time, without having to manually count days, weeks, or months."
-requires-python = ">= 3.3"
+# typing.Self in common/types requires 3.11+
+requires-python = ">=3.11"
 authors = [
   {name = "Gabriel Mitelman Tkacz", email = "gmtkacz@proton.me"},
 ]
@@ -15,33 +15,50 @@ maintainers = [
   {name = "Gabriel Mitelman Tkacz", email = "gmtkacz@proton.me"},
 ]
 readme = "README.md"
-license = {text = "MIT License"}
+license = "MIT"
+license-files = ["LICENSE.md"]
 keywords = ["date", "time", "datetime", "adjuster", "adjustment", "temporal"]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
-
   "Intended Audience :: Developers",
-
-  "License :: OSI Approved :: MIT License",
-
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.3",
-  "Programming Language :: Python :: 3.4",
-  "Programming Language :: Python :: 3.5",
-  "Programming Language :: Python :: 3.6",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Operating System :: OS Independent",
+  "Typing :: Typed",
+]
+dependencies = [
+  "numpy>=1.26",
+  "python-dateutil>=2.9",
 ]
 
 [project.urls]
 Repository = "https://github.com/gtkacz/temporal_adjusters_py.git"
 Issues = "https://github.com/gtkacz/temporal_adjusters_py/issues"
+Documentation = "https://temporal-adjusters-py.readthedocs.io"
 
-[tool.setuptools.package-data]
-"pkgname" = ["py.typed"]
+[dependency-groups]
+dev = [
+  {include-group = "docs"},
+  {include-group = "test"},
+  "mypy>=1.15",
+  "pre-commit>=4",
+  "ruff>=0.11",
+]
+test = [
+  "coverage>=7",
+  "pandas>=2.2",
+  "psutil>=6",
+]
+docs = [
+  "sphinx>=8",
+  "sphinx-autodoc-typehints>=3",
+  "sphinx-docsearch>=0.1",
+  "sphinxawesome-theme>=5",
+]
+
+# The package ships a flat layout rather than src/
+[tool.uv.build-backend]
+module-root = ""

@@ -1,25 +1,21 @@
-.PHONY: setup
+.PHONY: setup test build install upload docs clean format
 
 test:
-	@coverage run -m unittest discover tests/ -v
-	@coverage report -m
+	@uv run coverage run -m unittest discover tests/ -v
+	@uv run coverage report -m
 
 build:
-	@rm -rf build build
-	@rm -rf build dist
-	@rm -rf *.egg-info
-	@python -m pip install --upgrade build
-	@python -m build --sdist --wheel
+	@rm -rf dist
+	@uv build
 
 install:
-	@python -m pip install --upgrade pip
-	@python -m pip install -e .
+	@uv sync
 
 upload:
-	@python -m twine upload --config-file .pypirc dist/*
+	@uv publish
 
 docs:
-	@make -C docs html
+	@uv run --group docs make -C docs html
 
 clean:
 	@rm -rf build dist
@@ -29,10 +25,9 @@ clean:
 	@rm -rf .mypy
 
 format:
-	@ruff check --fix
-	@ruff format
+	@uv run ruff check --fix
+	@uv run ruff format
 
 setup:
-	@python -m pip install --upgrade pip
-	@python -m pip install -r requirements.dev.txt
-	@pre-commit install
+	@uv sync --all-groups
+	@uv run pre-commit install

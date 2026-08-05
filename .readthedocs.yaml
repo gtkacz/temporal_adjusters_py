@@ -5,19 +5,21 @@
 # Required
 version: 2
 
-# Set the version of Python and other tools you might need
+# Build documentation with uv, following
+# https://docs.readthedocs.com/platform/stable/build-customization.html#install-dependencies-with-uv
 build:
-  os: ubuntu-24.04
+  os: ubuntu-lts-latest
   tools:
-    python: "3.12"
+    python: "3.13"
+  jobs:
+    create_environment:
+      - asdf plugin add uv
+      - asdf install uv latest
+      - asdf global uv latest
+      - uv venv "$READTHEDOCS_VIRTUALENV_PATH"
+    install:
+      - UV_PROJECT_ENVIRONMENT="$READTHEDOCS_VIRTUALENV_PATH" uv sync --group docs
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
   configuration: docs/conf.py
-
-# Optionally declare the Python requirements required to build your docs
-python:
-  install:
-    - requirements: docs/requirements.txt
-    - method: pip
-      path: .

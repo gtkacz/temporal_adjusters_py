@@ -27,7 +27,7 @@ exclude = [
     "venv",
 ]
 
-line-length = 120
+line-length = 320
 indent-width = 4
 
 target-version = "py312"
@@ -36,7 +36,7 @@ target-version = "py312"
 preview = true
 
 select = ["ALL"]
-ignore = ["E721", "D211", "D212", "W191", "D206", "D404", "D203", "CPY001", "EM102", "TRY003", "PLR0904", "D205", "TID252"]
+ignore = [ "EM102", "PLR0904", "PLR2004"]
 extend-select = ["DOC"]
 
 fixable = ["ALL"]
@@ -67,4 +67,4 @@ inline-quotes = "single"
 convention = "google"
 
 [lint.pycodestyle]
-max-doc-length = 500
+max-doc-length = 320

@@ -150,3 +150,31 @@ class TestAbsoluteDateOperations(unittest.TestCase):
 
         result = TemporalAdjuster.date_to_int_of_month([date(2021, 5, 20)])
         self.assertEqual(result, [20])
+
+    def test_int_to_day_of_year_rejects_out_of_range_values(self):
+        for int_value in (0, -1, 366):
+            with self.subTest(int_value=int_value), self.assertRaises(ValueError):
+                TemporalAdjuster.int_to_day_of_year(
+                    date(2021, 1, 1),
+                    int_value,
+                )
+
+        self.assertEqual(
+            TemporalAdjuster.int_to_day_of_year(date(2020, 1, 1), 366),
+            date(2020, 12, 31),
+        )
+
+    def test_int_to_day_of_month_rejects_out_of_range_values(self):
+        for int_value in (0, -1, 29):
+            with self.subTest(int_value=int_value), self.assertRaises(ValueError):
+                TemporalAdjuster.int_to_day_of_month(
+                    date(2021, 2, 1),
+                    int_value,
+                )
+
+    def test_int_to_day_rejects_non_integer_values(self):
+        with self.assertRaises(TypeError):
+            TemporalAdjuster.int_to_day_of_year(date(2021, 1, 1), 1.5)
+        invalid_value = True
+        with self.assertRaises(TypeError):
+            TemporalAdjuster.int_to_day_of_month(date(2021, 1, 1), invalid_value)

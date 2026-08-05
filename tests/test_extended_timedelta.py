@@ -89,6 +89,19 @@ class TestExtendedTimeDelta(unittest.TestCase):
         self.assertEqual(result.years, 2)
         self.assertEqual(result.months, 4)
 
+        reflected_result = 2 * et
+        self.assertEqual(reflected_result, result)
+
+    def test_unsupported_arithmetic_raises_type_error(self):
+        et = ExtendedTimeDelta(days=1)
+
+        with self.assertRaises(TypeError):
+            _ = et + 1
+        with self.assertRaises(TypeError):
+            _ = et - 1
+        with self.assertRaises(TypeError):
+            _ = et * timedelta(days=1)
+
     def test_equality(self):
         et1 = ExtendedTimeDelta(years=1, months=2)
         et2 = ExtendedTimeDelta(years=1, months=2)
@@ -98,6 +111,7 @@ class TestExtendedTimeDelta(unittest.TestCase):
         et = ExtendedTimeDelta(days=5)
         td = timedelta(days=5)
         self.assertEqual(et, td)
+        self.assertEqual(hash(et), hash(td))
 
     def test_comparison(self):
         et1 = ExtendedTimeDelta(years=2)
@@ -106,6 +120,9 @@ class TestExtendedTimeDelta(unittest.TestCase):
         self.assertLess(et2, et1)
         self.assertGreaterEqual(et1, et2)
         self.assertLessEqual(et2, et1)
+
+        self.assertGreater(ExtendedTimeDelta(days=2), timedelta(days=1))
+        self.assertLess(ExtendedTimeDelta(days=1), timedelta(days=2))
 
     def test_repr(self):
         et = ExtendedTimeDelta(years=1, months=2, days=3, seconds=4, microseconds=5)
@@ -122,10 +139,18 @@ class TestExtendedTimeDelta(unittest.TestCase):
         self.assertEqual(hash(et1), hash(et2))
 
     def test_pickle(self):
-        et = ExtendedTimeDelta(years=1, months=2, days=3)
+        et = ExtendedTimeDelta(
+            years=1,
+            months=2,
+            days=3,
+            days_in_month=30,
+            days_in_year=365,
+        )
         pickled = pickle.dumps(et)
         unpickled = pickle.loads(pickled)
         self.assertEqual(et, unpickled)
+        self.assertEqual(unpickled.days_in_month, 30)
+        self.assertEqual(unpickled.days_in_year, 365)
 
     def test_from_timedelta(self):
         td = timedelta(days=30)
@@ -148,3 +173,35 @@ class TestExtendedTimeDelta(unittest.TestCase):
     def test_custom_days_in_month(self):
         et = ExtendedTimeDelta(months=1, days_in_month=30)
         self.assertEqual(et.to_timedelta().days, 30)
+
+    def test_conversion_settings_are_per_instance(self):
+        thirty_day_month = ExtendedTimeDelta(months=1, days_in_month=30)
+        thirty_one_day_month = ExtendedTimeDelta(months=1, days_in_month=31)
+
+        self.assertEqual(thirty_day_month.to_days(), 30)
+        self.assertEqual(thirty_one_day_month.to_days(), 31)
+        self.assertNotEqual(thirty_day_month, thirty_one_day_month)
+        self.assertLess(thirty_day_month, thirty_one_day_month)
+
+    def test_invalid_conversion_settings(self):
+        for value in (0, -1, float("inf"), float("nan")):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                ExtendedTimeDelta(days_in_month=value)
+
+        with self.assertRaises(TypeError):
+            ExtendedTimeDelta(days_in_year="365")
+
+    def test_to_dict(self):
+        et = ExtendedTimeDelta(years=1, months=2, days=3)
+
+        self.assertEqual(
+            et.to_dict(),
+            {
+                "microseconds": 0,
+                "seconds": 0,
+                "days": 3,
+                "months": 2,
+                "years": 1,
+            },
+        )
+        self.assertEqual(dict(et), et.to_dict())

@@ -4,7 +4,7 @@
 import inspect
 from collections.abc import Callable
 from functools import wraps
-from typing import ParamSpec, TypeVar
+from typing import ParamSpec, TypeVar, cast
 
 import numpy as np
 
@@ -12,7 +12,7 @@ P = ParamSpec("P")
 R = TypeVar("R")
 
 
-def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R | object]]:
+def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """Process sequence arguments elementwise.
 
     If the target parameter (specified by `target`) is an iterable (but not a string),
@@ -24,9 +24,9 @@ def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R | obje
         Callable: A decorator that applies the wrapped function elementwise when needed.
     """
 
-    def decorator(func: Callable[P, R]) -> Callable[P, R | object]:
+    def decorator(func: Callable[P, R]) -> Callable[P, R]:
         @wraps(func)
-        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R | object:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             # Get the function signature and bind the provided arguments.
             sig = inspect.signature(func)
             bound_args = sig.bind(*args, **kwargs)
@@ -45,8 +45,8 @@ def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R | obje
                     results.append(func(*bound_args.args, **bound_args.kwargs))
 
                 if isinstance(target_value, np.ndarray):
-                    return np.asarray(results)
-                return convert_type(results)
+                    return cast("R", np.asarray(results))
+                return cast("R", convert_type(results))
             return func(*args, **kwargs)
 
         return wrapper

@@ -1,8 +1,33 @@
 # Copyright (c) 2024 Gabriel Mitelman Tkacz
 
 import math
+from collections.abc import Iterator
 from datetime import timedelta
-from typing import Self, Union
+from types import NotImplementedType
+from typing import ClassVar, Self
+
+
+def _reconstruct_extended_timedelta(
+    values: tuple[float, float, float, float, float, float, float],
+) -> "ExtendedTimeDelta":
+    (
+        microseconds,
+        seconds,
+        days,
+        months,
+        years,
+        days_in_month,
+        days_in_year,
+    ) = values
+    return ExtendedTimeDelta(
+        microseconds=microseconds,
+        seconds=seconds,
+        days=days,
+        months=months,
+        years=years,
+        days_in_month=days_in_month,
+        days_in_year=days_in_year,
+    )
 
 
 class ExtendedTimeDelta(timedelta):
@@ -10,16 +35,28 @@ class ExtendedTimeDelta(timedelta):
 
     This class extends the standard timedelta by adding support for months and years.
     Since timedelta does not natively support months and years, the conversion assumes
-    fixed lengths: 30 days per month and 365 days per year. Note that these conversions
-    are approximations and may not be suitable for all use cases.
+    fixed lengths: 30.436875 days per month and 365.25 days per year by default.
+    Note that these conversions are approximations and may not be suitable for all
+    use cases.
+
+    ``ExtendedTimeDelta`` is a ``timedelta`` subclass for compatibility, but the
+    extra month and year components are not part of ``timedelta``'s C-level state.
+    Convert it with :meth:`to_timedelta` before using it as the right-hand operand
+    of date or datetime arithmetic so those components are included.
     """
 
+    DAYS_IN_MONTH: ClassVar[float] = 30.436875
+    DAYS_IN_YEAR: ClassVar[float] = 365.25
+
+    _days_in_month: float
+    _days_in_year: float
+    _months: int | float
+    _years: int
+
     __slots__ = (
-        "_days",
-        "_hashcode",
-        "_microseconds",
+        "_days_in_month",
+        "_days_in_year",
         "_months",
-        "_seconds",
         "_years",
     )
 
@@ -35,8 +72,8 @@ class ExtendedTimeDelta(timedelta):
         months: float = 0,
         years: float = 0,
         *,
-        days_in_month: float = 30.436875,
-        days_in_year: float = 365.25,
+        days_in_month: float = DAYS_IN_MONTH,
+        days_in_year: float = DAYS_IN_YEAR,
     ) -> Self:
         """Create a new ExtendedTimeDelta instance.
 
@@ -60,14 +97,27 @@ class ExtendedTimeDelta(timedelta):
         Returns:
                 ExtendedTimeDelta: A new instance of ExtendedTimeDelta.
 
+        Raises:
+                TypeError: If a conversion setting is not numeric.
+                ValueError: If a conversion setting is not positive and finite.
+
         Example:
                 >>> et = ExtendedTimeDelta(days=45, months=1)
                 >>> print(et)
                 1 month, 15 days, 0:00:00
 
         """
-        cls.DAYS_IN_MONTH = days_in_month
-        cls.DAYS_IN_YEAR = days_in_year
+        for name, value in (
+            ("days_in_month", days_in_month),
+            ("days_in_year", days_in_year),
+        ):
+            if isinstance(value, bool) or not isinstance(value, (int, float)):
+                raise TypeError(f"{name} must be a real number")
+            if not math.isfinite(value) or value <= 0:
+                raise ValueError(f"{name} must be a positive finite number")
+
+        days_in_month = float(days_in_month)
+        days_in_year = float(days_in_year)
 
         # Process microseconds
         microseconds = int(microseconds)
@@ -95,15 +145,15 @@ class ExtendedTimeDelta(timedelta):
         else:
             days = int(days)
 
-        extra_days = days % cls.DAYS_IN_MONTH
-        months += days // cls.DAYS_IN_MONTH
+        extra_days = days % days_in_month
+        months += days // days_in_month
         days = extra_days
 
         # Process months
         if isinstance(months, float):
             m_frac, m_whole = math.modf(months)
             months = int(m_whole)
-            days += m_frac * cls.DAYS_IN_MONTH
+            days += m_frac * days_in_month
         else:
             months = int(months)
 
@@ -132,11 +182,13 @@ class ExtendedTimeDelta(timedelta):
 
         self._months = months
         self._years = years
+        self._days_in_month = days_in_month
+        self._days_in_year = days_in_year
 
         return self
 
     @property
-    def months(self) -> int:
+    def months(self) -> int | float:
         """int: The months component of the ExtendedTimeDelta.
 
         Returns:
@@ -165,7 +217,17 @@ class ExtendedTimeDelta(timedelta):
         """
         return self._years
 
-    def __add__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> Self:
+    @property
+    def days_in_month(self) -> float:
+        """The month length used when converting this instance."""
+        return self._days_in_month
+
+    @property
+    def days_in_year(self) -> float:
+        """The year length used when converting this instance."""
+        return self._days_in_year
+
+    def __add__(self, other: object) -> Self | NotImplementedType:
         """Add two ExtendedTimeDelta or timedelta objects.
 
         Args:
@@ -183,22 +245,28 @@ class ExtendedTimeDelta(timedelta):
 
         """
         if isinstance(other, ExtendedTimeDelta):
-            return ExtendedTimeDelta(
+            return type(self)(
                 days=self.days + other.days,
                 seconds=self.seconds + other.seconds,
                 microseconds=self.microseconds + other.microseconds,
                 months=self.months + other.months,
                 years=self.years + other.years,
+                days_in_month=self.days_in_month,
+                days_in_year=self.days_in_year,
             )
         if isinstance(other, timedelta):
             parent_self = self.to_timedelta()
             parent_result = parent_self + other
-            return ExtendedTimeDelta.from_timedelta(parent_result)
-        return None
+            return type(self).from_timedelta(
+                parent_result,
+                days_in_month=self.days_in_month,
+                days_in_year=self.days_in_year,
+            )
+        return NotImplemented
 
     __radd__ = __add__
 
-    def __sub__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> Self:
+    def __sub__(self, other: object) -> Self | NotImplementedType:
         """Subtract an ExtendedTimeDelta or timedelta from this ExtendedTimeDelta.
 
         Args:
@@ -216,20 +284,26 @@ class ExtendedTimeDelta(timedelta):
 
         """
         if isinstance(other, ExtendedTimeDelta):
-            return ExtendedTimeDelta(
+            return type(self)(
                 days=self.days - other.days,
                 seconds=self.seconds - other.seconds,
                 microseconds=self.microseconds - other.microseconds,
                 months=self.months - other.months,
                 years=self.years - other.years,
+                days_in_month=self.days_in_month,
+                days_in_year=self.days_in_year,
             )
         if isinstance(other, timedelta):
             parent_self = self.to_timedelta()
             parent_result = parent_self - other
-            return ExtendedTimeDelta.from_timedelta(parent_result)
-        return None
+            return type(self).from_timedelta(
+                parent_result,
+                days_in_month=self.days_in_month,
+                days_in_year=self.days_in_year,
+            )
+        return NotImplemented
 
-    def __mul__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> Self:
+    def __mul__(self, other: object) -> Self | NotImplementedType:
         """Multiply this ExtendedTimeDelta by an integer.
 
         Args:
@@ -246,16 +320,20 @@ class ExtendedTimeDelta(timedelta):
 
         """
         if isinstance(other, (int, float)):
-            return ExtendedTimeDelta(
+            return type(self)(
                 days=self.days * other,
                 seconds=self.seconds * other,
                 microseconds=self.microseconds * other,
                 months=self.months * other,
                 years=self.years * other,
+                days_in_month=self.days_in_month,
+                days_in_year=self.days_in_year,
             )
-        return None
+        return NotImplemented
 
-    def __eq__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> bool:
+    __rmul__ = __mul__
+
+    def __eq__(self, other: object) -> bool | NotImplementedType:
         """Check equality between this ExtendedTimeDelta and another.
 
         Args:
@@ -271,14 +349,22 @@ class ExtendedTimeDelta(timedelta):
                 True
 
         """
-        if isinstance(other, ExtendedTimeDelta):
-            return self.years == other.years and self.months == other.months and self.days == other.days and self.seconds == other.seconds and self.microseconds == other.microseconds
-        if isinstance(other, timedelta):
-            parent_self = self.to_timedelta()
-            return parent_self == other
-        return None
+        if isinstance(other, (ExtendedTimeDelta, timedelta)):
+            return self._cmp(other) == 0
+        return NotImplemented
 
-    def __lt__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> bool:
+    def __ne__(self, other: object) -> bool | NotImplementedType:
+        """Check inequality between this ExtendedTimeDelta and another.
+
+        Returns:
+                bool: True if the durations differ, otherwise False.
+        """
+        result = self.__eq__(other)
+        if result is NotImplemented:
+            return NotImplemented
+        return not result
+
+    def __lt__(self, other: object) -> bool | NotImplementedType:
         """Check if this ExtendedTimeDelta is less than another time delta.
 
         Args:
@@ -296,9 +382,9 @@ class ExtendedTimeDelta(timedelta):
         """
         if isinstance(other, (ExtendedTimeDelta, timedelta)):
             return self._cmp(other) < 0
-        return None
+        return NotImplemented
 
-    def __le__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> bool:
+    def __le__(self, other: object) -> bool | NotImplementedType:
         """Check if this ExtendedTimeDelta is less than or equal to another time delta.
 
         Args:
@@ -316,9 +402,9 @@ class ExtendedTimeDelta(timedelta):
         """
         if isinstance(other, (ExtendedTimeDelta, timedelta)):
             return self._cmp(other) <= 0
-        return None
+        return NotImplemented
 
-    def __gt__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> bool:
+    def __gt__(self, other: object) -> bool | NotImplementedType:
         """Check if this ExtendedTimeDelta is greater than another time delta.
 
         Args:
@@ -336,9 +422,9 @@ class ExtendedTimeDelta(timedelta):
         """
         if isinstance(other, (ExtendedTimeDelta, timedelta)):
             return self._cmp(other) > 0
-        return None
+        return NotImplemented
 
-    def __ge__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> bool:
+    def __ge__(self, other: object) -> bool | NotImplementedType:
         """Check if this ExtendedTimeDelta is greater than or equal to another time delta.
 
         Args:
@@ -356,9 +442,9 @@ class ExtendedTimeDelta(timedelta):
         """
         if isinstance(other, (ExtendedTimeDelta, timedelta)):
             return self._cmp(other) >= 0
-        return None
+        return NotImplemented
 
-    def _cmp(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> int:
+    def _cmp(self, other: timedelta) -> int:
         """Compare this ExtendedTimeDelta with another time delta.
 
         For ExtendedTimeDelta, the comparison first considers the years, then months,
@@ -374,12 +460,16 @@ class ExtendedTimeDelta(timedelta):
                 TypeError: If `other` is not an ExtendedTimeDelta or timedelta.
 
         """
+        self_timedelta = self.to_timedelta()
         if isinstance(other, ExtendedTimeDelta):
-            return self.to_microseconds() - other.to_microseconds()
-        if isinstance(other, timedelta):
-            return self.to_timedelta() - other
-        error_message = "other must be an ExtendedTimeDelta or timedelta"
-        raise TypeError(error_message)
+            other_timedelta = other.to_timedelta()
+        elif isinstance(other, timedelta):
+            other_timedelta = other
+        else:
+            error_message = "other must be an ExtendedTimeDelta or timedelta"
+            raise TypeError(error_message)
+
+        return (self_timedelta > other_timedelta) - (self_timedelta < other_timedelta)
 
     def __hash__(self) -> int:
         """Return the hash of the ExtendedTimeDelta.
@@ -395,13 +485,7 @@ class ExtendedTimeDelta(timedelta):
                 True
 
         """
-        return hash((
-            self.years,
-            self.months,
-            self.days,
-            self.seconds,
-            self.microseconds,
-        ))
+        return hash(self.to_timedelta())
 
     def __repr__(self) -> str:
         """Return the official string representation of the ExtendedTimeDelta.
@@ -471,21 +555,21 @@ class ExtendedTimeDelta(timedelta):
 
         """
         return (
-            self.__class__,
+            _reconstruct_extended_timedelta,
             (
-                self.microseconds,
-                0,  # milliseconds not stored separately
-                self.seconds,
-                0,  # minutes not stored separately
-                0,  # hours not stored separately
-                self.days,
-                0,  # weeks not stored separately
-                self.months,
-                self.years,
+                (
+                    self.microseconds,
+                    self.seconds,
+                    self.days,
+                    self.months,
+                    self.years,
+                    self.days_in_month,
+                    self.days_in_year,
+                ),
             ),
         )
 
-    def __dict__(self) -> dict:
+    def to_dict(self) -> dict[str, int | float]:
         """Return a dictionary representation of the ExtendedTimeDelta.
 
         Returns:
@@ -500,15 +584,23 @@ class ExtendedTimeDelta(timedelta):
             "years": self.years,
         }
 
-    def __iter__(self) -> iter:
-        return iter(self.__dict__().items())
+    def __iter__(self) -> Iterator[tuple[str, int | float]]:
+        return iter(self.to_dict().items())
 
     @classmethod
-    def from_timedelta(cls, td: timedelta) -> Self:
+    def from_timedelta(
+        cls,
+        td: timedelta,
+        *,
+        days_in_month: float = DAYS_IN_MONTH,
+        days_in_year: float = DAYS_IN_YEAR,
+    ) -> Self:
         """Create an ExtendedTimeDelta instance from a standard timedelta.
 
         Args:
                 td (timedelta): A standard timedelta object.
+                days_in_month (float, optional): Month length for the new instance.
+                days_in_year (float, optional): Year length for the new instance.
 
         Returns:
                 ExtendedTimeDelta: An instance equivalent to the provided timedelta.
@@ -520,7 +612,13 @@ class ExtendedTimeDelta(timedelta):
                 ExtendedTimeDelta(years=0, months=0, days=10, seconds=3600, microseconds=0)
 
         """
-        return cls(days=td.days, seconds=td.seconds, microseconds=td.microseconds)
+        return cls(
+            days=td.days,
+            seconds=td.seconds,
+            microseconds=td.microseconds,
+            days_in_month=days_in_month,
+            days_in_year=days_in_year,
+        )
 
     def to_timedelta(self) -> timedelta:
         """Convert the ExtendedTimeDelta instance to a standard timedelta.
@@ -539,7 +637,7 @@ class ExtendedTimeDelta(timedelta):
                 timedelta(days=412, seconds=30)
 
         """
-        total_days = self.years * self.DAYS_IN_YEAR + self.months * self.DAYS_IN_MONTH + self.days
+        total_days = self.years * self.days_in_year + self.months * self.days_in_month + self.days
         return timedelta(
             days=total_days,
             seconds=self.seconds,
@@ -563,7 +661,7 @@ class ExtendedTimeDelta(timedelta):
         """
         seconds_per_day = 24 * 60 * 60
 
-        total_seconds = self.seconds + self.days * seconds_per_day + self.months * self.DAYS_IN_MONTH * seconds_per_day + self.years * self.DAYS_IN_YEAR * seconds_per_day
+        total_seconds = self.seconds + self.days * seconds_per_day + self.months * self.days_in_month * seconds_per_day + self.years * self.days_in_year * seconds_per_day
 
         return (total_seconds * 1e6) + self.microseconds
 

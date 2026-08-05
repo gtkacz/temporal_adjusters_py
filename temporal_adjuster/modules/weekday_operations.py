@@ -438,8 +438,16 @@ class _TemporalAdjusterForWeekday:
         Returns:
                 int: The occurrence of the given day of the week in the month of the given date.
 
+        Raises:
+                ValueError: If the date does not fall on the requested weekday.
+
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
+
+        if date.weekday() != weekday.value:
+            raise ValueError(
+                f"The date {date} does not fall on {weekday.name.lower()}.",
+            )
 
         return (date.day - 1) // 7 + 1
 
@@ -455,7 +463,15 @@ class _TemporalAdjusterForWeekday:
         Returns:
                 int: The occurrence of the given day of the week in the year of the given date.
 
+        Raises:
+                ValueError: If the date does not fall on the requested weekday.
+
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
+
+        if date.weekday() != weekday.value:
+            raise ValueError(
+                f"The date {date} does not fall on {weekday.name.lower()}.",
+            )
 
         return (_AbsoluteDateOperations.date_to_int_of_year(date) - 1) // 7 + 1

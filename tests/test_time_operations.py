@@ -241,6 +241,9 @@ class TestTimeAdjuster(unittest.TestCase):
         self.assertTrue(
             TemporalAdjuster.is_time_in_range(time(12, 0), time(12, 0), time(12, 0)),
         )
+        self.assertFalse(
+            TemporalAdjuster.is_time_in_range(time(13, 0), time(12, 0), time(12, 0)),
+        )
 
         self.assertEqual(
             TemporalAdjuster.round_time(time(10, 30, 45), 1),
@@ -259,3 +262,17 @@ class TestTimeAdjuster(unittest.TestCase):
 
         self.assertEqual(TemporalAdjuster.time_to_seconds([]), [])
         self.assertEqual(TemporalAdjuster.seconds_to_time([]), [])
+
+    def test_time_to_seconds_rejects_invalid_type(self):
+        with self.assertRaisesRegex(TypeError, r"time_obj must be a time or datetime"):
+            TemporalAdjuster.time_to_seconds(123)
+
+    def test_seconds_to_time_rounds_microseconds(self):
+        self.assertEqual(
+            TemporalAdjuster.seconds_to_time(59.9999996),
+            time(0, 1),
+        )
+        self.assertEqual(
+            TemporalAdjuster.seconds_to_time(86399.9999996),
+            time(0, 0),
+        )

@@ -39,7 +39,8 @@ class _TimeAdjuster:
     def is_time_in_range(time_obj: AnyTime, start: AnyTime, end: AnyTime) -> bool:
         """Check whether ``time_obj`` is within the range [start, end].
 
-        Handles ranges that cross midnight.
+        Handles ranges that cross midnight. If ``start`` and ``end`` are equal,
+        the range contains only that single time.
 
         Args:
                 time_obj (AnyTime): The time to check.
@@ -101,7 +102,14 @@ class _TimeAdjuster:
         Returns:
                 float: The total number of seconds since midnight.
 
+        Raises:
+                TypeError: If time_obj is not a time or datetime instance.
+
         """
+        if not isinstance(time_obj, (time, datetime)):
+            error_message = "time_obj must be a time or datetime instance"
+            raise TypeError(error_message)
+
         return time_obj.hour * 3600 + time_obj.minute * 60 + time_obj.second + time_obj.microsecond / 1e6
 
     @staticmethod
@@ -116,10 +124,13 @@ class _TimeAdjuster:
                 time: The time object.
 
         """
-        seconds %= 24 * 3600  # Wrap around 24 hours
-        hour = int(seconds // 3600)
-        seconds %= 3600
-        minute = int(seconds // 60)
-        seconds %= 60
+        microseconds_per_second = 1_000_000
+        microseconds_per_day = 24 * 3600 * microseconds_per_second
+        total_microseconds = round((seconds % (24 * 3600)) * microseconds_per_second)
+        total_microseconds %= microseconds_per_day
 
-        return time(hour, minute, int(seconds), int((seconds - int(seconds)) * 1e6))
+        hour, remainder = divmod(total_microseconds, 3600 * microseconds_per_second)
+        minute, remainder = divmod(remainder, 60 * microseconds_per_second)
+        second, microsecond = divmod(remainder, microseconds_per_second)
+
+        return time(hour, minute, second, microsecond)

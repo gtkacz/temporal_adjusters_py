@@ -1,6 +1,9 @@
 # Copyright (c) 2024 Gabriel Mitelman Tkacz
 """Operations for adjusting absolute dates."""
 
+from calendar import isleap, monthrange
+from operator import index
+
 from dateutil.relativedelta import relativedelta
 
 from temporal_adjuster.common.decorators import sequenceable
@@ -8,6 +11,23 @@ from temporal_adjuster.common.types.dates import DateT
 
 
 class _AbsoluteDateOperations:
+    @staticmethod
+    def _validate_day_index(int_value: int, maximum: int, period: str) -> int:
+        type_error_message = "int_value must be an integer"
+        if isinstance(int_value, bool):
+            raise TypeError(type_error_message)
+
+        try:
+            int_value = index(int_value)
+        except TypeError as error:
+            raise TypeError(type_error_message) from error
+
+        if not 1 <= int_value <= maximum:
+            raise ValueError(
+                f"int_value must be between 1 and {maximum} for the given {period}",
+            )
+        return int_value
+
     @staticmethod
     @sequenceable(target="date")
     def int_to_day_of_year(date: DateT, int_value: int) -> DateT:
@@ -26,6 +46,12 @@ class _AbsoluteDateOperations:
                         datetime.date(2021, 1, 1)
 
         """
+        maximum = 366 if isleap(date.year) else 365
+        int_value = _AbsoluteDateOperations._validate_day_index(
+            int_value,
+            maximum,
+            "year",
+        )
         return date.replace(month=1, day=1) + relativedelta(days=int_value - 1)
 
     @staticmethod
@@ -46,7 +72,13 @@ class _AbsoluteDateOperations:
                         datetime.date(2021, 1, 1)
 
         """
-        return date.replace(day=1) + relativedelta(days=int_value - 1)
+        maximum = monthrange(date.year, date.month)[1]
+        int_value = _AbsoluteDateOperations._validate_day_index(
+            int_value,
+            maximum,
+            "month",
+        )
+        return date.replace(day=int_value)
 
     @staticmethod
     @sequenceable(target="date")

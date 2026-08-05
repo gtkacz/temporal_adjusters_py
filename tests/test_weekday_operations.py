@@ -716,3 +716,23 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                     output,
                     test_expected_output,
                 )
+
+    def test_which_of_month_rejects_mismatched_weekday(self):
+        with self.assertRaisesRegex(
+            ValueError,
+            r"does not fall on monday",
+        ):
+            TemporalAdjuster.which_of_month(
+                Weekday.MONDAY,
+                date(2024, 6, 1),
+            )
+
+    def test_which_of_year_rejects_mismatched_weekday(self):
+        with self.assertRaisesRegex(
+            ValueError,
+            r"does not fall on monday",
+        ):
+            TemporalAdjuster.which_of_year(
+                Weekday.MONDAY,
+                date(2024, 6, 1),
+            )

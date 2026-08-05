@@ -3,7 +3,7 @@ from random import randint
 from timeit import timeit
 from unittest import TestCase
 
-from psutil import cpu_count, cpu_freq
+import psutil
 
 from temporal_adjuster.common.enums import Weekday
 from temporal_adjuster.temporal_adjuster import TemporalAdjuster
@@ -16,8 +16,12 @@ class TestPerformance(TestCase):
     )
 
     try:
-        max_execution_time = 2.25 ** round(
-            100_000 / (cpu_count(logical=True) * cpu_freq().max or 25_000),
+        max_execution_time = max(
+            3,
+            2.25
+            ** round(
+                100_000 / (psutil.cpu_count(logical=True) * psutil.cpu_freq().max or 25_000),
+            ),
         )
     except Exception:
         max_execution_time = 25

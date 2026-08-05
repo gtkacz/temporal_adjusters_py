@@ -8,10 +8,10 @@ from typing import TypeVar
 AnyDate = datetime | date
 
 #: TypeVar bound to date-like objects
-DateT = TypeVar('DateT', bound=AnyDate)
+DateT = TypeVar("DateT", bound=AnyDate)
 
 #: Type alias for any time-like object (datetime or time)
 AnyTime = datetime | time
 
 #: TypeVar bound to time-like objects
-TimeT = TypeVar('TimeT', bound=AnyTime)
+TimeT = TypeVar("TimeT", bound=AnyTime)

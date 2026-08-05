@@ -36,7 +36,7 @@ target-version = "py312"
 preview = true
 
 select = ["ALL"]
-ignore = [ "f-string-in-exception", "too-many-public-methods", "magic-value-comparison", "raise-vanilla-args", "doc-line-too-long"]
+ignore = [ "f-string-in-exception", "too-many-public-methods", "magic-value-comparison", "raise-vanilla-args", "doc-line-too-long", "bad-quotes-inline-string", "avoidable-escaped-quote", "missing-trailing-comma"]
 extend-select = ["DOC"]
 
 fixable = ["ALL"]
@@ -51,8 +51,6 @@ quote-style = "double"
 docstring-code-format = true
 
 indent-style = "space"
-
-skip-magic-trailing-comma = false
 
 line-ending = "auto"
 

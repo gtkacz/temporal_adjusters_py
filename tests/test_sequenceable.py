@@ -39,7 +39,7 @@ class TestSequenceable(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method next (subtest {index}) with inputs: {test}',
+                f"Testing method next (subtest {index}) with inputs: {test}",
             ):
                 (
                     test_input_weekday,
@@ -79,7 +79,7 @@ class TestSequenceable(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method next (subtest {index}) with inputs: {test}',
+                f"Testing method next (subtest {index}) with inputs: {test}",
             ):
                 test_input_date, test_expected_output, assertion_method = test
 

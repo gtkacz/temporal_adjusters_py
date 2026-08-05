@@ -15,9 +15,9 @@ class TestTemporalAdjusterForWeekdays(TestCase):
             (ISOWeekday.SATURDAY, datetime(2024, 6, 13), datetime(2024, 6, 15)),
             (ISOWeekday.SATURDAY, datetime(2024, 6, 15), datetime(2024, 6, 22)),
             (ISOWeekday.SATURDAY, datetime(2024, 12, 31), datetime(2025, 1, 4)),
-            ('SATURDAY', datetime(2024, 6, 13), datetime(2024, 6, 15)),
-            ('SATURDAY', datetime(2024, 6, 15), datetime(2024, 6, 22)),
-            ('SATURDAY', datetime(2024, 12, 31), datetime(2025, 1, 4)),
+            ("SATURDAY", datetime(2024, 6, 13), datetime(2024, 6, 15)),
+            ("SATURDAY", datetime(2024, 6, 15), datetime(2024, 6, 22)),
+            ("SATURDAY", datetime(2024, 12, 31), datetime(2025, 1, 4)),
             (5, datetime(2024, 6, 13), datetime(2024, 6, 15)),
             (5, datetime(2024, 6, 15), datetime(2024, 6, 22)),
             (5, datetime(2024, 12, 31), datetime(2025, 1, 4)),
@@ -25,7 +25,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method next (subtest {index}) with inputs: {test}',
+                f"Testing method next (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -50,7 +50,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method next_or_same (subtest {index}) with inputs: {test}',
+                f"Testing method next_or_same (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -78,7 +78,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method last (subtest {index}) with inputs: {test}',
+                f"Testing method last (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -103,7 +103,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method last_or_same (subtest {index}) with inputs: {test}',
+                f"Testing method last_or_same (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -131,7 +131,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method first_of_month (subtest {index}) with inputs: {test}',
+                f"Testing method first_of_month (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -159,7 +159,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method first_of_next_month (subtest {index}) with inputs: {test}',
+                f"Testing method first_of_next_month (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -185,7 +185,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method first_of_last_month (subtest {index}) with inputs: {test}',
+                f"Testing method first_of_last_month (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -213,7 +213,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method last_of_month (subtest {index}) with inputs: {test}',
+                f"Testing method last_of_month (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -241,7 +241,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method last_of_next_month (subtest {index}) with inputs: {test}',
+                f"Testing method last_of_next_month (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -269,7 +269,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method last_of_last_month (subtest {index}) with inputs: {test}',
+                f"Testing method last_of_last_month (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -297,7 +297,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method first_of_year (subtest {index}) with inputs: {test}',
+                f"Testing method first_of_year (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -323,7 +323,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method first_of_last_year (subtest {index}) with inputs: {test}',
+                f"Testing method first_of_last_year (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -347,7 +347,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method last_of_year (subtest {index}) with inputs: {test}',
+                f"Testing method last_of_year (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -373,7 +373,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method first_of_next_year (subtest {index}) with inputs: {test}',
+                f"Testing method first_of_next_year (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -399,7 +399,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method last_of_next_year (subtest {index}) with inputs: {test}',
+                f"Testing method last_of_next_year (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -425,7 +425,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method last_of_last_year (subtest {index}) with inputs: {test}',
+                f"Testing method last_of_last_year (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -453,7 +453,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method nth_from_date (subtest {index}) with inputs: {test}',
+                f"Testing method nth_from_date (subtest {index}) with inputs: {test}",
             ):
                 (
                     test_input_weekday,
@@ -491,7 +491,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method nth_of_month (subtest {index}) with inputs: {test}',
+                f"Testing method nth_of_month (subtest {index}) with inputs: {test}",
             ):
                 (
                     test_input_weekday,
@@ -527,7 +527,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method nth_of_month (subtest {index}) with inputs: {test}',
+                f"Testing method nth_of_month (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_input_n = test
 
@@ -539,7 +539,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                     )
 
                 self.assertEqual(
-                    f'The value of n must be between 1 and 5, but is {test_input_n}.',
+                    f"The value of n must be between 1 and 5, but is {test_input_n}.",
                     str(context.exception),
                 )
 
@@ -553,7 +553,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method nth_of_month (subtest {index}) with inputs: {test}',
+                f"Testing method nth_of_month (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_input_n = test
 
@@ -565,7 +565,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                     )
 
                 self.assertEqual(
-                    f'The month does not have a {test_input_n}th occurrence of {test_input_weekday.name.lower()}.',
+                    f"The month does not have a {test_input_n}th occurrence of {test_input_weekday.name.lower()}.",
                     str(context.exception),
                 )
 
@@ -581,7 +581,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method nth_of_year (subtest {index}) with inputs: {test}',
+                f"Testing method nth_of_year (subtest {index}) with inputs: {test}",
             ):
                 (
                     test_input_weekday,
@@ -615,7 +615,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method nth_of_year (subtest {index}) with inputs: {test}',
+                f"Testing method nth_of_year (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_input_n = test
 
@@ -627,7 +627,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                     )
 
                 self.assertEqual(
-                    f'The value of n must be between 1 and 54, but is {test_input_n}.',
+                    f"The value of n must be between 1 and 54, but is {test_input_n}.",
                     str(context.exception),
                 )
 
@@ -641,7 +641,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method nth_of_year (subtest {index}) with inputs: {test}',
+                f"Testing method nth_of_year (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_input_n = test
 
@@ -653,7 +653,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
                     )
 
                 self.assertEqual(
-                    f'The year does not have a {test_input_n}th occurrence of {test_input_weekday.name.lower()}.',
+                    f"The year does not have a {test_input_n}th occurrence of {test_input_weekday.name.lower()}.",
                     str(context.exception),
                 )
 
@@ -675,7 +675,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method which_of_month (subtest {index}) with inputs: {test}',
+                f"Testing method which_of_month (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 
@@ -703,7 +703,7 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
         for index, test in enumerate(tests):
             with self.subTest(
-                f'Testing method which_of_year (subtest {index}) with inputs: {test}',
+                f"Testing method which_of_year (subtest {index}) with inputs: {test}",
             ):
                 test_input_weekday, test_input_date, test_expected_output = test
 

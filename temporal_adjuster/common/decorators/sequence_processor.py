@@ -8,8 +8,8 @@ from typing import ParamSpec, TypeVar
 
 import numpy as np
 
-P = ParamSpec('P')
-R = TypeVar('R')
+P = ParamSpec("P")
+R = TypeVar("R")
 
 
 def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R | object]]:
@@ -36,7 +36,7 @@ def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R | obje
             target_value = bound_args.arguments.get(target)
 
             # If target_value is iterable (and not a string), apply the function elementwise.
-            if target_value is not None and hasattr(target_value, '__iter__') and not isinstance(target_value, str):
+            if target_value is not None and hasattr(target_value, "__iter__") and not isinstance(target_value, str):
                 convert_type = type(target_value)
                 results = []
 

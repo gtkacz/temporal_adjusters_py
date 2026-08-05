@@ -15,12 +15,12 @@ class ExtendedTimeDelta(timedelta):
     """
 
     __slots__ = (
-        '_days',
-        '_hashcode',
-        '_microseconds',
-        '_months',
-        '_seconds',
-        '_years',
+        "_days",
+        "_hashcode",
+        "_microseconds",
+        "_months",
+        "_seconds",
+        "_years",
     )
 
     def __new__(  # ruff: ignore[too-many-arguments, too-many-locals, too-many-positional-arguments]
@@ -165,7 +165,7 @@ class ExtendedTimeDelta(timedelta):
         """
         return self._years
 
-    def __add__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> Self:
+    def __add__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> Self:
         """Add two ExtendedTimeDelta or timedelta objects.
 
         Args:
@@ -198,7 +198,7 @@ class ExtendedTimeDelta(timedelta):
 
     __radd__ = __add__
 
-    def __sub__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> Self:
+    def __sub__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> Self:
         """Subtract an ExtendedTimeDelta or timedelta from this ExtendedTimeDelta.
 
         Args:
@@ -229,7 +229,7 @@ class ExtendedTimeDelta(timedelta):
             return ExtendedTimeDelta.from_timedelta(parent_result)
         return None
 
-    def __mul__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> Self:
+    def __mul__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> Self:
         """Multiply this ExtendedTimeDelta by an integer.
 
         Args:
@@ -255,7 +255,7 @@ class ExtendedTimeDelta(timedelta):
             )
         return None
 
-    def __eq__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> bool:
+    def __eq__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> bool:
         """Check equality between this ExtendedTimeDelta and another.
 
         Args:
@@ -278,7 +278,7 @@ class ExtendedTimeDelta(timedelta):
             return parent_self == other
         return None
 
-    def __lt__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> bool:
+    def __lt__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> bool:
         """Check if this ExtendedTimeDelta is less than another time delta.
 
         Args:
@@ -298,7 +298,7 @@ class ExtendedTimeDelta(timedelta):
             return self._cmp(other) < 0
         return None
 
-    def __le__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> bool:
+    def __le__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> bool:
         """Check if this ExtendedTimeDelta is less than or equal to another time delta.
 
         Args:
@@ -318,7 +318,7 @@ class ExtendedTimeDelta(timedelta):
             return self._cmp(other) <= 0
         return None
 
-    def __gt__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> bool:
+    def __gt__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> bool:
         """Check if this ExtendedTimeDelta is greater than another time delta.
 
         Args:
@@ -338,7 +338,7 @@ class ExtendedTimeDelta(timedelta):
             return self._cmp(other) > 0
         return None
 
-    def __ge__(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> bool:
+    def __ge__(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> bool:
         """Check if this ExtendedTimeDelta is greater than or equal to another time delta.
 
         Args:
@@ -358,7 +358,7 @@ class ExtendedTimeDelta(timedelta):
             return self._cmp(other) >= 0
         return None
 
-    def _cmp(self, other: Union[timedelta, 'ExtendedTimeDelta']) -> int:
+    def _cmp(self, other: Union[timedelta, "ExtendedTimeDelta"]) -> int:
         """Compare this ExtendedTimeDelta with another time delta.
 
         For ExtendedTimeDelta, the comparison first considers the years, then months,
@@ -378,7 +378,7 @@ class ExtendedTimeDelta(timedelta):
             return self.to_microseconds() - other.to_microseconds()
         if isinstance(other, timedelta):
             return self.to_timedelta() - other
-        error_message = 'other must be an ExtendedTimeDelta or timedelta'
+        error_message = "other must be an ExtendedTimeDelta or timedelta"
         raise TypeError(error_message)
 
     def __hash__(self) -> int:
@@ -420,17 +420,17 @@ class ExtendedTimeDelta(timedelta):
         """
         args = []
         if self.years != 0:
-            args.append(f'years={self.years}')
+            args.append(f"years={self.years}")
         if self.months != 0:
-            args.append(f'months={self.months}')
+            args.append(f"months={self.months}")
         if self.days != 0:
-            args.append(f'days={self.days}')
+            args.append(f"days={self.days}")
         if self.seconds != 0:
-            args.append(f'seconds={self.seconds}')
+            args.append(f"seconds={self.seconds}")
         if self.microseconds != 0:
-            args.append(f'microseconds={self.microseconds}')
+            args.append(f"microseconds={self.microseconds}")
         if not args:
-            args.append('0')
+            args.append("0")
         return f"ExtendedTimeDelta({', '.join(args)})"
 
     def __str__(self) -> str:
@@ -450,15 +450,15 @@ class ExtendedTimeDelta(timedelta):
         """
         parts = []
         if self.years != 0:
-            plural = 's' if abs(self.years) != 1 else ''
-            parts.append(f'{self.years} year{plural}')
+            plural = "s" if abs(self.years) != 1 else ""
+            parts.append(f"{self.years} year{plural}")
         if self.months != 0:
-            plural = 's' if abs(self.months) != 1 else ''
-            parts.append(f'{self.months} month{plural}')
+            plural = "s" if abs(self.months) != 1 else ""
+            parts.append(f"{self.months} month{plural}")
         parent_str = super().__str__()
         if parent_str:
             parts.append(parent_str)
-        return ', '.join(parts)
+        return ", ".join(parts)
 
     def __reduce__(self) -> tuple:
         """Return the information necessary to pickle the ExtendedTimeDelta.
@@ -493,11 +493,11 @@ class ExtendedTimeDelta(timedelta):
 
         """
         return {
-            'microseconds': self.microseconds,
-            'seconds': self.seconds,
-            'days': self.days,
-            'months': self.months,
-            'years': self.years,
+            "microseconds": self.microseconds,
+            "seconds": self.seconds,
+            "days": self.days,
+            "months": self.months,
+            "years": self.years,
         }
 
     def __iter__(self) -> iter:

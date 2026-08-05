@@ -109,12 +109,12 @@ class TestExtendedTimeDelta(unittest.TestCase):
 
     def test_repr(self):
         et = ExtendedTimeDelta(years=1, months=2, days=3, seconds=4, microseconds=5)
-        expected = 'ExtendedTimeDelta(years=1, months=2, days=3, seconds=4, microseconds=5)'
+        expected = "ExtendedTimeDelta(years=1, months=2, days=3, seconds=4, microseconds=5)"
         self.assertEqual(repr(et), expected)
 
     def test_str_singular_plural(self):
         et = ExtendedTimeDelta(years=1, months=2, days=3, seconds=7200)
-        self.assertEqual(str(et), '1 year, 2 months, 3 days, 2:00:00')
+        self.assertEqual(str(et), "1 year, 2 months, 3 days, 2:00:00")
 
     def test_hash(self):
         et1 = ExtendedTimeDelta(years=1, months=2)

@@ -36,7 +36,7 @@ target-version = "py312"
 preview = true
 
 select = ["ALL"]
-ignore = [ "EM102", "PLR0904", "PLR2004", "TRY003", "W505"]
+ignore = [ "f-string-in-exception", "too-many-public-methods", "magic-value-comparison", "raise-vanilla-args", "doc-line-too-long"]
 extend-select = ["DOC"]
 
 fixable = ["ALL"]
@@ -57,8 +57,9 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [lint.per-file-ignores]
-"__init__.py" = ["F401"]
-"**/{tests,docs,tools}/*" = ["D102", "ANN201", "PT009", "DTZ001", "PT027", "D101", "D100", "CPY001", "C409", "C405", "C409", "BLE001", "S311", "S301", "S403", "D104"]
+"__init__.py" = ["unused-import"]
+"docs/conf.py" = ["implicit-namespace-package"]
+"**/{tests,docs,tools}/*" = ["undocumented-public-method", "missing-return-type-undocumented-public-function", "pytest-unittest-assertion", "call-datetime-without-tzinfo", "pytest-unittest-raises-assertion", "undocumented-public-class", "undocumented-public-module", "missing-copyright-notice", "unnecessary-literal-within-tuple-call", "unnecessary-literal-set", "unnecessary-literal-within-tuple-call", "blind-except", "suspicious-non-cryptographic-random-usage", "suspicious-pickle-usage", "suspicious-pickle-import", "undocumented-public-package"]
 
 [lint.flake8-quotes]
 inline-quotes = "single"

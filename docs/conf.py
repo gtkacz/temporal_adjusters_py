@@ -9,17 +9,17 @@ import os
 import pathlib
 import sys
 import tomllib
-from datetime import date
+from datetime import UTC, datetime
 
 # Load pyproject.toml
 with pathlib.Path('../pyproject.toml').open('rb') as f:
     pyproject = tomllib.load(f)
 
 # Add parent directory to path so sphinx can find the modules
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, pathlib.Path('..').resolve())
 
 project = pyproject['project']['name']
-copyright = f"2024-{date.today().year}, {pyproject['project']['maintainers'][0]['name']}"
+copyright = f"2024-{datetime.now(tz=UTC).year}, {pyproject['project']['maintainers'][0]['name']}"  # ruff: ignore[builtin-variable-shadowing]
 author = pyproject['project']['maintainers'][0]['name']
 version = pyproject['project']['version']
 

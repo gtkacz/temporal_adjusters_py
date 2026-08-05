@@ -1,9 +1,13 @@
+# Copyright (c) 2024 Gabriel Mitelman Tkacz
+"""Operations for adjusting dates to particular weekdays."""
+
 from dateutil.relativedelta import relativedelta
 
-from ..common.decorators import sequenceable
-from ..common.enums import ISOWeekday, Weekday
-from ..common.exceptions import DateError
-from ..common.types import AnyDate, DateT
+from temporal_adjuster.common.decorators import sequenceable
+from temporal_adjuster.common.enums import ISOWeekday, Weekday
+from temporal_adjuster.common.exceptions import DateError
+from temporal_adjuster.common.types import AnyDate, DateT
+
 from .absolute_date_operations import _AbsoluteDateOperations
 from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
 
@@ -20,13 +24,16 @@ class _TemporalAdjusterForWeekday:
                 Weekday: The parsed weekday.
 
         """
-        if type(weekday) == str:
+        if isinstance(weekday, Weekday):
+            return weekday
+
+        if isinstance(weekday, ISOWeekday):
+            return Weekday[weekday.name]
+
+        if isinstance(weekday, str):
             return Weekday[weekday.upper()]
 
-        if type(weekday) == int:
-            return Weekday(weekday)
-
-        return weekday if isinstance(weekday, Weekday) else Weekday[weekday.name]
+        return Weekday(weekday)
 
     @staticmethod
     @sequenceable(target='date')
@@ -359,12 +366,12 @@ class _TemporalAdjusterForWeekday:
                 date (DateT): The reference date.
                 n (int): The nth occurrence of the given day of the week.
 
+        Returns:
+                DateT: The nth date of the given day of the week in the month of the given date.
+
         Raises:
                 ValueError: If n is less than 1 or greater than 5.
                 DateError: If the month does not have a nth occurrence of the given day of the week.
-
-        Returns:
-                DateT: The nth date of the given day of the week in the month of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
@@ -394,12 +401,12 @@ class _TemporalAdjusterForWeekday:
                 date (DateT): The reference date.
                 n (int): The nth occurrence of the given day of the week.
 
+        Returns:
+                DateT: The nth date of the given day of the week in the year of the given date.
+
         Raises:
                 ValueError: If n is less than 1 or greater than 54.
                 DateError: If the year does not have a nth occurrence of the given day of the week.
-
-        Returns:
-                DateT: The nth date of the given day of the week in the year of the given date.
 
         """
         weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)

@@ -1,14 +1,18 @@
+# Copyright (c) 2024 Gabriel Mitelman Tkacz
+"""Operations for adjusting times and datetimes."""
+
 from datetime import datetime, time
 
-from ..common.decorators import sequenceable
-from ..common.types import AnyTime, ExtendedTimeDelta, TimeT
+from temporal_adjuster.common.decorators import sequenceable
+from temporal_adjuster.common.types import AnyTime, ExtendedTimeDelta, TimeT
 
 
 class _TimeAdjuster:
     @staticmethod
     @sequenceable(target='time_obj_1')
     def time_difference(time_obj_1: AnyTime, time_obj_2: AnyTime) -> ExtendedTimeDelta:
-        """Calculate the positive difference between two time objects,
+        """Calculate the positive difference between two time objects.
+
         accounting for wrapping around midnight.
 
         Args:
@@ -33,7 +37,8 @@ class _TimeAdjuster:
     @staticmethod
     @sequenceable(target='time_obj')
     def is_time_in_range(time_obj: AnyTime, start: AnyTime, end: AnyTime) -> bool:
-        """Check if a time object time_obj is within the range [start, end].
+        """Check whether ``time_obj`` is within the range [start, end].
+
         Handles ranges that cross midnight.
 
         Args:

@@ -1,7 +1,10 @@
+# Copyright (c) 2024 Gabriel Mitelman Tkacz
+"""Operations for adjusting absolute dates."""
+
 from dateutil.relativedelta import relativedelta
 
-from ..common.decorators import sequenceable
-from ..common.types.dates import DateT
+from temporal_adjuster.common.decorators import sequenceable
+from temporal_adjuster.common.types.dates import DateT
 
 
 class _AbsoluteDateOperations:

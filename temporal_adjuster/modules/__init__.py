@@ -1,3 +1,6 @@
+# Copyright (c) 2024 Gabriel Mitelman Tkacz
+"""Internal operation groups used by :class:`TemporalAdjuster`."""
+
 from .absolute_date_operations import _AbsoluteDateOperations
 from .first_and_last_day_operations import _TemporalAdjusterForFirstAndLastDays
 from .time_operations import _TimeAdjuster

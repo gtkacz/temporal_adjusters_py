@@ -1,12 +1,10 @@
+# Copyright (c) 2024 Gabriel Mitelman Tkacz
+"""Decorators for applying temporal adjustments to sequences."""
+
 import inspect
 from collections.abc import Callable
 from functools import wraps
-from typing import Any, TypeVar
-
-try:
-    from typing import ParamSpec  # Python 3.10+
-except ImportError:
-    from typing_extensions import ParamSpec  # type: ignore
+from typing import ParamSpec, TypeVar
 
 import numpy as np
 
@@ -14,17 +12,21 @@ P = ParamSpec('P')
 R = TypeVar('R')
 
 
-def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R | Any]]:
-    """This decorator processes a sequence of values passed as an argument to a function.
+def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R | object]]:
+    """Process sequence arguments elementwise.
+
     If the target parameter (specified by `target`) is an iterable (but not a string),
     the function is called for each value in the sequence, and the result is stored in the
     corresponding position in the sequence. Otherwise, the function is called with the
     provided arguments as usual.
+
+    Returns:
+        Callable: A decorator that applies the wrapped function elementwise when needed.
     """
 
-    def decorator(func: Callable[P, R]) -> Callable[P, R | Any]:
+    def decorator(func: Callable[P, R]) -> Callable[P, R | object]:
         @wraps(func)
-        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R | Any:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R | object:
             # Get the function signature and bind the provided arguments.
             sig = inspect.signature(func)
             bound_args = sig.bind(*args, **kwargs)

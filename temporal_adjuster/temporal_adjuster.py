@@ -1,3 +1,6 @@
+# Copyright (c) 2024 Gabriel Mitelman Tkacz
+"""Public facade for applying temporal adjustments."""
+
 from .modules import (
     _AbsoluteDateOperations,
     _TemporalAdjusterForFirstAndLastDays,

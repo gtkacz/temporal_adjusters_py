@@ -49,8 +49,8 @@ class TestSequenceable(TestCase):
                 ) = test
 
                 assertion_method(
-                    TemporalAdjuster.next(test_input_weekday, test_input_date),
-                    test_expected_output,
+                    TemporalAdjuster.next(test_input_weekday, test_input_date),  # ty: ignore[invalid-argument-type]
+                    test_expected_output,  # ty: ignore[invalid-argument-type]
                 )
 
     def test_first_day_of_next_week_success(self):
@@ -84,6 +84,6 @@ class TestSequenceable(TestCase):
                 test_input_date, test_expected_output, assertion_method = test
 
                 assertion_method(
-                    TemporalAdjuster.first_day_of_next_week(test_input_date),
-                    test_expected_output,
+                    TemporalAdjuster.first_day_of_next_week(test_input_date),  # ty: ignore[invalid-argument-type]
+                    test_expected_output,  # ty: ignore[invalid-argument-type]
                 )

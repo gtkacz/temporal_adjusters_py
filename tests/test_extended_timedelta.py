@@ -96,11 +96,11 @@ class TestExtendedTimeDelta(unittest.TestCase):
         et = ExtendedTimeDelta(days=1)
 
         with self.assertRaises(TypeError):
-            _ = et + 1
+            _ = et + 1  # ty: ignore[unsupported-operator]
         with self.assertRaises(TypeError):
-            _ = et - 1
+            _ = et - 1  # ty: ignore[unsupported-operator]
         with self.assertRaises(TypeError):
-            _ = et * timedelta(days=1)
+            _ = et * timedelta(days=1)  # ty: ignore[unsupported-operator]
 
     def test_equality(self):
         et1 = ExtendedTimeDelta(years=1, months=2)
@@ -189,7 +189,7 @@ class TestExtendedTimeDelta(unittest.TestCase):
                 ExtendedTimeDelta(days_in_month=value)
 
         with self.assertRaises(TypeError):
-            ExtendedTimeDelta(days_in_year="365")
+            ExtendedTimeDelta(days_in_year="365")  # ty: ignore[invalid-argument-type]
 
     def test_to_dict(self):
         et = ExtendedTimeDelta(years=1, months=2, days=3)

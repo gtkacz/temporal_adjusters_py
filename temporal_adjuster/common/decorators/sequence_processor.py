@@ -4,15 +4,25 @@
 import inspect
 from collections.abc import Callable
 from functools import wraps
-from typing import ParamSpec, TypeVar, cast
+from typing import ParamSpec, Protocol, TypeVar, cast, overload
 
 import numpy as np
 
 P = ParamSpec("P")
-R = TypeVar("R")
+R_co = TypeVar("R_co", covariant=True)
 
 
-def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
+class _SequenceableCallable(Protocol[P, R_co]):
+    """A scalar callable with a permissive fallback for container arguments."""
+
+    @overload
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> R_co: ...
+
+    @overload
+    def __call__(self, *args: object, **kwargs: object) -> object: ...
+
+
+def sequenceable(target: str) -> Callable[[Callable[P, R_co]], _SequenceableCallable[P, R_co]]:
     """Process sequence arguments elementwise.
 
     If the target parameter (specified by `target`) is an iterable (but not a string),
@@ -24,9 +34,9 @@ def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
         Callable: A decorator that applies the wrapped function elementwise when needed.
     """
 
-    def decorator(func: Callable[P, R]) -> Callable[P, R]:
+    def decorator(func: Callable[P, R_co]) -> _SequenceableCallable[P, R_co]:
         @wraps(func)
-        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> object:
             # Get the function signature and bind the provided arguments.
             sig = inspect.signature(func)
             bound_args = sig.bind(*args, **kwargs)
@@ -45,10 +55,10 @@ def sequenceable(target: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
                     results.append(func(*bound_args.args, **bound_args.kwargs))
 
                 if isinstance(target_value, np.ndarray):
-                    return cast("R", np.asarray(results))
-                return cast("R", convert_type(results))
+                    return np.asarray(results)
+                return convert_type(results)
             return func(*args, **kwargs)
 
-        return wrapper
+        return cast("_SequenceableCallable[P, R_co]", wrapper)
 
     return decorator

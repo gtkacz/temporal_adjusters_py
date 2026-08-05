@@ -3,7 +3,6 @@
 import math
 from collections.abc import Iterator
 from datetime import timedelta
-from types import NotImplementedType
 from typing import ClassVar, Self
 
 
@@ -227,7 +226,7 @@ class ExtendedTimeDelta(timedelta):
         """The year length used when converting this instance."""
         return self._days_in_year
 
-    def __add__(self, other: object) -> Self | NotImplementedType:
+    def __add__(self, other: timedelta) -> Self:
         """Add two ExtendedTimeDelta or timedelta objects.
 
         Args:
@@ -266,7 +265,7 @@ class ExtendedTimeDelta(timedelta):
 
     __radd__ = __add__
 
-    def __sub__(self, other: object) -> Self | NotImplementedType:
+    def __sub__(self, other: timedelta) -> Self:
         """Subtract an ExtendedTimeDelta or timedelta from this ExtendedTimeDelta.
 
         Args:
@@ -303,7 +302,7 @@ class ExtendedTimeDelta(timedelta):
             )
         return NotImplemented
 
-    def __mul__(self, other: object) -> Self | NotImplementedType:
+    def __mul__(self, other: float) -> Self:
         """Multiply this ExtendedTimeDelta by an integer.
 
         Args:
@@ -333,7 +332,7 @@ class ExtendedTimeDelta(timedelta):
 
     __rmul__ = __mul__
 
-    def __eq__(self, other: object) -> bool | NotImplementedType:
+    def __eq__(self, other: object) -> bool:
         """Check equality between this ExtendedTimeDelta and another.
 
         Args:
@@ -353,7 +352,7 @@ class ExtendedTimeDelta(timedelta):
             return self._cmp(other) == 0
         return NotImplemented
 
-    def __ne__(self, other: object) -> bool | NotImplementedType:
+    def __ne__(self, other: object) -> bool:
         """Check inequality between this ExtendedTimeDelta and another.
 
         Returns:
@@ -364,7 +363,7 @@ class ExtendedTimeDelta(timedelta):
             return NotImplemented
         return not result
 
-    def __lt__(self, other: object) -> bool | NotImplementedType:
+    def __lt__(self, other: timedelta) -> bool:
         """Check if this ExtendedTimeDelta is less than another time delta.
 
         Args:
@@ -384,7 +383,7 @@ class ExtendedTimeDelta(timedelta):
             return self._cmp(other) < 0
         return NotImplemented
 
-    def __le__(self, other: object) -> bool | NotImplementedType:
+    def __le__(self, other: timedelta) -> bool:
         """Check if this ExtendedTimeDelta is less than or equal to another time delta.
 
         Args:
@@ -404,7 +403,7 @@ class ExtendedTimeDelta(timedelta):
             return self._cmp(other) <= 0
         return NotImplemented
 
-    def __gt__(self, other: object) -> bool | NotImplementedType:
+    def __gt__(self, other: timedelta) -> bool:
         """Check if this ExtendedTimeDelta is greater than another time delta.
 
         Args:
@@ -424,7 +423,7 @@ class ExtendedTimeDelta(timedelta):
             return self._cmp(other) > 0
         return NotImplemented
 
-    def __ge__(self, other: object) -> bool | NotImplementedType:
+    def __ge__(self, other: timedelta) -> bool:
         """Check if this ExtendedTimeDelta is greater than or equal to another time delta.
 
         Args:

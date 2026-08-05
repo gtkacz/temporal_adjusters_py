@@ -16,7 +16,7 @@ with pathlib.Path("../pyproject.toml").open("rb") as f:
     pyproject = tomllib.load(f)
 
 # Add parent directory to path so sphinx can find the modules
-sys.path.insert(0, pathlib.Path("..").resolve())
+sys.path.insert(0, str(pathlib.Path("..").resolve()))
 
 project = pyproject["project"]["name"]
 copyright = f"2024-{datetime.now(tz=UTC).year}, {pyproject['project']['maintainers'][0]['name']}"  # ruff: ignore[builtin-variable-shadowing]

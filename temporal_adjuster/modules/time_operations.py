@@ -69,6 +69,9 @@ class _TimeAdjuster:
     def round_time(time_obj: TimeT, round_to: int = 60) -> TimeT:
         """Round a time object to the nearest multiple of round_to seconds.
 
+        Rounding is applied to the wall-clock reading; any ``tzinfo`` on the
+        input is carried over unchanged.
+
         Args:
             time_obj (TimeT): The time object to round.
             round_to (int, optional): The number of seconds to round to. Defaults to 60.
@@ -85,12 +88,15 @@ class _TimeAdjuster:
         total_seconds = _TimeAdjuster.time_to_seconds(time_obj)
         rounded_seconds = int((total_seconds + round_to / 2) // round_to * round_to)
         if isinstance(time_obj, time):
-            return cast("TimeT", _TimeAdjuster.seconds_to_time(rounded_seconds))
+            rounded_time = _TimeAdjuster.seconds_to_time(rounded_seconds)
+            return cast("TimeT", rounded_time.replace(tzinfo=time_obj.tzinfo))
         datetime_obj = cast("datetime", time_obj)
-        return cast(
-            "TimeT",
-            datetime.combine(datetime_obj.date(), time.min) + timedelta(seconds=rounded_seconds),
+        midnight = datetime.combine(
+            datetime_obj.date(),
+            time.min,
+            tzinfo=datetime_obj.tzinfo,
         )
+        return cast("TimeT", midnight + timedelta(seconds=rounded_seconds))
 
     @staticmethod
     def time_to_seconds(time_obj: AnyTime) -> float:

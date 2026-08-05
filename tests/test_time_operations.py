@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime, time, timedelta
+from datetime import UTC, datetime, time, timedelta
 
 from temporal_adjuster.temporal_adjuster import TemporalAdjuster
 
@@ -105,6 +105,20 @@ class TestTimeAdjuster(unittest.TestCase):
         dt = datetime(2021, 1, 1, 23, 59, 30)
         expected = datetime(2021, 1, 2, 0, 0)
         self.assertEqual(TemporalAdjuster.round_time(dt, 60), expected)
+
+    def test_round_time_preserves_tzinfo(self):
+        aware_dt = datetime(2021, 1, 1, 10, 29, 35, tzinfo=UTC)
+        result = TemporalAdjuster.round_time(aware_dt, 60)
+        self.assertEqual(result, datetime(2021, 1, 1, 10, 30, tzinfo=UTC))
+        self.assertEqual(result.tzinfo, UTC)
+
+        aware_time = time(10, 29, 35, tzinfo=UTC)
+        result = TemporalAdjuster.round_time(aware_time, 60)
+        self.assertEqual(result, time(10, 30, tzinfo=UTC))
+        self.assertEqual(result.tzinfo, UTC)
+
+        naive_result = TemporalAdjuster.round_time(time(10, 29, 35), 60)
+        self.assertIsNone(naive_result.tzinfo)
 
     def test_round_time_multiple_intervals(self):
         intervals = [60, 15 * 60, 30 * 60]

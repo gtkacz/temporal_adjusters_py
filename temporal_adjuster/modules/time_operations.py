@@ -4,12 +4,12 @@
 from datetime import datetime, time, timedelta
 from typing import cast
 
-from temporal_adjuster.common.types import AnyTime, ExtendedTimeDelta, TimeT
+from temporal_adjuster.common.types import AnyTime, TimeT
 
 
 class _TimeAdjuster:
     @staticmethod
-    def time_difference(time_obj_1: AnyTime, time_obj_2: AnyTime) -> ExtendedTimeDelta:
+    def time_difference(time_obj_1: AnyTime, time_obj_2: AnyTime) -> timedelta:
         """Calculate the positive difference between two time objects.
 
         accounting for wrapping around midnight.
@@ -19,19 +19,19 @@ class _TimeAdjuster:
             time_obj_2 (AnyTime): The second time object.
 
         Returns:
-            ExtendedTimeDelta: The positive difference between the two time objects.
+            timedelta: The positive difference between the two time objects.
 
         Example:
             >>> from datetime import time
             >>> time_difference(time(23, 0), time(1, 0))
-            ExtendedTimeDelta(seconds=7200)
+            datetime.timedelta(seconds=7200)
 
         """
         total_seconds1 = _TimeAdjuster.time_to_seconds(time_obj_1)
         total_seconds2 = _TimeAdjuster.time_to_seconds(time_obj_2)
         delta_seconds = (total_seconds2 - total_seconds1) % (24 * 3600)
 
-        return ExtendedTimeDelta(seconds=delta_seconds)
+        return timedelta(seconds=delta_seconds)
 
     @staticmethod
     def is_time_in_range(time_obj: AnyTime, start: AnyTime, end: AnyTime) -> bool:

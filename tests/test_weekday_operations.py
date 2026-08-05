@@ -436,6 +436,56 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
                 self.assertEqual(output.weekday(), test_expected_output.weekday())
 
+    def test_first_of_quarter_success(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 5, 15), date(2024, 4, 6)),
+            (Weekday.MONDAY, date(2024, 1, 10), date(2024, 1, 1)),
+            (ISOWeekday.SATURDAY, datetime(2024, 5, 15), datetime(2024, 4, 6)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method first_of_quarter (subtest {index}) with inputs: {test}",
+            ):
+                test_input_weekday, test_input_date, test_expected_output = test
+
+                output = TemporalAdjuster.first_of_quarter(
+                    test_input_weekday,
+                    test_input_date,
+                )
+
+                self.assertEqual(
+                    output,
+                    test_expected_output,
+                )
+
+                self.assertEqual(output.weekday(), test_expected_output.weekday())
+
+    def test_last_of_quarter_success(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 5, 15), date(2024, 6, 29)),
+            (Weekday.SUNDAY, date(2024, 11, 5), date(2024, 12, 29)),
+            (ISOWeekday.SATURDAY, datetime(2024, 5, 15), datetime(2024, 6, 29)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method last_of_quarter (subtest {index}) with inputs: {test}",
+            ):
+                test_input_weekday, test_input_date, test_expected_output = test
+
+                output = TemporalAdjuster.last_of_quarter(
+                    test_input_weekday,
+                    test_input_date,
+                )
+
+                self.assertEqual(
+                    output,
+                    test_expected_output,
+                )
+
+                self.assertEqual(output.weekday(), test_expected_output.weekday())
+
     def test_first_of_year_success(self):
         tests = [
             (Weekday.SATURDAY, date(2024, 6, 13), date(2024, 1, 6)),

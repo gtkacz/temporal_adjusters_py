@@ -351,6 +351,44 @@ class _TemporalAdjusterForWeekday:
         )
 
     @staticmethod
+    def first_of_quarter(weekday: WeekdayLike, date: DateT) -> DateT:
+        """Returns the first date of the given day of the week in the quarter of the given date.
+
+        Args:
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
+
+        Returns:
+            DateT: The first date of the given day of the week in the quarter of the given date.
+
+        """
+        weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
+
+        return _TemporalAdjusterForWeekday.next_or_same(
+            weekday,
+            _TemporalAdjusterForFirstAndLastDays.first_day_of_quarter(date),
+        )
+
+    @staticmethod
+    def last_of_quarter(weekday: WeekdayLike, date: DateT) -> DateT:
+        """Returns the last date of the given day of the week in the quarter of the given date.
+
+        Args:
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
+
+        Returns:
+            DateT: The last date of the given day of the week in the quarter of the given date.
+
+        """
+        weekday = _TemporalAdjusterForWeekday.__normalize_weekday(weekday)
+
+        return _TemporalAdjusterForWeekday.last_or_same(
+            weekday,
+            _TemporalAdjusterForFirstAndLastDays.last_day_of_quarter(date),
+        )
+
+    @staticmethod
     def first_of_year(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the first date of the given day of the week in the year of the given date.
 

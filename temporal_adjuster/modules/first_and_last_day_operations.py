@@ -90,6 +90,50 @@ class _TemporalAdjusterForFirstAndLastDays:
         return (date.replace(day=1) - _ONE_DAY).replace(day=1)
 
     @staticmethod
+    def first_day_of_quarter(date: DateT) -> DateT:
+        """Returns the first day of the quarter of the given date.
+
+        Quarters follow the calendar year: January-March, April-June,
+        July-September, and October-December.
+
+        Args:
+            date (DateT): The date to adjust.
+
+        Returns:
+            DateT: The first day of the quarter of the given date.
+
+        """
+        return date.replace(month=date.month - (date.month - 1) % 3, day=1)
+
+    @staticmethod
+    def first_day_of_next_quarter(date: DateT) -> DateT:
+        """Returns the first day of the next quarter of the given date.
+
+        Args:
+            date (DateT): The date to adjust.
+
+        Returns:
+            DateT: The first day of the next quarter of the given date.
+
+        """
+        return _TemporalAdjusterForFirstAndLastDays.last_day_of_quarter(date) + _ONE_DAY
+
+    @staticmethod
+    def first_day_of_last_quarter(date: DateT) -> DateT:
+        """Returns the first day of the last quarter of the given date.
+
+        Args:
+            date (DateT): The date to adjust.
+
+        Returns:
+            DateT: The first day of the last quarter of the given date.
+
+        """
+        return _TemporalAdjusterForFirstAndLastDays.first_day_of_quarter(
+            _TemporalAdjusterForFirstAndLastDays.first_day_of_quarter(date) - _ONE_DAY,
+        )
+
+    @staticmethod
     def first_day_of_year(date: DateT) -> DateT:
         """Returns the first day of the year of the given date.
 
@@ -207,6 +251,51 @@ class _TemporalAdjusterForFirstAndLastDays:
 
         """
         return date.replace(day=1) - _ONE_DAY
+
+    @staticmethod
+    def last_day_of_quarter(date: DateT) -> DateT:
+        """Returns the last day of the quarter of the given date.
+
+        Quarters follow the calendar year: January-March, April-June,
+        July-September, and October-December.
+
+        Args:
+            date (DateT): The date to adjust.
+
+        Returns:
+            DateT: The last day of the quarter of the given date.
+
+        """
+        end_month = date.month + 2 - (date.month - 1) % 3
+        return date.replace(month=end_month, day=monthrange(date.year, end_month)[1])
+
+    @staticmethod
+    def last_day_of_next_quarter(date: DateT) -> DateT:
+        """Returns the last day of the next quarter of the given date.
+
+        Args:
+            date (DateT): The date to adjust.
+
+        Returns:
+            DateT: The last day of the next quarter of the given date.
+
+        """
+        return _TemporalAdjusterForFirstAndLastDays.last_day_of_quarter(
+            _TemporalAdjusterForFirstAndLastDays.first_day_of_next_quarter(date),
+        )
+
+    @staticmethod
+    def last_day_of_last_quarter(date: DateT) -> DateT:
+        """Returns the last day of the last quarter of the given date.
+
+        Args:
+            date (DateT): The date to adjust.
+
+        Returns:
+            DateT: The last day of the last quarter of the given date.
+
+        """
+        return _TemporalAdjusterForFirstAndLastDays.first_day_of_quarter(date) - _ONE_DAY
 
     @staticmethod
     def last_day_of_year(date: DateT) -> DateT:

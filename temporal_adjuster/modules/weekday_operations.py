@@ -103,6 +103,38 @@ class _TemporalAdjusterForWeekday:
         return date - timedelta(days=(date.weekday() - weekday.value) % _DAYS_IN_WEEK)
 
     @staticmethod
+    def previous(weekday: WeekdayLike, date: DateT) -> DateT:
+        """Returns the previous date of the given day of the week.
+
+        Alias of :meth:`last` matching the naming of Java's ``TemporalAdjusters.previous``.
+
+        Args:
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
+
+        Returns:
+            DateT: The previous date of the given day of the week.
+
+        """
+        return _TemporalAdjusterForWeekday.last(weekday, date)
+
+    @staticmethod
+    def previous_or_same(weekday: WeekdayLike, date: DateT) -> DateT:
+        """Returns the previous date of the given day of the week. If the given date is the same day of the week, the given date is returned.
+
+        Alias of :meth:`last_or_same` matching the naming of Java's ``TemporalAdjusters.previousOrSame``.
+
+        Args:
+            weekday (Weekday): The day of the week.
+            date (DateT): The reference date.
+
+        Returns:
+            DateT: The previous date of the given day of the week.
+
+        """
+        return _TemporalAdjusterForWeekday.last_or_same(weekday, date)
+
+    @staticmethod
     def first_of_month(weekday: WeekdayLike, date: DateT) -> DateT:
         """Returns the first date of the given day of the week in the month of the given date.
 

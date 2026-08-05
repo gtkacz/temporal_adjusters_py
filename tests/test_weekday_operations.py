@@ -119,6 +119,45 @@ class TestTemporalAdjusterForWeekdays(TestCase):
 
                 self.assertEqual(output.weekday(), test_expected_output.weekday())
 
+    def test_previous_is_alias_of_last(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 6, 13)),
+            (Weekday.SATURDAY, date(2024, 6, 15)),
+            (ISOWeekday.SATURDAY, datetime(2025, 1, 1)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method previous (subtest {index}) with inputs: {test}",
+            ):
+                test_input_weekday, test_input_date = test
+
+                self.assertEqual(
+                    TemporalAdjuster.previous(test_input_weekday, test_input_date),
+                    TemporalAdjuster.last(test_input_weekday, test_input_date),
+                )
+
+    def test_previous_or_same_is_alias_of_last_or_same(self):
+        tests = [
+            (Weekday.SATURDAY, date(2024, 6, 13)),
+            (Weekday.SATURDAY, date(2024, 6, 15)),
+            (ISOWeekday.SATURDAY, datetime(2025, 1, 1)),
+        ]
+
+        for index, test in enumerate(tests):
+            with self.subTest(
+                f"Testing method previous_or_same (subtest {index}) with inputs: {test}",
+            ):
+                test_input_weekday, test_input_date = test
+
+                self.assertEqual(
+                    TemporalAdjuster.previous_or_same(
+                        test_input_weekday,
+                        test_input_date,
+                    ),
+                    TemporalAdjuster.last_or_same(test_input_weekday, test_input_date),
+                )
+
     def test_first_of_month_success(self):
         tests = [
             (Weekday.SATURDAY, date(2024, 6, 13), date(2024, 6, 1)),
